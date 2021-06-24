@@ -16,22 +16,19 @@ class BikeStation(models.Model):
     bk_status = models.CharField(max_length = 45)
     bk_last_update = models.CharField(max_length = 45)
 
-class MapAllroutedata(models.Model):
-    shapeid = models.IntegerField(db_column='ShapeID', blank=True, null=True)  # Field name made lowercase.
-    stopsequence = models.CharField(db_column='StopSequence', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    atcocode = models.CharField(db_column='AtcoCode', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    routename = models.CharField(db_column='RouteName', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    routedesc = models.CharField(db_column='RouteDesc', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    direction = models.CharField(db_column='Direction', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    latitude = models.CharField(db_column='Latitude', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    longitude = models.CharField(db_column='Longitude', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    shortcommonname_en = models.CharField(db_column='ShortCommonName_en', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    haspole = models.CharField(db_column='HasPole', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    hasshelter = models.CharField(db_column='HasShelter', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    routedata = models.CharField(db_column='RouteData', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    route = models.CharField(db_column='Route', max_length=10)  # Field name made lowercase.
-    description = models.CharField(db_column='Description', max_length=45, blank=True, null=True)  # Field name made lowercase.
+class RoutesDayModels(models.Model):
+    routeid = models.CharField(db_column='routeID', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    progrnum = models.FloatField(blank=True, null=True)
+    bus_lineid = models.CharField(db_column='bus_lineID', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    stoppointid = models.CharField(db_column='stoppointID', max_length=22, blank=True, null=True)  # Field name made lowercase.
+    direction = models.CharField(max_length=45, blank=True, null=True)
+    stop_name = models.CharField(max_length=45, blank=True, null=True)
+    stop_long = models.CharField(max_length=45, blank=True, null=True)
+    stop_lat = models.CharField(max_length=45, blank=True, null=True)
+    stop_id = models.CharField(max_length=45, blank=True, null=True)
+    year = models.CharField(max_length=45, blank=True, null=True)
+    id = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'MAP_allroutedata'
+        db_table = 'dubbusdb.routes_day_models'
