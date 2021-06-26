@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from os import path
 from pathlib import Path
+from mysite import dbinfo
+import django_crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'weather',
+    'django_crontab',
     'map',
 ]
 
@@ -78,10 +82,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dublinbus',
+        'NAME': 'dubbusdb',
         'USER': 'admin',
-        'PASSWORD': 'dublinbus99',
-        'HOST': 'dublinbus.csy6fo0e4c6z.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 't8dubbus',
+        'HOST': 'dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
@@ -124,6 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRONJOBS = [
+    ('*/2 * * * *', 'weather.cron.collect_current_weather')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -16,6 +16,7 @@ class currentWeather(models.Model):
     time_added = models.CharField(max_length = 45)
 
 class Forecast(models.Model):
+    id = models.IntegerField
     fdate = models.TextField()
     ffeelslike = models.TextField()
     fpressure = models.FloatField()
