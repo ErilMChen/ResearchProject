@@ -19,7 +19,7 @@ def users(response):
     return render(response, "users/users.html", {"form": form})
 
 
-def login(response):
+def login(request):
     if request.method == "POST":
         postdata = request.POST.copy()
         username = postdata.get('username', '')
@@ -27,9 +27,6 @@ def login(response):
         try:
             user = authenticate(username=username, password=password)
             login(request, user)
-#    if response.method == 'POST':
-#        form = UserForm(response.POST)
-#        if form.is_valid():
             return redirect("/map")
         except Exception as e:
             print(e)
