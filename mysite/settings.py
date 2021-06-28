@@ -130,7 +130,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRONJOBS = [
-    ('*/2 * * * *', 'weather.cron.collect_current_weather')
+    #('0 1 * * *', 'weather.cron.collect_current_weather'),
+    #('0 1 * * *', 'weather.cron.collect_weather_forecast'),
+    #('0 1 * * *', 'weather.cron.collect_road_report')
 ]
 
 # Default primary key field type
