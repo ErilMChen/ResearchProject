@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'weather',
     'django_crontab',
     'map',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -129,10 +131,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+## CHECK THIS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 CRONJOBS = [
-    ('*/2 * * * *', 'weather.cron.collect_current_weather')
+    #('0 1 * * *', 'weather.cron.collect_current_weather'),
+    #('0 1 * * *', 'weather.cron.collect_weather_forecast'),
+    #('0 1 * * *', 'weather.cron.collect_road_report')
 ]
 
+LOGIN_REDIRECT_URL= '/map'
+#AUTH_USER_MODEL = 'users.MyUser'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
