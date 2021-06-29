@@ -16,4 +16,5 @@ class UserAdmin(UserAdmin):
     fieldsets = ()
 
 
+
 admin.site.register(MyUser, UserAdmin)

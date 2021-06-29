@@ -50,7 +50,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.name
+        return self.email
 
     def has_module_perms(self, perm, obj=None):
         return self.is_admin
@@ -58,11 +58,15 @@ class MyUser(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
-class favourite_place(models.Model):
-    place_name = models.CharField(max_length=50)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+class my_plans(models.Model):
+    start_stop = models.CharField(max_length=50)
+    end_stop = models.CharField(max_length=50)
+    latitude1 = models.FloatField()
+    longitude1 = models.FloatField()
+    latitude2 = models.FloatField()
+    longitude2 = models.FloatField()
+    time = models.DateTimeField()
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.name + ": " + self.place_name
+        return self.user.name + ": " + self.start_stop + self.end_stop + self.time

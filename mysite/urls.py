@@ -23,4 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', v_users.users, name='users'),
     path('login/', a_views.LoginView.as_view(template_name='users/login.html'),name='login'),
+    path('test/', v_users.extra, name='test'),
+   #path('test/', a_views.LoginView.as_view(template_name='users/test.html'), name='test'),
 ]

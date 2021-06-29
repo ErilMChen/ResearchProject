@@ -1,16 +1,18 @@
 {% block content %}
 {% load crispy_forms_tags %}
-<h1>User Log-In</h1>
 
-<div>
+<script  src="/static/login.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<div id="signUp">
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-     <button type="submit" class="'btn btn-success">Login</button>
+     <button type="submit" name="" class="'btn btn-success">Login</button>
     </form>
-</div>
-<div>
-    <p>Need to register? Click <a href="{% url 'users' %}">here!</a></p>
+
 </div>
 
 {% endblock content %}
