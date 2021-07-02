@@ -28,7 +28,7 @@ def get_road_incidents():
 
 
 def extract(obj):
-    new_report = m.AA_Road_Report.objects.all().delete()
+    m.AA_Road_Report.objects.all().delete()
 
     for i in range(0, len(obj)):
         if obj[i]['Area'] == 'Dublin':

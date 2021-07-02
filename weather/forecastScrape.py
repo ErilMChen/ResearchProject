@@ -1,9 +1,11 @@
 import os
 import django
+import sys
 ## required to run paramaters in main package. If does not run in pycharm,
 ## add to 'DJANGO_SETTING_MODULE', 'MyDjango.settings' in Edit Configurations
-
-os.environ.setdefault('DJANGO_SETTING_MODULE', 'MyDjango.settings')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+os.environ.setdefault('DJANGO_SETTING_MODULE', 'mysite.settings')
 django.setup()
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
@@ -24,6 +26,7 @@ def collect_weather_forecast(lati, longi):
     obj = json.loads(response.text)
 
     try:
+        m.Forecast.objects.all().delete()
         for j in range(0, 38):
             per_day = obj['list'][j]
             ft_date = per_day['dt']
@@ -45,12 +48,14 @@ def collect_weather_forecast(lati, longi):
             ft_wind_speed = winds['speed']
 
             #clear all table data
-            m.Forecast.objects.all().delete()
+
             # make new objects
-            forecast = m.Forecast(fdate = dt,
+            forecast = m.Forecast(
+                fdate = dt,
                 ffeelslike = ft_feels_like,
                 fpressure = ft_pressure,
                 fhumidity = ft_humidity,
+
                 fmain = ft_main,
                 fwind_speed = ft_wind_speed,
                 pressure = ft_pressure)
@@ -60,4 +65,6 @@ def collect_weather_forecast(lati, longi):
         print(e)
         print('error')
 
-collect_weather_forecast(53.3,6.2)
+    print('done')
+
+collect_weather_forecast(53.3, 6.2)
