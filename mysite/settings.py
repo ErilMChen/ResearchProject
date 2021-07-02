@@ -14,6 +14,9 @@ from os import path
 from pathlib import Path
 from mysite import dbinfo
 import django_crontab
+from django.contrib.auth import get_user_model
+#from django.contrib.auth.backends import ModelBackend
+import users
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'weather',
     'django_crontab',
     'map',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -129,13 +134,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+## CHECK THIS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 CRONJOBS = [
     #('0 1 * * *', 'weather.cron.collect_current_weather'),
     #('0 1 * * *', 'weather.cron.collect_weather_forecast'),
     #('0 1 * * *', 'weather.cron.collect_road_report')
 ]
 
+LOGIN_REDIRECT_URL= '/map'
+AUTH_USER_MODEL = 'users.MyUser'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
