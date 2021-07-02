@@ -17,7 +17,7 @@ def users(response):
             return redirect("/map")
     else:
         form = UserForm()
-    return render(response, "users/users.html", {"form": form})
+    return render(response, "map/index.html", {"form": form})
 
 
 def login(response):
@@ -28,11 +28,11 @@ def login(response):
         try:
             user = authenticate(email=email, password=password)
             login(request, user)
-            return redirect("/map")
+            return redirect("/test")
         except Exception as e:
             print(e)
 
 def extra(response):
     form1 = UserForm()
     form2 = AuthForm()
-    return render(response, "users/test.html", {"form1": form1, "form2": form2})
+    return (response, "map/index.html", {"form1": form1, "form2": form2})
