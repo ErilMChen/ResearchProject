@@ -1,9 +1,11 @@
+#!/usr/bin/env python
 import os
 import django
+import mysite
 ## required to run paramaters in main package. If does not run in pycharm,
 ## add to 'DJANGO_SETTING_MODULE', 'MyDjango.settings' in Edit Configurations
 
-os.environ.setdefault('DJANGO_SETTING_MODULE', 'MyDjango.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
