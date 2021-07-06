@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{user.email}} </p>
+    {%else%}
+        <p>Not logged in</p>
+    {%endif%}
+
+<form action='/mystations_auth' method='GET'>
+<button type='submit'>Submit</button>
+</form>
+
+<button onclick="getStops()">show stops</button>
+<script>
+  function getStops(){
+            fetch("show_favs", {
+                method:'GET'}).then(function(response) {
+                    return response.json();
+                })
+            .then(function(myData) {
+                myData.forEach(element => {
+                     console.log(myData);
+                });
+            });
+        }
+</script>
+</body>
+</html>
