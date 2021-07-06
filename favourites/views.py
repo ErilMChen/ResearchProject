@@ -3,6 +3,7 @@ from users.models import my_stations
 # Create your views here.
 from favourites import get_sched2
 import json
+from ast import literal_eval
 
 
 def stations(request):
@@ -31,6 +32,5 @@ def show_favs(request):
             s = get_sched2.get_times(stop)
             data.append(s)
         data = json.dumps(data)
-        print(data)
         return HttpResponse(data, "application/json")
 
