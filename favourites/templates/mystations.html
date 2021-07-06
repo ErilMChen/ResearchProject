@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/static/stations.js"></script>
 </head>
 <body>
 
@@ -17,20 +18,6 @@
 </form>
 
 <button onclick="getStops()">show stops</button>
-<script>
-  function getStops(){
-            fetch("show_favs", {
-                method:'GET'}).then(function(response) {
-                    return response.json();
-                })
-            .then(function(myData) {
-                myData.forEach(element => {
-                     var string =JSON.stringify(myData);
-                        str = string.replace(/\\/g, '');
-                        console.log(str);
-                });
-            });
-        }
-</script>
+
 </body>
 </html>
