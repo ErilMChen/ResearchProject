@@ -25,7 +25,9 @@
                 })
             .then(function(myData) {
                 myData.forEach(element => {
-                     console.log(myData);
+                     var string =JSON.stringify(myData);
+                        str = string.replace(/\\/g, '');
+                        console.log(str);
                 });
             });
         }
