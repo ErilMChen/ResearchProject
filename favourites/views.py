@@ -31,6 +31,7 @@ def show_favs(request):
             stop = row['stop_id']
             s = get_sched2.get_times(stop)
             data.append(s)
-        data = json.dumps(data)
+        print(data)
+        #data = json.dumps(data)
         return HttpResponse(data, "application/json")
 

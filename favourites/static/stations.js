@@ -5,13 +5,13 @@ function getStops(){
                 })
             .then(function(myData) {
                 myData.forEach(element => {
-                     var string =JSON.stringify(myData);
-                        str = string.replace(/\\/g, '');
-                        unpack(str)
+                        for (var key in myData){
+                        console.log(myData[key])
+}
                 });
             });
         }
 
 function unpack(data){
-        console.log('hello')
-}
+        console.log(data)
+        }
