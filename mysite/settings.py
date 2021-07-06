@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'weather',
+    'django_crontab',
     'map',
+    'users',
+    'favourites'
 ]
 
 MIDDLEWARE = [
@@ -78,13 +83,24 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dublinbus',
+        'NAME': 'dubbusdb',
         'USER': 'admin',
-        'PASSWORD': 'dublinbus99',
-        'HOST': 'dublinbus.csy6fo0e4c6z.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 't8dubbus',
+        'HOST': 'dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'dubbusdb',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
@@ -129,3 +145,19 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+## CHECK THIS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRONJOBS = [
+    #('0 1 * * *', 'weather.cron.collect_current_weather'),
+    #('0 1 * * *', 'weather.cron.collect_weather_forecast'),
+    #('0 1 * * *', 'weather.cron.collect_road_report')
+]
+
+LOGIN_REDIRECT_URL= '/map'
+AUTH_USER_MODEL = 'users.MyUser'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
