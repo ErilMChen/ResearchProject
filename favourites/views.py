@@ -12,7 +12,7 @@ def stations(request):
 def check_auth(request):
     if request.user.is_authenticated:
         current_user = request.user
-        station_id = '8220DB007739'
+        station_id = '8220DB000372'
         user_fav = my_stations(stop_id = station_id, user = current_user)
         user_fav.save()
         return render(request, 'mystations.html')
@@ -27,10 +27,12 @@ def show_favs(request):
         current_user = request.user
         stations = my_stations.objects.filter(user=current_user).values('stop_id').distinct()
         print(stations)
+        get_my_stops = []
         for row in stations:
             stop = row['stop_id']
-            s = get_sched2.get_times(stop)
-            data.append(s)
+            get_my_stops.append(stop)
+        s = get_sched2.get_times(get_my_stops)
+        data.append(s)
         print(data)
         #data = json.dumps(data)
         return HttpResponse(data, "application/json")
