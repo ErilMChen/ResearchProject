@@ -11,14 +11,21 @@
 {% if user.is_authenticated %}
     <p>Hello, {{user.email}} </p>
     {%else%}
-        <p>Not logged in</p>
+        <p>Not logged in ((( this will be changed to not show any elements
+        if user not logged in)) </p>
     {%endif%}
-<div id="select_stop"></div>
-<form action='/mystations_auth' method='GET'>
+<!-- <form action='/mystations_auth' method='GET'>
 <button type='submit'>Submit</button>
-</form>
+</form> -->
+<div id="select_stop"></div>
+<div id="edit_stops"></div>
+
 
 <button onclick="getStops()">show stops</button>
+
+<div id = 'del'>
+
+</div>
 
 <div id="data"></div>
 </body>
