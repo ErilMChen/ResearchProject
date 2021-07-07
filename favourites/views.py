@@ -11,7 +11,7 @@ def stations(request):
 def check_auth(request):
     if request.user.is_authenticated:
         current_user = request.user
-        station_id = '8220DB000372'
+        station_id = '8240DB000230'
         user_fav = my_stations(stop_id = station_id, user = current_user)
         user_fav.save()
         return render(request, 'mystations.html')
@@ -27,13 +27,15 @@ def show_favs(request):
         stations = my_stations.objects.filter(user=current_user).values('stop_id').distinct()
         #print(stations)
         get_my_stops = []
-        for row in stations:
-            stop = row['stop_id']
-            get_my_stops.append(stop)
+        i = 0
+        while i <= 5:
+            for row in stations:
+                stop = row['stop_id']
+                get_my_stops.append(stop)
+                i += 1
         s = get_sched2.get_times(get_my_stops)
         data.append(s)
-        #print(data)
-        #data = json.dumps(data)
+        print(data)
         return HttpResponse(data, "application/json")
 
 @csrf_exempt
