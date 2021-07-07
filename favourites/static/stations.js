@@ -13,6 +13,7 @@ function getStops(){
                         html += "<p> --------------- </p></div>"
                 });
                 done(html)
+
             });
         }
 
@@ -39,6 +40,7 @@ function get_stops(stops){
     let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
     var select_stop = "<label for=stops>Choose a stop:</label>"
     select_stop += "<select name='stops' id='stops'>"
+    select_stop += "<option disabled selected value> -- Select an Stop -- </option>"
 
      for(var i=0; i < unique.length; i++){
         select_stop+= "<option value=" + unique[i] + ">" + unique[i] + "</option>"
@@ -46,4 +48,29 @@ function get_stops(stops){
         }
         select_stop += "</select>"
         document.getElementById("select_stop").innerHTML = select_stop
+
+        edit_stops2(unique)
 }
+
+
+
+function edit_stops2(stops){
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/delete_my_stop")
+    for(var i=0; i < stops.length; i++){
+        var option=document.createElement("input")
+        option.setAttribute("value",stops[i])
+        option.setAttribute('readonly', 'readonly')
+        form.appendChild(option);
+        //console.log(form)
+
+      let btn = document.createElement("button")
+      btn.innerHTML = "Delete this Stop from";
+      btn.setAttribute('value', stops[i])
+      form.appendChild(btn);
+        }
+        console.log(form)
+
+       document.getElementById("edit_stops").appendChild(form)
+    }

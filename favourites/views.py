@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from users.models import my_stations
 # Create your views here.
 from favourites import get_sched2
-import json
-from ast import literal_eval
+from django.views.decorators.csrf import csrf_exempt
 
 
 def stations(request):
@@ -26,14 +25,19 @@ def show_favs(request):
         data = []
         current_user = request.user
         stations = my_stations.objects.filter(user=current_user).values('stop_id').distinct()
-        print(stations)
+        #print(stations)
         get_my_stops = []
         for row in stations:
             stop = row['stop_id']
             get_my_stops.append(stop)
         s = get_sched2.get_times(get_my_stops)
         data.append(s)
-        print(data)
+        #print(data)
         #data = json.dumps(data)
         return HttpResponse(data, "application/json")
 
+@csrf_exempt
+def delete_my_stop(response):
+    print(response, 'hi')
+    ## to fill in
+    return render('map/index.html')
