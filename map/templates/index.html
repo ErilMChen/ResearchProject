@@ -433,6 +433,26 @@
         <div id="map" style="width:1020px;height:680px;"></div>
         <div id="sidebar"></div>
     </div>
+{% block title %}Create an Account {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<form method="POST" action= "/users/" class="form-group">
+    {% csrf_token %}
+    {{ form1|crispy }}
+        <button type="submit" class="'btn btn-success">Register</button>
+</form>
+
+<form action="/login/" method="POST">
+        {% csrf_token %}
+        {{ form2|crispy }}
+     <button type="submit" name="" class="'btn btn-success">Login</button>
+    </form>
+
+{% endblock %}
+
+
 </body>
 
 </html>

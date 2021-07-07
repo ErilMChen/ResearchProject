@@ -4,10 +4,15 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import *
 import json
+from users.models import my_stations
+import users.views as uv
+import users.forms as au
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+	form1 = au.UserForm()
+	form2 = au.AuthForm()
+	return render(request, 'index.html', {"form1": form1, "form2": form2})
 
 def BusStation(request):
 	ret = BusStops.objects.values('stop_name','stop_lat','stop_long').distinct()
@@ -28,17 +33,35 @@ def RouteDirection(request):
 	return HttpResponse(data)
 
 def AddFavoriteStop(request):
+
 	stop = request.GET.get("stop_name","")
 	ret1 = BusStops.objects.values('stop_name','routes_serving').filter(stop_name = stop).distinct()
 	ret2 = NameToID.objects.values('stop_name','stop_id').filter(stop_name = stop).distinct()
 	data1 = list(ret1)
 	data2 = list(ret2)
 
-	stop_name = data1[0]['stop_name']
-	print(stop_name)
-	route_nums = data1[0]['routes_serving'].split(',')
-	print(route_nums)
-	stop_id = data2[0]['stop_id']
-	print(stop_id)
+	if request.user.is_authenticated:
+		current_user = request.user
+		stop_name = data1[0]['stop_name']
+		print(stop_name)
+		route_nums = data1[0]['routes_serving'].split(',')
+		print(route_nums)
+		stop_id = data2[0]['stop_id']
+		print(stop_id)
+		user_fav = my_stations(stop_id=stop_id, user=current_user)
+		user_fav.save()
+
+	else:
+		print('not logged in')
+		pass
 
 	return HttpResponse(data1)
+
+def login(response):
+    uv.login(response)
+
+def users(response):
+    uv.users(response)
+
+def extra(response):
+    uv.extra(response)
