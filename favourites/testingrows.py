@@ -34,22 +34,16 @@ def difference(h1, m1, h2, m2):
 
 def get_times(stop_ids):
     data = []
-    #check = StopTimesGoogle.objects.filter(stop_id__in=stop_ids).values()
-    #print(check)
-    #if not check.exists():
-    #    return return_json(data, 'not here')
     for stop_id in stop_ids:
     #get updates for this stop
         API_updates = get_API(stop_id)
         #print('UPDATES', API_updates)
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
-        if not sched.exists():
-            default = {'id': None, 'trip_id': 'None - None', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': '32',
-                   'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
-            data.append(default)
-            continue
+        #if not stop.exists():
+        #default = [{"Stop": stop,
+         #           "Stop Status": 'This stop is not in our schedule yet!'}]
+          #          data.append(default)
         for row2 in sched:
             if check_day(row2['trip_id']) == True:
                 try:
@@ -70,30 +64,24 @@ def get_times(stop_ids):
                                 data.append(row2)
                             else:
                                 data.append(row2)
-                                #print(row2)
+                                print(row2)
 
                     #If the time goes past midnight eg (24:05)
                 except Exception as e:
                     print(e)
             else:
                 continue
-    if len(data) == 0:
-        return return_json(data, 'no buses')
-    return return_json(data, 'parse')
+
+    return return_json(data, stop_id)
 
 
 #get_times('8510B5550801')
 
-def return_json(data, command):
-    if command == 'no buses':
-        list = [{"Route": 'None', "Bus": 'N/A', "Stop": 'No Buses Scheduled For Your Stops', "Seq": 'none'}]
-        print('do something')
-
-    elif len(data) == 0:
-        list = [{"Route": 'None', "Bus": 'N/A', "Stop": 'These stops are not on our schedule', "Seq": 'none'}]
-    else:
-        list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
-                 "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq']} for x in data]
+def return_json(data, stop_id):
+    list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
+             "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq']} for x in data]
+    #if len(data) == 0:
+    #    list = [{"Route": 'No buses scheudled in the next 2 hours', "Bus": 'N/A', "Stop": 'all stops', "Seq": 'none'}]
     print(list)
     return json.dumps(list)
 
@@ -164,4 +152,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['8220DB000326', 'jimmy'])
+get_times('8230DB004713')

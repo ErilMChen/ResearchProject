@@ -6,6 +6,7 @@ function getStops(){
                     return response.json();
                 })
             .then(function(myData) {
+                try{
                 myData.forEach(element => {
                         html += "<div class='"
                         unpack(element)
@@ -13,17 +14,27 @@ function getStops(){
                         html += "<p> --------------- </p></div>"
                 });
                 done(html)
-
-            });
+                }catch(err){
+                document.getElementById('data').innerHTML = "<p>Error</p>"
+                }
+            })
         }
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 
 function unpack(data){
         var temp = ""
-        console.log(typeof(data))
         Object.keys(data).forEach(k => {
             //console.log(k, data[k]);
             temp += "<p class=" + k + "><b>" + k + "</b>: " + data[k]+ "<p>"
-            if (k == 'stop'){
+            console.log(k)
+            if (k == 'stop' || k == 'Stop'){
             stops.push(data[k])
             html += data[k] + "'>"}
                 });
@@ -38,7 +49,7 @@ function done(html){
 
 function get_stops(stops){
     let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
-    var select_stop = "<label for=stops>Choose a stop:</label>"
+    var select_stop = "<label for=stops>Filter by Stop:</label>"
     select_stop += "<select name='stops' id='stops'>"
     select_stop += "<option disabled selected value> -- Select an Stop -- </option>"
 
@@ -66,7 +77,7 @@ function edit_stops2(stops){
         //console.log(form)
 
       let btn = document.createElement("button")
-      btn.innerHTML = "Delete this Stop from";
+      btn.innerHTML = "Delete this Stop from my Favourites";
       btn.setAttribute('value', stops[i])
       form.appendChild(btn);
         }
