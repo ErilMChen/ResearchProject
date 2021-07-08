@@ -13,6 +13,7 @@ def check_auth(request):
         current_user = request.user
         station_id = '8240DB000230'
         user_fav = my_stations(stop_id = station_id, user = current_user)
+        user_fav.check_num()
         user_fav.save()
         return render(request, 'mystations.html')
     else:

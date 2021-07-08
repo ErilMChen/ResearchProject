@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db.models import Count
 
 class MyUserManger(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -75,3 +76,14 @@ class my_stations(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     stop_id = models.TextField()
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+
+    def check_num(self):
+        val = my_stations.objects.filter(user=self.user).count()
+        if val > 5:
+            print('yes')
+            all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)[1:5]
+            print(all_ids)
+            #my_stations.objects.filter(user=user).delete()
+            #ob = my_stations.objects.filter(user=self.user)[1:]
+
+            my_stations.objects.filter(user=self.user).exclude(pk__in=list(all_ids)).delete()
