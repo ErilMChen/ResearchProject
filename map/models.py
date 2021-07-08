@@ -8,3 +8,10 @@ class BusStops(models.Model):
     stop_long = models.FloatField()
     direction = models.IntegerField()
     routes_serving = models.TextField()
+
+class NameToID(models.Model):
+    stop_id = models.CharField(max_length = 45)
+    stop_name = models.CharField(max_length = 45)
+    stop_lat = models.FloatField()
+    stop_long = models.FloatField()
+    stop_num = models.IntegerField()

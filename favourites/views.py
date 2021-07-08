@@ -11,7 +11,7 @@ def stations(request):
 def check_auth(request):
     if request.user.is_authenticated:
         current_user = request.user
-        station_id = '8240DB000230'
+        station_id = '8220DB000326'
         user_fav = my_stations(stop_id = station_id, user = current_user)
         user_fav.check_num()
         user_fav.save()
@@ -28,12 +28,9 @@ def show_favs(request):
         stations = my_stations.objects.filter(user=current_user).values('stop_id').distinct()
         #print(stations)
         get_my_stops = []
-        i = 0
-        while i <= 5:
-            for row in stations:
-                stop = row['stop_id']
-                get_my_stops.append(stop)
-                i += 1
+        for row in stations:
+            stop = row['stop_id']
+            get_my_stops.append(stop)
         s = get_sched2.get_times(get_my_stops)
         data.append(s)
         print(data)
