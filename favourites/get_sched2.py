@@ -44,9 +44,8 @@ def get_times(stop_ids):
             default = {'id': None, 'trip_id': 'None - None', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
-            #data.append(default)
-            #continue
-            pass
+            data.append(default)
+            continue
         for row2 in sched:
             if check_day(row2['trip_id']) == True:
                 try:
@@ -56,7 +55,6 @@ def get_times(stop_ids):
                     #check if within he next hour
                     if difference(h, m, nowh, nowm) == True:
                         there_are_buses = True
-                        print('busus')
                     #check if API updated need to be applied
                         for i in range(0, len(API_updates)):
                             if row2['trip_id'] == API_updates[i][0]:

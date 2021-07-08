@@ -25,13 +25,8 @@ def show_favs(request):
     if request.user.is_authenticated:
         data = []
         current_user = request.user
-        stations = my_stations.objects.filter(user=current_user).values('stop_id').distinct()
-        #print(stations)
-        get_my_stops = []
-        for row in stations:
-            stop = row['stop_id']
-            get_my_stops.append(stop)
-        s = get_sched2.get_times(get_my_stops)
+        stations = my_stations.objects.filter(user=current_user).values_list('stop_id', flat=True).distinct()
+        s = get_sched2.get_times(stations)
         data.append(s)
         print(data)
         return HttpResponse(data, "application/json")
@@ -41,3 +36,5 @@ def delete_my_stop(response):
     print(response, 'hi')
     ## to fill in
     return render('map/index.html')
+
+#all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)
