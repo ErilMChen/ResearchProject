@@ -48,7 +48,12 @@ $('#edit_stops').on('change', function() {
   console.log(x)
   document.getElementById('form1').value = x;
   document.forms['form1'].elements['name'].value = x
+  if (confirm("This stop will be deleted")){
   $("#form1").submit()
+  }
+  else{
+  return
+  }
 });
 </script>
 

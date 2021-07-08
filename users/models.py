@@ -78,12 +78,9 @@ class my_stations(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     def check_num(self):
+        '''This function does not allow the user to have more than 5 stations saved.
+        It deletes by the process of first in first out'''
         val = my_stations.objects.filter(user=self.user).count()
         if val > 5:
-            print('yes')
             all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)[1:5]
-            print(all_ids)
-            #my_stations.objects.filter(user=user).delete()
-            #ob = my_stations.objects.filter(user=self.user)[1:]
-
             my_stations.objects.filter(user=self.user).exclude(pk__in=list(all_ids)).delete()
