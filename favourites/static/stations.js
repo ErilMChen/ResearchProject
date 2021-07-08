@@ -1,5 +1,6 @@
 var html = ""
 var stops = []
+var buses = []
 function getStops(){
          fetch("show_favs", {
                 method:'GET'}).then(function(response) {
@@ -15,6 +16,7 @@ function getStops(){
                 });
                 done(html)
                 }catch(err){
+                console.log(err)
                 document.getElementById('data').innerHTML = "<p>Error</p>"
                 }
             })
@@ -31,18 +33,29 @@ function isEmpty(obj) {
 function unpack(data){
         var temp = ""
         Object.keys(data).forEach(k => {
+            if(k == 'Route'){
+                //pass
+            }
+
+            else{
             //console.log(k, data[k]);
             temp += "<p class=" + k + "><b>" + k + "</b>: " + data[k]+ "<p>"
             //console.log(k)
+            }
             if (k == 'stop' || k == 'Stop'){
             stops.push(data[k])
             html += data[k] + "'>"}
+
+            if (k == 'Bus'){
+                buses.push(data[k])
+            }
                 });
             html += temp
         }
 
 function done(html){
     get_stops(stops)
+    get_buses(buses)
     document.getElementById("data").innerHTML = html
 
 }
@@ -63,6 +76,38 @@ function get_stops(stops){
         edit_stops3(unique)
 }
 
+function get_buses(buses){
+    let unique = buses.filter((x, i, a) => a.indexOf(x) === i)
+    var selectList = document.createElement("select");
+    selectList.id = "mySelect";
+    var label = document.createElement('label');
+    label.setAttribute('for', 'buses')
+    var txt = document.createTextNode("Select Bus Filter")
+    label.appendChild(txt)
+    document.getElementById("bus_dropdown").appendChild(label)
+
+
+    selectList.setAttribute('label', 'Select Bus Filter')
+
+    for (var i = 0; i < unique.length; i++) {
+      var option=document.createElement("option")
+        var label = unique[i]
+        option.text = unique[i]
+        option.name = 'buses'
+        option.name = unique[i]
+        option.class = 'bus_drop'
+
+        option.setAttribute("value", unique[i])
+
+        var optionText = document.createTextNode(unique[i]);
+        //option.appendChild(optionText);
+
+        selectList.appendChild(option)
+        }
+        console.log(selectList)
+        document.getElementById("bus_dropdown").appendChild(selectList)
+
+}
 
 
 function edit_stops2(stops){
