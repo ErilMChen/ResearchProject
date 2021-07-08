@@ -34,22 +34,19 @@ def difference(h1, m1, h2, m2):
 
 def get_times(stop_ids):
     data = []
-    #check = StopTimesGoogle.objects.filter(stop_id__in=stop_ids).values()
-    #print(check)
-    #if not check.exists():
-    #    return return_json(data, 'not here')
     for stop_id in stop_ids:
+        there_are_buses = False
     #get updates for this stop
         API_updates = get_API(stop_id)
-        #print('UPDATES', API_updates)
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
         if not sched.exists():
-            default = {'id': None, 'trip_id': 'None - None', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': '32',
+            default = {'id': None, 'trip_id': 'None - None', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
-            data.append(default)
-            continue
+            #data.append(default)
+            #continue
+            pass
         for row2 in sched:
             if check_day(row2['trip_id']) == True:
                 try:
@@ -58,6 +55,8 @@ def get_times(stop_ids):
                     m = row2['arr_time'][3:5]
                     #check if within he next hour
                     if difference(h, m, nowh, nowm) == True:
+                        there_are_buses = True
+                        print('busus')
                     #check if API updated need to be applied
                         for i in range(0, len(API_updates)):
                             if row2['trip_id'] == API_updates[i][0]:
@@ -67,30 +66,33 @@ def get_times(stop_ids):
                                 print('old row', row2)
                                 row2['arr_time'] = new_times[0]
                                 row2['dep_time'] = new_times[1]
-                                data.append(row2)
-                            else:
-                                data.append(row2)
+                                #data.append(row2)
+                                #continue
+                        data.append(row2)
                                 #print(row2)
-
-                    #If the time goes past midnight eg (24:05)
                 except Exception as e:
                     print(e)
+
             else:
                 continue
+
+        if there_are_buses == False:
+            no_bus = {'id': None, 'trip_id': 'None - None', 'arr_time': 'No buses scheduled',
+                       'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': 'N/A',
+                       'stop_headsign': ' N/A', 'pickup_type': 'N/A',
+                       'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
+            data.append(no_bus)
+
+
+
     if len(data) == 0:
         return return_json(data, 'no buses')
     return return_json(data, 'parse')
 
-
-#get_times('8510B5550801')
-
 def return_json(data, command):
     if command == 'no buses':
         list = [{"Route": 'None', "Bus": 'N/A', "Stop": 'No Buses Scheduled For Your Stops', "Seq": 'none'}]
-        print('do something')
 
-    elif len(data) == 0:
-        list = [{"Route": 'None', "Bus": 'N/A', "Stop": 'These stops are not on our schedule', "Seq": 'none'}]
     else:
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
                  "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq']} for x in data]
@@ -164,4 +166,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['8220DB000326', 'jimmy'])
+get_times(['aaaa'])

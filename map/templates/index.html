@@ -96,6 +96,23 @@
             var plan = document.getElementById("plan").addEventListener("click", showPlanPage);
             var search = document.getElementById("search").addEventListener("click", showSearchPage);
             var weather = document.getElementById("weather").addEventListener("click", showWeatherWidget);
+            var add_stop1 = document.getElementById("add_stop1").addEventListener("click", function(){ addStop("add_stop1");}); 
+            var add_stop2 = document.getElementById("add_stop2").addEventListener("click", function(){ addStop("add_stop2");}); 
+        }
+    </script>
+
+    <script>
+        function addStop(element){
+            if(element == "add_stop1")
+                var stop_name = document.forms["bus_stop"]["start_stop"].value;
+            else if (element == "add_stop2")
+                var stop_name = document.forms["bus_stop"]["end_stop"].value;
+            let url = 'add/' + '?stop_name=' + stop_name;
+            fetch(url, {
+                method:'GET'}).then(function(response) {
+                    // read data from django server and prase to json
+                    console.log("add stop OK")
+            });
         }
     </script>
 
@@ -113,32 +130,9 @@
                 method:'GET'}).then(function(response) {
                     // read data from django server and prase to json
                     return response.json();
-                })
-            .then(function(routeDate){
-                // create start position and end position 
-                var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
-                var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
-                var request = {
-                    origin: start_position,
-                    destination: end_position,
-                    travelMode: google.maps.TravelMode["TRANSIT"],
-                    provideRouteAlternatives :false,
-                    transitOptions: {
-                        modes: ['BUS'],
-                    },
-                };
-                // use google api to get transit infromation 
-                directionsService.route(request, function(response, status) {
-                    if (status == 'OK') {
-                        // save route infromation to localstorage
-                        savePlanToJson();
-                    }
                 });
-            });
+            savePlanToJson();
         }
-    </script>
-
-    <script>
         // save data to local storage
         function savePlanToJson(){
             // read data from form
@@ -160,6 +154,9 @@
             // save to local storage
             localStorage.setItem(url,str);
         }
+    </script>
+
+    <script>
         // read data from local storage
         function loadPlanFromJson(){
             var target = document.getElementById("plan_container");
@@ -406,15 +403,22 @@
             <form action="route/" name = "bus_stop" id="search_form">
                 <input list="start_stop" name="start_stop" placeholder="From" />
                 <datalist id="start_stop"></datalist>
+                <input id="add_stop1" type="button" style="height: 1em; background-color: crimson;">
+                
                 <input list="end_stop" name="end_stop" placeholder="To" />
                 <datalist id="end_stop"></datalist>
+                <input id="add_stop2" type="button" style="height: 1em; background-color: crimson;">
+
                 <input list="date" name="date" placeholder="date"/>
                 <datalist id="date"></datalist>
+                
                 <input list="time" name="time" placeholder="time"/>
                 <datalist id="time"></datalist>        
+                
                 <input id="submit" type="button" value="submit" style="height: 3em; margin: 0.5em;">
                 <input id="save" type="button" value="save" style="height: 3em; margin: 0.5em;">
             </form>
+
             <div id="detail_container" ></div>
             <div id="plan_container" style="display: none;"> </div>
             <div id="plan_detail_container" style="display: none;"> </div>
@@ -429,6 +433,26 @@
         <div id="map" style="width:1020px;height:680px;"></div>
         <div id="sidebar"></div>
     </div>
+{% block title %}Create an Account {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<form method="POST" action= "/users/" class="form-group">
+    {% csrf_token %}
+    {{ form1|crispy }}
+        <button type="submit" class="'btn btn-success">Register</button>
+</form>
+
+<form action="/login/" method="POST">
+        {% csrf_token %}
+        {{ form2|crispy }}
+     <button type="submit" name="" class="'btn btn-success">Login</button>
+    </form>
+
+{% endblock %}
+
+
 </body>
 
 </html>
