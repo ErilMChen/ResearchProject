@@ -19,6 +19,7 @@
 <button type='submit'>Submit</button>
 </form>
 <div id="select_stop"></div>
+<div id="bus_dropdown"></div>
 <div id="edit_stops"></div>
 
 <button onclick="getStops()">show stops</button>
@@ -38,7 +39,7 @@
 $('#select_stop').on('change', function() {
   var x = $('#select_stop').find(":selected").text();
   console.log(x)
-    $('#data > div').show().filter(':not(.' + x +')').hide();
+   $('#data > div').show().filter(':not(.' + x +')').hide();
 });
 
 </script>
@@ -56,5 +57,12 @@ $('#edit_stops').on('change', function() {
   }
 });
 </script>
-
+<script>
+    var txt = $('#search-criteria').val();
+$('.contact-name').each(function(){
+   if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+       $(this).show();
+   }
+});
+</script>
 </html>

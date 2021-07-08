@@ -14,7 +14,7 @@ def check_auth(request):
     myform = S
     if request.user.is_authenticated:
         current_user = request.user
-        station_id = '8220DB000326'
+        station_id = '8240DB000231'
         user_fav = my_stations(stop_id = station_id, user = current_user)
         user_fav.check_num()
         user_fav.save()
