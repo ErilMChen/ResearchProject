@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/static/stations.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <script src="/static/stations.js"></script>
+
 </head>
 <body>
 
@@ -20,10 +21,13 @@
 <div id="select_stop"></div>
 <div id="edit_stops"></div>
 
-
 <button onclick="getStops()">show stops</button>
 
 <div id = 'del'>
+    <form id = 'form1' method="POST" action= "/delete_my_stop/" class="form-group">
+    {% csrf_token %}
+    {{ form1 }}
+</form>
 
 </div>
 
@@ -36,5 +40,16 @@ $('#select_stop').on('change', function() {
   console.log(x)
     $('#data > div').show().filter(':not(.' + x +')').hide();
 });
+
 </script>
+<script>
+$('#edit_stops').on('change', function() {
+  var x = $('#edit_stops').find(":selected").text();
+  console.log(x)
+  document.getElementById('form1').value = x;
+  document.forms['form1'].elements['name'].value = x
+  $("#form1").submit()
+});
+</script>
+
 </html>

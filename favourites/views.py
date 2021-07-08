@@ -3,10 +3,11 @@ from users.models import my_stations
 # Create your views here.
 from favourites import get_sched2
 from django.views.decorators.csrf import csrf_exempt
-
+from .forms import StopForm as S
 
 def stations(request):
-	return render(request, 'mystations.html')
+    myform = S
+    return render(request, 'mystations.html', {"form1": myform})
 
 def check_auth(request):
     if request.user.is_authenticated:
@@ -32,9 +33,10 @@ def show_favs(request):
         return HttpResponse(data, "application/json")
 
 @csrf_exempt
-def delete_my_stop(response):
-    print(response, 'hi')
-    ## to fill in
-    return render('map/index.html')
-
-#all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)
+def delete_my_stop(request):
+    if request.method == 'POST':
+        postdata = request.POST.copy()
+        station = postdata.get('name', '')
+        print(type(station))
+        print(station, "is station")
+    return render(request, 'mystations.html')

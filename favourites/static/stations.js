@@ -33,7 +33,7 @@ function unpack(data){
         Object.keys(data).forEach(k => {
             //console.log(k, data[k]);
             temp += "<p class=" + k + "><b>" + k + "</b>: " + data[k]+ "<p>"
-            console.log(k)
+            //console.log(k)
             if (k == 'stop' || k == 'Stop'){
             stops.push(data[k])
             html += data[k] + "'>"}
@@ -60,7 +60,7 @@ function get_stops(stops){
         select_stop += "</select>"
         document.getElementById("select_stop").innerHTML = select_stop
 
-        edit_stops2(unique)
+        edit_stops3(unique)
 }
 
 
@@ -68,20 +68,47 @@ function get_stops(stops){
 function edit_stops2(stops){
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", "/delete_my_stop")
+    form.id = 'form1'
+    form.setAttribute("action", "/delete_my_stop/")
     for(var i=0; i < stops.length; i++){
         var option=document.createElement("input")
-        option.setAttribute("value",stops[i])
-        option.setAttribute('readonly', 'readonly')
+        option.type = "radio"
+        option.text = stops[i]
+        option.name = 'stops'
+        option.class = 'stops'
+
+        option.setAttribute("value", stops[i])
+
+        var label = document.createElement('label');
+        label.innerHTML = stops[i]
+        option.appendChild(label)
+
+        //option.setAttribute('readonly', 'readonly')
         form.appendChild(option);
+        form.appendChild(label)
         //console.log(form)
 
-      let btn = document.createElement("button")
-      btn.innerHTML = "Delete this Stop from my Favourites";
-      btn.setAttribute('value', stops[i])
-      form.appendChild(btn);
+      //let btn = document.createElement("button")
+      //btn.innerHTML = "Delete this Stop from my Favourites";
+      //btn.setAttribute('value', stops[i])
+      //form.appendChild(btn);
         }
         console.log(form)
-
+        let btn = document.createElement("button")
+        btn.id = 'submit_stop'
+        btn.innerHTML = "Delete this Stop from my Favourites";
+        form.appendChild(btn)
        document.getElementById("edit_stops").appendChild(form)
     }
+
+function edit_stops3(stops){
+        var select_stop = "<label for=stops>Delete Stop:</label>"
+        select_stop += "<select name='stops' id='del_stops'>"
+        select_stop += "<option disabled selected value> -- Select a Stop -- </option>"
+
+     for(var i=0; i < stops.length; i++){
+        select_stop+= "<option value=" + stops[i] + " onlick=addStop()>" + stops[i] + "</option>"
+        }
+        select_stop += "</select>"
+        document.getElementById("edit_stops").innerHTML = select_stop
+}
