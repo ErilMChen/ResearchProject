@@ -10,13 +10,13 @@
 <body>
 
 {% if user.is_authenticated %}
-    <p>Hello, {{user.email}} </p>
-    {%else%}
-        <p>Not logged in ((( this will be changed to not show any elements
-        if user not logged in)) </p>
-    {%endif%}
+<p>Hello, {{user.email}} </p>
+{%else%}
+<p>Not logged in ((( this will be changed to not show any elements
+    if user not logged in)) </p>
+{%endif%}
 <form action='/mystations_auth' method='GET'>
-<button type='submit'>Submit</button>
+    <button type='submit'>Submit</button>
 </form>
 <div id="select_stop"></div>
 <div id="bus_dropdown"></div>
@@ -24,25 +24,18 @@
 
 <button onclick="getStops()">show stops</button>
 
-<div id = 'del'>
-    <form id = 'form1' method="POST" action= "/delete_my_stop/" class="form-group">
-    {% csrf_token %}
-    {{ form1 }}
-</form>
+<div id='del'>
+    <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+        {% csrf_token %}
+        {{ form1 }}
+    </form>
 
 </div>
 
 <div id="data"></div>
 </body>
 
-<script>
-$('#select_stop').on('change', function() {
-  var x = $('#select_stop').find(":selected").text();
-  console.log(x)
-   $('#data > div').show().filter(':not(.' + x +')').hide();
-});
 
-</script>
 <script>
 $('#edit_stops').on('change', function() {
   var x = $('#edit_stops').find(":selected").text();
@@ -56,13 +49,46 @@ $('#edit_stops').on('change', function() {
   return
   }
 });
+
+</script>
+
+<script>
+$('#bus_dropdown').on('change', function() {
+  var x = $('#bus_dropdown').find(":selected").text();
+  console.log(x)
+  if (x == 'All'){
+    clear_filter()
+    }
+    else{
+    var regex = new RegExp('\\b\\w*' + x + '\\w*\\b');
+
+    $('#data > div').hide().filter(function () {
+        return regex.test($(this).data('tag'))
+    }).show();
+    }
+  });
+
+function clear_filter(){
+    $( '#data > div' ).show();
+}
 </script>
 <script>
-    var txt = $('#search-criteria').val();
-$('.contact-name').each(function(){
-   if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
-       $(this).show();
-   }
-});
+    $('#select_stop').on('change', function() {
+  var y = $('#select_stop').find(":selected").text();
+    console.log(y)
+    if (y == 'All'){
+    clear_filter()
+    }
+    else{
+    var regex = new RegExp('\\b\\w*' + y + '\\w*\\b');
+
+    $('#data > div').hide().filter(function () {
+        return regex.test($(this).data('tag'))
+    }).show();
+    }
+  });
+function clear_filter(){
+    $( '#data > div' ).show();
+}
 </script>
 </html>

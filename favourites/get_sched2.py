@@ -41,7 +41,7 @@ def get_times(stop_ids):
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
         if not sched.exists():
-            default = {'id': None, 'trip_id': 'None - None', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': 'N/A',
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
             data.append(default)
@@ -75,8 +75,8 @@ def get_times(stop_ids):
                 continue
 
         if there_are_buses == False:
-            no_bus = {'id': None, 'trip_id': 'None - None', 'arr_time': 'No buses scheduled',
-                       'dep_time': 'N/A', 'stop_id': str(stop_id), 'stopp_seq': 'N/A',
+            no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
+                       'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                        'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                        'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
             data.append(no_bus)
