@@ -11,7 +11,6 @@ def stations(request):
     return render(request, 'mystations.html', {"form1": myform})
 
 def check_auth(request):
-    myform = S
     if request.user.is_authenticated:
         current_user = request.user
         station_id = '8240DB000231'
