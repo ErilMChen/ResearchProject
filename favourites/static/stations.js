@@ -32,7 +32,7 @@ function unpack(data){
             }
             if (k == 'Bus'){
                 buses.push(data[k])
-                html += "stop_div' " +  "data-tag= [" + data[k] + ","
+                html += "border border-danger'" +  "data-tag= [" + data[k] + ","
 
             }
             if (k == 'stop' || k == 'Stop'){
@@ -47,10 +47,22 @@ function unpack(data){
 function done(html){
     sel_stops(stops)
     get_buses(buses)
+    edit_stops3(stops)
     document.getElementById("data").innerHTML = html
 
 }
+function edit_stops3(stops){
+        let stop = stops.filter((x, i, a) => a.indexOf(x) === i)
+        var select_stop = "<label for=stops>Delete Stop:</label>"
+        select_stop += "<select name='stops' id='del_stops'>"
+        select_stop += "<option disabled selected value> -- Select a Stop -- </option>"
 
+     for(var i=0; i < stop.length; i++){
+        select_stop+= "<option value=" + stop[i] + " onlick=addStop()>" + stop[i] + "</option>"
+        }
+        select_stop += "</select>"
+        document.getElementById("edit_stops").innerHTML = select_stop
+}
 function get_buses(buses){
     let unique = buses.filter((x, i, a) => a.indexOf(x) === i)
     var selectList = document.createElement("select");
