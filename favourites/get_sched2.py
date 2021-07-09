@@ -7,6 +7,7 @@ from pymysql import connect
 from favourites import dbinfo
 import datetime
 import json
+from map.models import NameToID
 now = str(datetime.datetime.now().time())
 nowh = now[0:2]
 nowm = now[3:5]
@@ -41,9 +42,9 @@ def get_times(stop_ids):
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
         if not sched.exists():
-            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop is not yet on our schedule', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
+                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': 'N/A'}
             data.append(default)
             continue
         for row2 in sched:
@@ -66,8 +67,13 @@ def get_times(stop_ids):
                                 row2['dep_time'] = new_times[1]
                                 #data.append(row2)
                                 #continue
+                        name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
+                        data1 = list(name)
+                        stop_name = data1[0]['stop_name']
+                        print(stop_name)
+                        row2['stop_name'] = stop_name
                         data.append(row2)
-                                #print(row2)
+                        print(row2)
                 except Exception as e:
                     print(e)
 
@@ -75,10 +81,13 @@ def get_times(stop_ids):
                 continue
 
         if there_are_buses == False:
+            name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
+            data1 = list(name)
+            stop_name = data1[0]['stop_name']
             no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
                        'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                        'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                       'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A'}
+                       'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': stop_name}
             data.append(no_bus)
 
 
@@ -93,7 +102,7 @@ def return_json(data, command):
 
     else:
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
-                 "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq']} for x in data]
+                 "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name']} for x in data]
     print(list)
     return json.dumps(list)
 
@@ -164,4 +173,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['aaaa'])
+get_times(['8220B123501'])
