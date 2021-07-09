@@ -82,5 +82,5 @@ class my_stations(models.Model):
         It deletes by the process of first in first out'''
         val = my_stations.objects.filter(user=self.user).count()
         if val > 5:
-            all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)[1:5]
+            all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)[1:4]
             my_stations.objects.filter(user=self.user).exclude(pk__in=list(all_ids)).delete()
