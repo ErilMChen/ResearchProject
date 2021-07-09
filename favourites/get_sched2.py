@@ -70,10 +70,10 @@ def get_times(stop_ids):
                         name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
                         data1 = list(name)
                         stop_name = data1[0]['stop_name']
-                        print(stop_name)
+                        #print(stop_name)
                         row2['stop_name'] = stop_name
                         data.append(row2)
-                        print(row2)
+                        #print(row2)
                 except Exception as e:
                     print(e)
 
@@ -173,4 +173,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['8220B123501'])
+#get_times(['8220B123501'])

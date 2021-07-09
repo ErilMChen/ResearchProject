@@ -53,6 +53,6 @@ class Test_Stations(unittest.TestCase):
         print(count2)
         ## attempted to add 10 but will only keep 5 at a time
         self.assertTrue(count2 == 5)
-        
+
 if __name__ == '__main__':
     unittest.main()
