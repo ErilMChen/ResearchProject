@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
 
 </head>
+<style>
+
+.stop_div{
+     display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 50vh;
+}
+.stop_div p{
+    padding: -100px;
+}
+</style>
 <body>
 
 {% if user.is_authenticated %}
@@ -15,14 +29,12 @@
 <p>Not logged in ((( this will be changed to not show any elements
     if user not logged in)) </p>
 {%endif%}
-<form action='/mystations_auth' method='GET'>
+<form name='user1' action='/mystations_auth' method='GET' onsubmit="return false">
     <button type='submit'>Submit</button>
 </form>
 <div id="select_stop"></div>
 <div id="bus_dropdown"></div>
 <div id="edit_stops"></div>
-
-<button onclick="getStops()">show stops</button>
 
 <div id='del'>
     <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
@@ -75,6 +87,9 @@ function clear_filter(){
 
 </script>
 <script>
+window.onload = getStops()
+</script>
+<script>
     $('#select_stop').on('change', function() {
   var y = $('#select_stop').find(":selected").text();
     if (y == 'All'){
@@ -91,6 +106,9 @@ function clear_filter(){
 function clear_filter(){
     $( '#data > div' ).show();
 }
+
+</script>
+<script>
 
 </script>
 </html>

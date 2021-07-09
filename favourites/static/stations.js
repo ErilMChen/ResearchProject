@@ -39,6 +39,7 @@ function unpack(data){
             stops.push(data[k])
              html +=  data[k] + "]>"
             }
+
                 });
             html += temp
         }
