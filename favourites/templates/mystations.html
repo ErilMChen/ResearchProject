@@ -50,6 +50,7 @@ $('#edit_stops').on('change', function() {
   }
 });
 
+
 </script>
 
 <script>
@@ -71,11 +72,11 @@ $('#bus_dropdown').on('change', function() {
 function clear_filter(){
     $( '#data > div' ).show();
 }
+
 </script>
 <script>
     $('#select_stop').on('change', function() {
   var y = $('#select_stop').find(":selected").text();
-    console.log(y)
     if (y == 'All'){
     clear_filter()
     }
@@ -90,5 +91,6 @@ function clear_filter(){
 function clear_filter(){
     $( '#data > div' ).show();
 }
+
 </script>
 </html>

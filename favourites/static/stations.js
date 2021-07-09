@@ -27,26 +27,18 @@ function unpack(data){
             if(k == 'Route'){
                 //pass
             }
-
             else{
-            //console.log(k, data[k]);
             temp += "<p class=" + k + "><b>" + k + "</b>: " + data[k]+ "<p>"
-            //console.log(k)
             }
             if (k == 'Bus'){
                 buses.push(data[k])
-
-                // html += data[k] + "'" + " data-tag= "
                 html += "stop_div' " +  "data-tag= [" + data[k] + ","
 
             }
-
             if (k == 'stop' || k == 'Stop'){
             stops.push(data[k])
              html +=  data[k] + "]>"
             }
-
-
                 });
             html += temp
         }
@@ -77,7 +69,6 @@ function get_buses(buses){
         disabled_op.name = 'buses'
         disabled_op.class = 'bus_drop'
         disabled_op.value = 'all'
-        //disabled_op.setAttribute('disabled', true)
         disabled_op.setAttribute('selected', true)
         selectList.appendChild(disabled_op)
 
@@ -92,25 +83,11 @@ function get_buses(buses){
         option.setAttribute("value", unique[i])
 
         var optionText = document.createTextNode(unique[i]);
-        //option.appendChild(optionText);
-
         selectList.appendChild(option)
         }
         console.log(selectList)
         document.getElementById("bus_dropdown").appendChild(selectList)
 
-}
-
-function edit_stops3(stops){
-        var select_stop = "<label for=stops>Delete Stop:</label>"
-        select_stop += "<select name='stops' id='del_stops'>"
-        select_stop += "<option disabled selected value> -- Select a Stop -- </option>"
-
-     for(var i=0; i < stops.length; i++){
-        select_stop+= "<option value=" + stops[i] + " onlick=addStop()>" + stops[i] + "</option>"
-        }
-        select_stop += "</select>"
-        document.getElementById("edit_stops").innerHTML = select_stop
 }
 
 function sel_stops(stops){
@@ -133,8 +110,6 @@ function sel_stops(stops){
         disabled_op.setAttribute('selected', true)
         selectList.appendChild(disabled_op)
 
-   // selectList.setAttribute('label', 'Select Stop Filter')
-
     for (var i = 0; i < unique.length; i++) {
       var option=document.createElement("option")
         var label = unique[i]
@@ -145,7 +120,6 @@ function sel_stops(stops){
         option.setAttribute("value", unique[i])
 
         var optionText = document.createTextNode(unique[i]);
-        //option.appendChild(optionText);
 
         selectList.appendChild(option)
         }
