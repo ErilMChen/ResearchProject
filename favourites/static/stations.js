@@ -63,7 +63,7 @@ function edit_stops3(stops){
     selectList.id = "myStopDelete";
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
-    var txt = document.createTextNode("Select Stop")
+    var txt = document.createTextNode("Delete Stop")
     label.appendChild(txt)
     document.getElementById("edit_stops").appendChild(label)
 
@@ -74,6 +74,7 @@ function edit_stops3(stops){
         disabled_op.class = 'stop_drop'
         disabled_op.value = 'all'
         disabled_op.setAttribute('selected', true)
+        disabled_op.setAttribute('disabled', true)
         selectList.appendChild(disabled_op)
 
     for (var i = 0; i < unique.length; i++) {
