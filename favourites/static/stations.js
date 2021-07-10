@@ -1,19 +1,17 @@
-var html = ""
 var stops = []
 var buses = []
-function getStops(){
+
+function getStops2(){
          fetch("show_favs", {
                 method:'GET'}).then(function(response) {
                     return response.json();
                 })
             .then(function(myData) {
                 try{
-                myData.forEach(element => {
-                        html += "<div class='"
+                   myData.forEach(element => {
                         unpack(element)
-                        html += "<p> --------------- </p></div>"
-                });
-                done(html)
+                     });
+                    done2()
                 }catch(err){
                 console.log(err)
                 document.getElementById('data').innerHTML = "<p>Error</p>"
@@ -22,46 +20,78 @@ function getStops(){
         }
 
 function unpack(data){
-        var temp = ""
+        const newDiv = document.createElement("div");
+        var tags = []
         Object.keys(data).forEach(k => {
             if(k == 'Route'){
                 //pass
+                return
             }
             else{
-            temp += "<p class=" + k + "><b>" + k + "</b>: " + data[k]+ "<p>"
+            var node = document.createTextNode(k + ": " + data[k])
+            newDiv.append(node)
+            var br = document.createElement("br");
+            newDiv.appendChild(br);
+
             }
             if (k == 'Bus'){
                 buses.push(data[k])
-                html += "border border-danger'" +  "data-tag= [" + data[k] + ","
-
-            }
+                tags.push(data[k])
+                }
             if (k == 'stop' || k == 'Stop'){
             stops.push(data[k])
-             html +=  data[k] + "]>"
+            tags.push(data[k])
             }
 
                 });
-            html += temp
+            //console.log(newDiv)
+            newDiv.setAttribute('data-tag', tags)
+            var br = document.createElement("br");
+            newDiv.appendChild(br);
+            document.getElementById('test').append(newDiv)
         }
 
-function done(html){
+
+function done2(html){
     sel_stops(stops)
     get_buses(buses)
     edit_stops3(stops)
-    document.getElementById("data").innerHTML = html
-
 }
 function edit_stops3(stops){
-        let stop = stops.filter((x, i, a) => a.indexOf(x) === i)
-        var select_stop = "<label for=stops>Delete Stop:</label>"
-        select_stop += "<select name='stops' id='del_stops'>"
-        select_stop += "<option disabled selected value> -- Select a Stop -- </option>"
+            let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
+     var selectList = document.createElement("select");
+    selectList.id = "myStopDelete";
+    var label = document.createElement('label');
+    label.setAttribute('for', 'stops')
+    var txt = document.createTextNode("Select Stop")
+    label.appendChild(txt)
+    document.getElementById("edit_stops").appendChild(label)
 
-     for(var i=0; i < stop.length; i++){
-        select_stop+= "<option value=" + stop[i] + " onlick=addStop()>" + stop[i] + "</option>"
+    var disabled_op = document.createElement("option")
+        var label = 'Pick a Stop'
+        disabled_op.text = 'My Favourites'
+        disabled_op.name = 'stops'
+        disabled_op.class = 'stop_drop'
+        disabled_op.value = 'all'
+        disabled_op.setAttribute('selected', true)
+        selectList.appendChild(disabled_op)
+
+    for (var i = 0; i < unique.length; i++) {
+      var option=document.createElement("option")
+        var label = unique[i]
+        option.text = unique[i]
+        option.name = 'stops'
+        option.name = unique[i]
+        option.class = 'stop_delete'
+        option.setAttribute("value", unique[i])
+
+        var optionText = document.createTextNode(unique[i]);
+
+        selectList.appendChild(option)
         }
-        select_stop += "</select>"
-        document.getElementById("edit_stops").innerHTML = select_stop
+        console.log(selectList)
+        document.getElementById("edit_stops").appendChild(selectList)
+
 }
 function get_buses(buses){
     let unique = buses.filter((x, i, a) => a.indexOf(x) === i)
@@ -119,7 +149,6 @@ function sel_stops(stops){
         disabled_op.name = 'stops'
         disabled_op.class = 'stop_drop'
         disabled_op.value = 'all'
-        //disabled_op.setAttribute('disabled', true)
         disabled_op.setAttribute('selected', true)
         selectList.appendChild(disabled_op)
 
