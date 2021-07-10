@@ -10,19 +10,10 @@
 
 </head>
 <style>
+    #test div{
+    float: center;
+    }
 
-.stop_div{
-     display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  min-height: 50vh;
-  border: 10px;
-  border-color: red;
-}
-.stop_div p{
-    padding: -100px;
-}
 </style>
 <body>
 
@@ -33,22 +24,25 @@
     if user not logged in)) </p>
 {%endif%}
 <form name='user1' action='/mystations_auth' method='GET' onsubmit="return false">
-    <button type='submit'>Submit</button>
+    <button class='btn' type='submit'>Submit</button>
 </form>
-<div id="select_stop"></div>
-<div id="bus_dropdown"></div>
-<div id="edit_stops"></div>
 
-<div id='del'>
-    <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
-        {% csrf_token %}
-        {{ form1 }}
-    </form>
-
+<div id="main" class="main-panel">
+    <div id="sel_container" class="container-fluid" >
+        <div id="select_stop"></div>
+        <div id="bus_dropdown"></div>
+        <div id="edit_stops"></div>
+        <div id='del'>
+        <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+            {% csrf_token %}
+            {{ form1 }}
+        </form>
+        </div>
+    </div>
 </div>
 
-<div id="data"></div>
-<div id="test"></div>
+
+<div class= "container-fluid" id="test"></div>
 </body>
 
 

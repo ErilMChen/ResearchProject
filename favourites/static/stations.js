@@ -46,6 +46,7 @@ function unpack(data){
                 });
             //console.log(newDiv)
             newDiv.setAttribute('data-tag', tags)
+            newDiv.setAttribute('class', "shadow p-3 mb-5 bg-body rounded")
             var br = document.createElement("br");
             newDiv.appendChild(br);
             document.getElementById('test').append(newDiv)
@@ -71,7 +72,7 @@ function edit_stops3(stops){
         var label = 'Pick a Stop'
         disabled_op.text = 'My Favourites'
         disabled_op.name = 'stops'
-        disabled_op.class = 'stop_drop'
+        disabled_op.class = "form-control"
         disabled_op.value = 'all'
         disabled_op.setAttribute('selected', true)
         disabled_op.setAttribute('disabled', true)
@@ -83,7 +84,7 @@ function edit_stops3(stops){
         option.text = unique[i]
         option.name = 'stops'
         option.name = unique[i]
-        option.class = 'stop_delete'
+        option.class = "form-control"
         option.setAttribute("value", unique[i])
 
         var optionText = document.createTextNode(unique[i]);
@@ -148,7 +149,7 @@ function sel_stops(stops){
         var label = 'Pick a Stop'
         disabled_op.text = 'All'
         disabled_op.name = 'stops'
-        disabled_op.class = 'stop_drop'
+        disabled_op.class = 'active'
         disabled_op.value = 'all'
         disabled_op.setAttribute('selected', true)
         selectList.appendChild(disabled_op)
@@ -159,7 +160,7 @@ function sel_stops(stops){
         option.text = unique[i]
         option.name = 'stops'
         option.name = unique[i]
-        option.class = 'stop_drop'
+        option.class = 'active'
         option.setAttribute("value", unique[i])
 
         var optionText = document.createTextNode(unique[i]);
