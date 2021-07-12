@@ -1,37 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>My Stations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
 
 </head>
 <style>
-    #test div{
-    float: center;
+*{
+    margin: 0;
+    padding: 0;
     }
 
-</style>
-<body>
+p {
+    text-align: center;
+    color: #FFFACD;
+    }
+.bus-item {
+    text-align: center;
+    background-color: #FFFACD;
+    width: 50%;
+    }
+ #bod {
+    background-color: #baf1f7;
+ }
 
+.selects {
+display: inline;
+}
+.navbar
+{
+    box-shadow: 0 5px 10px #efefef;
+    }
+.logo{
+    height:48px;
+    padding: 2px 10px
+    }
+
+ul{
+float: right}
+ li {
+ padding: 10px;
+ float:right
+  position: relative
+}
+.navbar-toggler-icon{
+background-color: #baf1f7;
+float: centre;
+}
+.navbar-toggler {
+float: right
+}
+.navbar-toggle .navbar-toggler-icon {
+  display: fixed;
+  width: 22px;
+  height: 2px;
+  border: 0;
+  background-color: lightgreen;
+  border-radius: 1px;
+}
+#greeting {
+text-align: centre;
+}
+
+#test {
+    width=50%;
+    }
+
+select {
+    background-color: #FFF0F5;
+}
+</style>
+<body id="bod">
+<header class="header">
+<div class="pos-f-t">
+  </div>
+  <nav class="navbar navbar-dark bg-light">
+      <a href=""><img src="/static/img.png" class="logo"></a>
+
+
+       <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-light p-4">
+            <ul class="nav list-inline ml-auto">
+                <li><a href="">Map</a> </li>
+                <li><a href="">My Stations</a> </li>
+            </ul>
+
+        </div>
+
+       </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+</div>
+</header>
+
+<div id="greeting">
+<br>
 {% if user.is_authenticated %}
-<p>Hello, {{user.email}} </p>
+<p>Hello, {{user.name}}!</p>
 {%else%}
 <p>Not logged in ((( this will be changed to not show any elements
     if user not logged in)) </p>
 {%endif%}
-<form name='user1' action='/mystations_auth' method='GET' onsubmit="return false">
+</div>
+ <!-- <form name='user1' action='/mystations_auth' method='GET' onsubmit="return false">
     <button class='btn' type='submit'>Submit</button>
-</form>
+</form> -->
 
 <div id="main" class="main-panel">
-    <div id="sel_container" class="container-fluid" >
-        <div id="select_stop"></div>
-        <div id="bus_dropdown"></div>
-        <div id="edit_stops"></div>
+    <div id="sel_container dropdown" class="container-fluid" >
+        <div style='display:inline;' id="select_stop"></div>
+        <div style='display:inline;' id="bus_dropdown"></div>
+        <div style='display:inline;' id="edit_stops"></div>
         <div id='del'>
         <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
             {% csrf_token %}
