@@ -14,7 +14,7 @@ function getStops2(){
                     done2()
                 }catch(err){
                 console.log(err)
-                document.getElementById('data').innerHTML = "<p>Error</p>"
+                document.getElementById('test').innerHTML = "<p>Error</p>"
                 }
             })
         }
@@ -46,7 +46,11 @@ function unpack(data){
                 });
             //console.log(newDiv)
             newDiv.setAttribute('data-tag', tags)
-            newDiv.setAttribute('class', "shadow p-3 mb-5 bg-body rounded")
+            newDiv.classList.add('bus-item')
+            newDiv.classList.add("shadow") //p-3 mb-5 bg-body rounded")
+            newDiv.classList.add("p-3")
+            newDiv.classList.add("bg-body")
+            newDiv.classList.add("rounded")
             var br = document.createElement("br");
             newDiv.appendChild(br);
             document.getElementById('test').append(newDiv)
@@ -67,6 +71,8 @@ function edit_stops3(stops){
     var txt = document.createTextNode("Delete Stop")
     label.appendChild(txt)
     document.getElementById("edit_stops").appendChild(label)
+   // var br = document.createElement("br");
+    //document.getElementById("edit_stops").appendChild(br);
 
     var disabled_op = document.createElement("option")
         var label = 'Pick a Stop'
@@ -104,6 +110,8 @@ function get_buses(buses){
     var txt = document.createTextNode("Select Bus Filter")
     label.appendChild(txt)
     document.getElementById("bus_dropdown").appendChild(label)
+   // var br = document.createElement("br");
+   // document.getElementById("bus_dropdown").appendChild(br);
 
 
     selectList.setAttribute('label', 'Select Bus Filter')
@@ -144,6 +152,9 @@ function sel_stops(stops){
     var txt = document.createTextNode("Select Stop Filter")
     label.appendChild(txt)
     document.getElementById("select_stop").appendChild(label)
+   // var br = document.createElement("br");
+   // document.getElementById("select_stop").appendChild(br);
+
 
     var disabled_op = document.createElement("option")
         var label = 'Pick a Stop'
