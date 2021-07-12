@@ -1,5 +1,7 @@
-{% load static %}
+
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en"></html>
 <head>
     <!-- local static files -->
@@ -138,6 +140,21 @@
 
     <input class="button button-glow button-rounded button-plain-flat" data-bs-toggle="collapse" href="#weather_detail_container" aria-expanded="false" aria-controls="weather_detail_container"
         id="weather" type="button" value="Weather" style="visibility: hidden;">
+
+    <div>
+        <form method="POST" action= "/users/" class="form-group">
+    {% csrf_token %}
+    {{ form1 }}
+        <button type="submit" class="'btn btn-success">Register</button>
+</form>
+
+<form action="/login/" method="POST">
+        {% csrf_token %}
+        {{ form2 }}
+     <button type="submit" name="" class="'btn btn-success">Login</button>
+    </form>
+
+    </div>
 </body>
 
 </html>
