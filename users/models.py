@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models import Count
 
 class MyUserManger(BaseUserManager):
+    """This is a custom manager class to create super users/admins. This manages the
+    MyUser class"""
     def create_user(self, email, username, password=None):
         if not email:
             raise ValueError('Email Required!')
@@ -34,6 +36,7 @@ class MyUserManger(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
+    """User class which is set as our django user"""
     id = models.AutoField(primary_key=True, auto_created=True)
     name = models.TextField(default="", max_length=50)
     email = models.EmailField(verbose_name='Email Address', max_length=70, unique=True,)
@@ -53,6 +56,7 @@ class MyUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+    #This class does not have extra permissions unless is admin
     def has_module_perms(self, perm, obj=None):
         return self.is_admin
 

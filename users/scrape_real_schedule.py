@@ -13,6 +13,16 @@ nowh = now[0:2]
 nowm = now[3:5]
 
 
+
+
+
+
+## WE NEED TO DELETE THIS FILE
+
+
+
+
+
 import csv
 from datetime import datetime
 

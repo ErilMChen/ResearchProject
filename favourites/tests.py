@@ -7,6 +7,9 @@ django.setup()
 import get_sched2 as schedule_return
 
 
+
+#UNIT TESTING
+
 from users.models import MyUser, my_stations
 
 class TestSchedule(unittest.TestCase):

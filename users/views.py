@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, get_user_model
 
 # Create your views here.
 def users(response):
+    """Allows users to create a profile"""
     if response.method == 'POST':
         form = UserForm(response.POST)
         user = form.save(commit=False)
@@ -21,6 +22,7 @@ def users(response):
 
 
 def login(response):
+    """Allows users to log in"""
     if response.method == "POST":
         postdata = response.POST.copy()
         email = postdata.get('email', '')
@@ -33,6 +35,7 @@ def login(response):
             print(e)
 
 def extra(response):
+    '''Render both forms for login and sign up on the index page'''
     form1 = UserForm()
     form2 = AuthForm()
     return (response, "map/index.html", {"form1": form1, "form2": form2})

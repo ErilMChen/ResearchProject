@@ -150,6 +150,12 @@ select {
 
 
 <script>
+// submit which user is currently logged in when page opens
+window.onload = getStops2()
+
+// this function gets the value of the delete stop container and sends
+// a hidden form with the value to django
+
 $('#edit_stops').on('change', function() {
   var x = $('#edit_stops').find(":selected").text();
   console.log(x)
@@ -167,6 +173,7 @@ $('#edit_stops').on('change', function() {
 </script>
 
 <script>
+// this function filters the divs by the bus and stop selector menu
 $('#bus_dropdown').on('change', function() {
   var x = $('#bus_dropdown').find(":selected").text();
   var y = $('#select_stop').find(":selected").text();
@@ -175,10 +182,15 @@ $('#bus_dropdown').on('change', function() {
     clear_filter()
     }
     else{
+
+    // check if both selectors are being used or just one (see get_filter function)
+    //returns either a stop, a bus or a stop and bus (depending on selectors)
     var fil = get_filter(x, y)
+    //create a regex varaible for matching
     var regex = new RegExp('\\b\\w*' + fil + '\\w*\\b');
 
     $('#test > div').hide().filter(function () {
+        //match the data tags (contain a stop and bus data)
         return regex.test($(this).data('tag'))
     }).show();
     }
@@ -187,11 +199,11 @@ $('#bus_dropdown').on('change', function() {
 
 
 </script>
+
 <script>
-window.onload = getStops2()
-</script>
-<script>
+// repeats the function above on the stop selector menu
 $('#select_stop').on('change', function() {
+
    var x = $('#bus_dropdown').find(":selected").text();
   var y = $('#select_stop').find(":selected").text();
 
@@ -209,6 +221,8 @@ $('#select_stop').on('change', function() {
   });
 
 function change()
+
+// this function inverts the colours on the page for dark mode
 //code adapted from https://stackoverflow.com/questions/4766201/javascript-invert-color-on-all-elements-of-a-page
 {
     let css = 'html {-webkit-filter: invert(100%);' +
@@ -237,6 +251,8 @@ function change()
   }
   }
 
+// this functiton is called when the selector menus are picked to see if it needs tto be filtered
+// by stop and bus or just stop or just bus
 function get_filter(bus, stop){
     console.log(bus, stop)
     if(bus == 'All' && stop == 'All'){

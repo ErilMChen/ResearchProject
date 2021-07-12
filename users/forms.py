@@ -5,6 +5,7 @@ from .models import MyUser
 #from django.contrib.auth.models import User
 
 class UserForm(UserCreationForm):
+    """This is the form used to create MyUsers"""
     email = forms.EmailField()
 
     class Meta:
@@ -12,6 +13,7 @@ class UserForm(UserCreationForm):
         fields = ["email", "password1"]
 
 class AuthForm(AuthenticationForm):
+    """This is the form used to log in MyUsers"""
     #email = forms.EmailField()
     class Meta:
         model = MyUser
