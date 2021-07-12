@@ -15,20 +15,15 @@ from datetime import datetime
 
 def difference(h1, m1, h2, m2):
     """This gets time difference between now and the time in the schedule to see if it is within the
-    next hour. Needs fixing"""
-    h1 =int(h1)
+    next hour"""
     h2 = int(h2)+1
-    if h1 >= h2:
-        if h1 == h2:
-            if m1 >= m2:
-                # convert into minutes
-                t1 = int(h1) * 60 + int(m1)
-                t2 = int(h2) * 60 + int(m2)
-                if (t1 == t2):
-                    return False
-                else:
-                    return True
-    if int(h2) + 1  == int(h1):
+
+    t1 = int(h1) * 60 + int(m1)
+    t2 = int(h2) * 60 + int(m2)
+    print(t1)
+    print(t2)
+    print(t2-t1)
+    if 0 < t1-t2 and t1-t2 <60:
         return True
     else:
         return False
@@ -185,4 +180,4 @@ def check_day(route):
     else:
         return False
 
-#get_times(['8220B123501'])
+get_times(['8240DB000231'])
