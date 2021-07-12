@@ -177,9 +177,11 @@ $('#edit_stops').on('change', function() {
 $('#bus_dropdown').on('change', function() {
   var x = $('#bus_dropdown').find(":selected").text();
   var y = $('#select_stop').find(":selected").text();
-  console.log(x)
+  console.log(x, y)
+
   if (x == 'All' && y=='All'){
     clear_filter()
+    return;
     }
     else{
 
@@ -196,8 +198,10 @@ $('#bus_dropdown').on('change', function() {
     }
   });
 
+function clear_filter(){
+    $('#test > div').show();
 
-
+}
 </script>
 
 <script>
@@ -206,7 +210,7 @@ $('#select_stop').on('change', function() {
 
    var x = $('#bus_dropdown').find(":selected").text();
   var y = $('#select_stop').find(":selected").text();
-
+    console.log(x, y)
   if (x == 'All' && y=='All'){
     clear_filter()
     }
