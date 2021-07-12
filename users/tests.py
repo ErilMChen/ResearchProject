@@ -6,6 +6,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from users.models import MyUser, my_stations
 
+
+#Unit testing users
+
 class MyUserTest(unittest.TestCase):
     def test_create(self):
         #clear the object from database before testing

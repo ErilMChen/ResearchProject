@@ -14,6 +14,8 @@ nowm = now[3:5]
 from datetime import datetime
 
 def difference(h1, m1, h2, m2):
+    """This gets time difference between now and the time in the schedule to see if it is within the
+    next hour. Needs fixing"""
     h1 =int(h1)
     h2 = int(h2)+1
     if h1 >= h2:
@@ -34,6 +36,8 @@ def difference(h1, m1, h2, m2):
 
 
 def get_times(stop_ids):
+    """This function checks the rows of the schedule and creates an array of the rows in the next hour.
+    It also calls the real time API data function and checks which rows need to be changed"""
     data = []
     for stop_id in stop_ids:
         there_are_buses = False
@@ -41,6 +45,7 @@ def get_times(stop_ids):
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
+        # if it doesnt exist in our schedule
         if not sched.exists():
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
@@ -48,6 +53,7 @@ def get_times(stop_ids):
             data.append(default)
             continue
         for row2 in sched:
+            #check if the trip in the row runs today (see check_day function)
             if check_day(row2['trip_id']) == True:
                 try:
                     #get the time from the row
@@ -67,6 +73,7 @@ def get_times(stop_ids):
                                 row2['dep_time'] = new_times[1]
                                 #data.append(row2)
                                 #continue
+                        #get the name of the stop and append to the row
                         name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
                         data1 = list(name)
                         stop_name = data1[0]['stop_name']
@@ -81,6 +88,7 @@ def get_times(stop_ids):
                 continue
 
         if there_are_buses == False:
+            #if theres no buses in this time, send empty dic
             name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
             data1 = list(name)
             stop_name = data1[0]['stop_name']
@@ -93,7 +101,10 @@ def get_times(stop_ids):
 
 
     if len(data) == 0:
+        #if theres no data
         return return_json(data, 'no buses')
+
+    # if there is data
     return return_json(data, 'parse')
 
 def return_json(data, command):
@@ -101,13 +112,14 @@ def return_json(data, command):
         list = [{"Route": 'None', "Bus": 'N/A', "Stop": 'No Buses Scheduled For Your Stops', "Seq": 'none'}]
 
     else:
+        #split the rows into dic
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
                  "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name']} for x in data]
     print(list)
     return json.dumps(list)
 
 def get_API(stop_id):
-
+    """This functioon checks the live API data for a given stop and returns an array of the needed data"""
     conn = connect(host=dbinfo.myhost, port=3306, user=dbinfo.myuser, password=dbinfo.mypasswd,
                    database=dbinfo.mydatabase,
                    charset="utf8")

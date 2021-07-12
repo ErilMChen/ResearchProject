@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import MyUser
 
 class UserAdmin(UserAdmin):
+    """This is a custom admin class that doesnt allow us to chnage the IDs of users"""
     ## pick how we want to see the views on the admin
     ordering = ('email',)
     list_display = ('email', 'is_staff', )

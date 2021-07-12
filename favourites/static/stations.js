@@ -2,6 +2,8 @@ var stops = []
 var buses = []
 
 function getStops2(){
+
+        // This function splits the json object returned from django
          fetch("show_favs", {
                 method:'GET'}).then(function(response) {
                     return response.json();
@@ -20,6 +22,8 @@ function getStops2(){
         }
 
 function unpack(data){
+    // this function takes a dictionary as input and creates a div with the data of the dictionary
+    // input {Route: xxx, Bus: xxxx etc...
         const newDiv = document.createElement("div");
         var tags = []
         Object.keys(data).forEach(k => {
@@ -35,16 +39,20 @@ function unpack(data){
 
             }
             if (k == 'Bus'){
+                // saving the buses in an array
                 buses.push(data[k])
+                // pushes to the array that is the data tag to the div
                 tags.push(data[k])
                 }
             if (k == 'stop' || k == 'Stop'){
+            //repeats same with the stop value
             stops.push(data[k])
             tags.push(data[k])
             }
 
                 });
             //console.log(newDiv)
+            // set classes and tags
             newDiv.setAttribute('data-tag', tags)
             newDiv.classList.add('bus-item')
             newDiv.classList.add("shadow") //p-3 mb-5 bg-body rounded")
@@ -58,11 +66,13 @@ function unpack(data){
 
 
 function done2(html){
+    // make drop down menus for sotp selection, bus selection and delete stop selection
     sel_stops(stops)
     get_buses(buses)
     edit_stops3(stops)
 }
 function edit_stops3(stops){
+    // get the unique stops from the stops array and create select menu
             let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
      var selectList = document.createElement("select");
     selectList.id = "myStopDelete";
@@ -102,6 +112,7 @@ function edit_stops3(stops){
 
 }
 function get_buses(buses){
+    // get the unique buses from the stops array and create select menu
     let unique = buses.filter((x, i, a) => a.indexOf(x) === i)
     var selectList = document.createElement("select");
     selectList.id = "mySelect";
@@ -144,6 +155,7 @@ function get_buses(buses){
 }
 
 function sel_stops(stops){
+    // get the unique stops from the stops array and create delete stops menu
     let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
      var selectList = document.createElement("select");
     selectList.id = "myStopSelect";

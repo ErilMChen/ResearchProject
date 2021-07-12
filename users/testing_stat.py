@@ -3,7 +3,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 
-
+##This is just a test file
 
 from users.models import my_stations, MyUser
 
