@@ -32,6 +32,15 @@ def RouteDirection(request):
 	data = json.dumps(data)
 	return HttpResponse(data)
 
+def AddPlan(request):
+	plan_name = request.GET.get("plan_name","")
+	start_stop = request.GET.get("start_stop","")
+	end_stop = request.GET.get("end_stop","")
+	date = request.GET.get("date","")
+	time = request.GET.get("time","")
+	
+
+
 def AddFavoriteStop(request):
 
 	stop = request.GET.get("stop_name","")
@@ -40,12 +49,6 @@ def AddFavoriteStop(request):
 	data1 = list(ret1)
 	data2 = list(ret2)
 
-	stop_name = data1[0]['stop_name']
-	print(stop_name)
-	route_nums = data1[0]['routes_serving'].split(',')
-	print(route_nums)
-	stop_id = data2[0]['stop_id']
-	print(stop_id)
 	if request.user.is_authenticated:
 		current_user = request.user
 		stop_name = data1[0]['stop_name']
@@ -55,13 +58,14 @@ def AddFavoriteStop(request):
 		stop_id = data2[0]['stop_id']
 		print(stop_id)
 		user_fav = my_stations(stop_id=stop_id, user=current_user)
+		user_fav.check_num()
 		user_fav.save()
 
 	else:
 		print('not logged in')
 		pass
 
-	return HttpResponse(data1)
+	# return HttpResponse(data1)
 
 def login(response):
     uv.login(response)
