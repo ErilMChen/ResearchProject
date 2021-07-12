@@ -20,9 +20,7 @@ def difference(h1, m1, h2, m2):
 
     t1 = int(h1) * 60 + int(m1)
     t2 = int(h2) * 60 + int(m2)
-    print(t1)
-    print(t2)
-    print(t2-t1)
+    #print(t2-t1)
     if 0 < t1-t2 and t1-t2 <60:
         return True
     else:
@@ -180,4 +178,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['8240DB000231'])
+#get_times(['8240DB000231'])
