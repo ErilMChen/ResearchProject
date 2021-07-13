@@ -48,18 +48,19 @@ display: inline;
 }
 
 .navbar
-{
+{   height:80px;
     box-shadow: 0 5px 10px #efefef;
     }
 .logo{
-    height:48px;
-    padding: 2px 10px
+    height:45px;
+    padding: 2px 0px
     }
 
 ul{
 float: right}
  li {
- padding: 10px;
+ padding: 8px;
+ padding-top: 0px
  float:right
   position: relative
 }
@@ -108,25 +109,16 @@ select {
 <div class="pos-f-t">
   </div>
   <nav class="navbar navbar-dark bg-light">
-      <a href=""><img src="/static/img.png" class="logo"></a>
+
+      <img class= "logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();" />
       <div>
-            <img class= "logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();" />
-      </div>
-
-
-       <div class="collapse" id="navbarToggleExternalContent">
-        <div class="bg-light p-4">
+          <div class="bg-light p-4">
             <ul class="nav list-inline ml-auto">
                 <li><a class= "button button-glow button-rounded button-primary button-pill" href="/map">Map</a> </li>
                 <li><a class="button button-glow button-rounded button-royal button-pill" href="">Profile</a> </li>
             </ul>
 
-        </div>
-
-       </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      </div>
   </nav>
 </div>
 </header>
