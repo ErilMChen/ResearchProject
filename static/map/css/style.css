@@ -178,3 +178,7 @@
     -webkit-transition-duration: .3s;
             transition-duration: .3s;
 }
+#id_name {
+    max-height: 20px;
+
+}
