@@ -28,6 +28,7 @@ urlpatterns = [
     path('test/', v_users.extra, name='test'),
     path('mystations/', f_views.stations, name='mystations'),
     path('mystations_auth/', f_views.check_auth, name='mystations_auth'),
-    path('mystations/show_favs', f_views.show_favs, name='show_favs/')
+    path('mystations/show_favs', f_views.show_favs, name='show_favs/'),
+    path('delete_my_stop/', f_views.delete_my_stop, name='/delete_my_stop/')
    #path('test/', a_views.LoginView.as_view(template_name='users/test.html'), name='test'),
 ]

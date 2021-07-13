@@ -42,9 +42,8 @@
                 zoom: 12,
                 mapTypeControl: false,
                 streetViewControl: false,
-                fullscreenControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_BOTTOM,
-                },
+                scaleControl:false,
+                fullscreenControl:false,
             };
             // google map initialization
             map = new google.maps.Map(document.getElementById("map"), mapProp);
@@ -79,7 +78,7 @@
 
 <body>
     <div id="container">
-        <div id="map" style="width:1540px;height:746px;"></div>
+        <div id="map" style="width:1520px;height:746px;"></div>
     </div>
 
     <div id="main_panel">
@@ -156,6 +155,13 @@
     <input class="button button-glow button-rounded button-plain-flat button-pill" data-bs-toggle="collapse"
         href="#weather_detail_container" aria-expanded="false" aria-controls="weather_detail_container" id="weather"
         type="button" value="Weather" style="visibility: hidden;">
+
+    <div id="personal" style="margin: 1%; visibility: hidden;" >
+        <form method="GET" action="/mystations">
+            <input class="button button-inverse button-glow button-pill" type="submit" value="Profile">
+        </form>
+    </div>
+
 
     <div>
 

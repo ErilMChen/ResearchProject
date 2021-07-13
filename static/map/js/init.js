@@ -18,6 +18,10 @@ function initControl(){
     var weather_detail_container = document.getElementById('weather_detail_container');
     weather_detail_container.index = 6;
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(weather_detail_container);
+
+    var personal_button = document.getElementById('personal');
+    personal_button.index = 7;
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(personal_button);
 }
 
 function initDateTime(){
@@ -79,7 +83,6 @@ function iniEventListener(){
     document.getElementById("weather").addEventListener("click", showWeatherWidget);
     document.getElementById("add_stop1").addEventListener("click", function(){ addStop("add_stop1");}); 
     document.getElementById("add_stop2").addEventListener("click", function(){ addStop("add_stop2");}); 
-
     document.getElementById("plan_panel").addEventListener("show.bs.collapse", function () {
         var search_panel = document.getElementById('search_panel');
         var collapse = bootstrap.Collapse.getInstance(search_panel);
@@ -113,7 +116,6 @@ function iniEventListener(){
     });
 }
 
-
 function initUserStatus(){
     fetch("status", {
         method:'GET'}).then(function(response) {
@@ -121,9 +123,10 @@ function initUserStatus(){
         })
     .then(function(userStatus) {
         if(userStatus == "true"){
-            console.log(userStatus)
+            
         }else{
-            console.log(userStatus)
+            var personal = document.getElementById('personal');
+            personal.style.display = "none";
         }
     });
 }
