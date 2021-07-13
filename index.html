@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+
+<html lang="en"></html>
+<head>
+    <!-- local static files -->
+    <link rel="stylesheet" href="{% static 'map/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'map/css/buttons.css' %}">
+    <script src="{% static 'map/js/init.js' %}"></script>
+    <script src="{% static 'map/js/main.js' %}"></script>
+    <script src="{% static 'map/js/route.js' %}"></script>
+    <script src="{% static 'map/js/plan.js' %}"></script>
+    <script src="{% static 'map/js/weather.js' %}"></script>
+    <script src="{% static 'map/js/favoritestop.js' %}"></script>
+
+    <!-- bootstrap files -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <title>Home</title>
+    <script>
+        // save from map operations
+        var map;
+        var directionsService;
+        var directionsRenderer;
+        // three arrays use for input validation (not done yet)
+        var dateArray = new Array();
+        var timeArray = new Array();
+        var busStopsArray = new Array();
+        // Map initialization
+        function initMap() {
+            var mapProp = {
+                // map coordinates
+                center: new google.maps.LatLng(53.3472, -6.2592),
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM,
+                },
+            };
+            // google map initialization
+            map = new google.maps.Map(document.getElementById("map"), mapProp);
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+
+            // time date option initialization
+            initDateTime();
+            // Bus stop option initialization
+            initBusStops();
+            // bing button with function
+            iniEventListener();
+            // load plan from local storage
+            loadPlanFromJson();
+            // set button on google map
+            initControl();
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHY3W-xvNE-42BipvMY_-lu4aKdnB5xn4&callback=initMap&libraries=&v=weekly" async>
+    </script>
+
+    <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 9,cityid: '2964574',appid: '86e6d9e6dddfc8dccd6899f2454e98c2',units: 'metric',containerid: 'openweathermap-widget-9',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
+<style>
+    .modal-content {
+        border-radius: 20px;
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="container-fluid" style="background-color: white;">
+        <div class="row">
+            <nav class="navbar navbar-expand">
+                <div class="col-md-2">
+                    <a class="navbar-brand my-auto" href="#">No Fuss Bus</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                </div>
+                <div class="col-md-8">                       
+                    <div class="collapse navbar-collapse" id="navbarsExample02">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#"><p class="h3">Home</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><p class="h3" style="color: aqua;">Info</p></a>
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 my-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Login/Register
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li>
+                                <!-- Button trigger register modal -->
+                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#register">
+                                    Register
+                                </button>
+                            </li>
+                            
+                            <li>
+                                <!-- Button trigger Login modal -->
+                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#login">
+                                    Login
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
+            
+            
+            
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div id="map" style="width:100%;height:90vh;"></div>
+    </div>
+
+    <div id = "main_panel" >
+        <div class="collapse" id="plan_panel">
+            <div class="">
+                <div id="plan_container" ></div>
+            </div>
+            <div >
+                <div id="plan_detail_container">
+                    <div class="route-title">ROUTE DETAIL</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapse" id="search_panel">
+            <div class="">
+            <form action="route/" name = "bus_stop" id="search_form">
+
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"  placeholder="From" />
+                        <input class="btn btn-outline-danger" id="add_stop1" type="button" value="STAR">
+                    </div>
+                <datalist id="start_stop"></datalist>
+                
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="floatingEnd" list="end_stop" name="end_stop" placeholder="To"/>
+                        <input class="btn btn-outline-danger" id="add_stop2" type="button" value="STAR">
+                    </div>
+                <datalist id="end_stop"></datalist>
+
+                    <div class="mb-3">
+                        <input class="form-control" id="floatingDate" list="date" name="date" placeholder="date"/>
+                    </div>
+                <datalist id="date"></datalist>
+                
+                    <div class="mb-3">
+                        <input class="form-control" id="floatingTime" list="time" name="time" placeholder="time"/>
+                    </div>
+                <datalist id="time"></datalist>        
+                
+                    <input class="button button-small button-rounded button-inverse" data-bs-toggle="collapse" href="#search_detail_panel" aria-expanded="false" aria-controls="search_detail_panel"
+                        id="submit" type="button" value="Submit" style="height: 3em; margin: 0.5em;">
+
+                    <input class="button button-small button-rounded button-caution" id="save" type="button" value="Add Plan" style="height: 3em; margin: 0.5em;">
+            </form>
+            </div>
+
+            <div >
+                <div id="detail_container">
+                    <div class="route-title">ROUTE DETAIL</div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="collapse" id="weather_detail_container" >
+        <div class="shadow p-3 mb-5 bg-body rounded" id="openweathermap-widget-9"></div>
+    </div>
+
+
+
+    <input class="button button-glow button-rounded button-primary button-pill" data-bs-toggle="collapse" href="#search_panel" aria-expanded="false" aria-controls="search_panel"
+        id="search" type="button" value="Search Route" style="visibility: hidden;">
+
+    <input class="button button-glow button-rounded button-royal button-pill" data-bs-toggle="collapse" href="#plan_panel" aria-expanded="false" aria-controls="plan_panel"
+        id="plan" type="button" value="My Plan" style="visibility: hidden;">
+
+    <input class="button button-glow button-rounded button-plain-flat" data-bs-toggle="collapse" href="#weather_detail_container" aria-expanded="false" aria-controls="weather_detail_container"
+        id="weather" type="button" value="Weather" style="visibility: hidden;">  
+    <div>
+        
+        
+  
+        <!-- Modal for register-->
+        <div class="modal fade" id="register" tabindex="-1" aria-labelledby="register" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Welcome</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3" class="form-group">
+                            <form method="POST" action= "/users/">
+                                {% csrf_token %}
+                                {{ form1|crispy }}
+                                <br>
+                                <button type="submit" class="'btn  btn-primary" style="border-radius: 10px;">Register</button>
+                            </form>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        <div class="modal fade" id="login" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/login/" method="POST">
+                            {% csrf_token %}
+                            {{ form2|crispy }}
+                            <br>
+                            <button type="submit" name="" class="'btn btn-primary" style="border-radius: 10px;">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
