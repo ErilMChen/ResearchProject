@@ -66,9 +66,7 @@
 
     <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 9,cityid: '2964574',appid: '86e6d9e6dddfc8dccd6899f2454e98c2',units: 'metric',containerid: 'openweathermap-widget-9',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
 <style>
-    .modal-content {
-        border-radius: 20px;
-    }
+
 </style>
 </head>
 
@@ -147,24 +145,29 @@
             <form action="route/" name = "bus_stop" id="search_form">
 
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"  placeholder="From" />
+                        <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"
+                            placeholder="From*" />
                         <input class="btn btn-outline-danger" id="add_stop1" type="button" value="STAR">
                     </div>
                 <datalist id="start_stop"></datalist>
 
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingEnd" list="end_stop" name="end_stop" placeholder="To"/>
+                        <input class="form-control" id="floatingEnd" list="end_stop" name="end_stop" placeholder="To*" />
                         <input class="btn btn-outline-danger" id="add_stop2" type="button" value="STAR">
                     </div>
                 <datalist id="end_stop"></datalist>
 
-                    <div class="mb-3">
-                        <input class="form-control" id="floatingDate" list="date" name="date" placeholder="date"/>
+                    <div class="input-group">
+                        <input class="form-control" id="floatingDate" list="date" name="date" placeholder="Date*" />
+                        <input class="form-control" id="floatingTime" list="time" name="time" placeholder="Time*" />
                     </div>
                 <datalist id="date"></datalist>
+                    <datalist id="time"></datalist>
+
+                    <div class="mb-3"></div>
 
                     <div class="mb-3">
-                        <input class="form-control" id="floatingTime" list="time" name="time" placeholder="time"/>
+                        <input class="form-control" id="floatingTime" list="plan_name" name="plan_name" placeholder="plan name" />
                     </div>
                 <datalist id="time"></datalist>        
 
