@@ -32,6 +32,13 @@ def RouteDirection(request):
 	data = json.dumps(data)
 	return HttpResponse(data)
 
+def GetUserStatus(request):
+	if request.user.is_authenticated:
+		res = json.dumps("true")
+	else:
+		res = json.dumps("false")
+	return HttpResponse(res)
+
 def AddPlan(request):
 	plan_name = request.GET.get("plan_name","")
 	start_stop = request.GET.get("start_stop","")
@@ -39,7 +46,6 @@ def AddPlan(request):
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
 	
-
 
 def AddFavoriteStop(request):
 
@@ -60,12 +66,15 @@ def AddFavoriteStop(request):
 		user_fav = my_stations(stop_id=stop_id, user=current_user)
 		user_fav.check_num()
 		user_fav.save()
+		print('success add')
+		res = json.dumps("true")
 
 	else:
 		print('not logged in')
+		res = json.dumps("false")
 		pass
-
-	# return HttpResponse(data1)
+	
+	return HttpResponse(res)
 
 def login(response):
     uv.login(response)

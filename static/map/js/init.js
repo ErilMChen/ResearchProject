@@ -112,3 +112,18 @@ function iniEventListener(){
         if (collapse) collapse.hide()
     });
 }
+
+
+function initUserStatus(){
+    fetch("status", {
+        method:'GET'}).then(function(response) {
+            return response.json();
+        })
+    .then(function(userStatus) {
+        if(userStatus == "true"){
+            console.log(userStatus)
+        }else{
+            console.log(userStatus)
+        }
+    });
+}

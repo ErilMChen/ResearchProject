@@ -8,4 +8,5 @@ urlpatterns = [
     path('route/', views.RouteDirection, name="routedirection"),
     path('add/', views.AddFavoriteStop, name="addbusstop"),
     path('plan/', views.AddPlan, name="addplan"),
+    path('status', views.GetUserStatus, name="userstatus"),
 ]

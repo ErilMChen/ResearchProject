@@ -61,6 +61,8 @@
             loadPlanFromJson();
             // set button on google map
             initControl();
+            // set log in/log out button 
+            initUserStatus();
         }
     </script>
 
@@ -151,7 +153,7 @@
         href="#plan_panel" aria-expanded="false" aria-controls="plan_panel" id="plan" type="button" value="My Plan"
         style="visibility: hidden;">
 
-    <input class="button button-glow button-rounded button-plain-flat" data-bs-toggle="collapse"
+    <input class="button button-glow button-rounded button-plain-flat button-pill" data-bs-toggle="collapse"
         href="#weather_detail_container" aria-expanded="false" aria-controls="weather_detail_container" id="weather"
         type="button" value="Weather" style="visibility: hidden;">
 
