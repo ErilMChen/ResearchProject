@@ -18,6 +18,10 @@ function initControl(){
     var weather_detail_container = document.getElementById('weather_detail_container');
     weather_detail_container.index = 6;
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(weather_detail_container);
+
+        var personal_button = document.getElementById('personal');
+    personal_button.index = 7;
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(personal_button);
 }
 
 function initDateTime(){
@@ -110,5 +114,19 @@ function iniEventListener(){
         var search_detail_panel = document.getElementById('search_detail_panel');
         var collapse = bootstrap.Collapse.getInstance(search_detail_panel);
         if (collapse) collapse.hide()
+    });
+}
+function initUserStatus(){
+    fetch("status", {
+        method:'GET'}).then(function(response) {
+            return response.json();
+        })
+    .then(function(userStatus) {
+        if(userStatus == "true"){
+
+        }else{
+            var personal = document.getElementById('personal');
+            personal.style.display = "none";
+        }
     });
 }

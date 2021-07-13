@@ -34,6 +34,20 @@ def RouteDirection(request):
 	data = json.dumps(data)
 	return HttpResponse(data)
 
+def GetUserStatus(request):
+	if request.user.is_authenticated:
+		res = json.dumps("true")
+	else:
+		res = json.dumps("false")
+	return HttpResponse(res)
+
+def AddPlan(request):
+	plan_name = request.GET.get("plan_name","")
+	start_stop = request.GET.get("start_stop","")
+	end_stop = request.GET.get("end_stop","")
+	date = request.GET.get("date","")
+	time = request.GET.get("time","")
+
 def AddFavoriteStop(request):
 
 	stop = request.GET.get("stop_name","")
