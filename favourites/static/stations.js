@@ -79,6 +79,7 @@ function edit_stops3(stops){
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
     var txt = document.createTextNode("Delete Stop: ")
+    label.classList.add('my_label')
     label.appendChild(txt)
     document.getElementById("edit_stops").appendChild(label)
    // var br = document.createElement("br");
@@ -108,6 +109,7 @@ function edit_stops3(stops){
         selectList.appendChild(option)
         }
         console.log(selectList)
+         selectList.classList.add('mb-3')
         document.getElementById("edit_stops").appendChild(selectList)
 
 }
@@ -117,8 +119,10 @@ function get_buses(buses){
     var selectList = document.createElement("select");
     selectList.id = "mySelect";
     var label = document.createElement('label');
+
     label.setAttribute('for', 'buses')
     var txt = document.createTextNode("Select Bus Filter: ")
+    label.classList.add('my_label')
     label.appendChild(txt)
     document.getElementById("bus_dropdown").appendChild(label)
    // var br = document.createElement("br");
@@ -161,6 +165,7 @@ function sel_stops(stops){
     selectList.id = "myStopSelect";
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
+      label.classList.add('my_label')
     var txt = document.createTextNode("Select Stop Filter: ")
     label.appendChild(txt)
     document.getElementById("select_stop").appendChild(label)
@@ -185,6 +190,8 @@ function sel_stops(stops){
         option.name = unique[i]
         option.class = 'active'
         option.setAttribute("value", unique[i])
+        option.classList.add('dropdown-item')
+        option.classList.add('active')
 
         var optionText = document.createTextNode(unique[i]);
 
