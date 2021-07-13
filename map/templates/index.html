@@ -13,6 +13,7 @@
     <script src="{% static 'map/js/plan.js' %}"></script>
     <script src="{% static 'map/js/weather.js' %}"></script>
     <script src="{% static 'map/js/favoritestop.js' %}"></script>
+    <script src="{% static 'map/js/updates.js' %}"></script>
 
     <!-- bootstrap files -->
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -155,6 +156,17 @@
     </form>
 
     </div>
+
+<div id = 'twitter_div' style="height: 30%; width: 30%">
+    <a class="twitter-timeline"
+      href="https://twitter.com/dublinbusnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+      data-tweet-limit="10">
+    Tweets by @dublinbusnews</a>
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+<div id="traffic_updates">
+    {{ weather_aa_road_report.id }}
+</div>
 </body>
 
 </html>

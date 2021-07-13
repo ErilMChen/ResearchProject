@@ -7,6 +7,8 @@ import json
 from users.models import my_stations
 import users.views as uv
 import users.forms as au
+import weather.models as wm
+from django.core import serializers
 
 # Create your views here.
 def index(request):
@@ -71,3 +73,10 @@ def users(response):
 
 def extra(response):
     uv.extra(response)
+
+
+def get_live_updates(response):
+	x = wm.AA_Road_Report.objects.all()
+	road_updates = serializers.serialize("json", wm.AA_Road_Report.objects.all())
+	print(road_updates)
+	return HttpResponse(road_updates, "application/json")
