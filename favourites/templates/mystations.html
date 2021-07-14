@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'stations/css/stat_style.css' %}">
     <link rel="stylesheet" href="{% static 'map/css/buttons.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,94 +17,6 @@
     <script src="/static/stations.js"></script>
 
 </head>
-<style>
-*{
-    margin: 0;
-    padding: 0;
-    }
-
-p {
-    text-align: center;
-    color: #FFFACD;
-    }
-.bus-item {
-    text-align: center;
-    background-color: #FFFACD;
-    width: 100%;
-    text-align: center;
-     -webkit-box-shadow:0 0 15px #ffffff;
-    -moz-box-shadow: 0 0 15px #ffffff;
-    box-shadow:0 0 15px #ffffff;
-    }
- #bod {
-    background-color: #baf1f7;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
- }
-
-.selects {
-display: inline;
-}
-.my_label {
-    color: #4284f5;
-}
-
-.navbar
-{   height:80px;
-    box-shadow: 0 5px 10px #efefef;
-    }
-.logo{
-    height:45px;
-    padding: 2px 0px
-    }
-
-ul{
-float: right}
- li {
- padding: 8px;
- padding-top: 0px
- float:right
-  position: relative
-}
-.navbar-toggler-icon{
-background-color: #baf1f7;
-float: centre;
-}
-.navbar-toggler {
-float: right
-}
-.navbar-toggle .navbar-toggler-icon {
-  display: fixed;
-  width: 22px;
-  height: 2px;
-  border: 0;
-  background-color: lightgreen;
-  border-radius: 1px;
-}
-#greeting {
-text-align: centre;
-}
-
-select {
-    background-color: #FFF0F5;
-
-     -webkit-box-shadow:0 0 15px #ffffff;
-    -moz-box-shadow: 0 0 15px #ffffff;
-    box-shadow:0 0 15px #ffffff;
-}
-
-#test {
-    position: relative;
-    top: 50%;
-    left: 25%;
-    width: 50%;
-            }
-
-#main {
-    position: relative;
-    top: 50%;
-    left: 15%;
-}
-</style>
 <body id="bod">
 <header class="header">
 <div class="pos-f-t">
