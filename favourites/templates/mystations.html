@@ -28,7 +28,7 @@
           <div class="bg-light p-4">
             <ul class="nav list-inline ml-auto">
                 <li><a class= "button button-glow button-rounded button-primary button-pill" href="/map">Map</a> </li>
-                <li><a class="button button-glow button-rounded button-royal button-pill" href="">Profile</a> </li>
+                <li><a class="button button-glow button-rounded button-royal button-pill" href="">Refresh Data</a> </li>
             </ul>
 
       </div>
@@ -39,7 +39,8 @@
 <div id="greeting">
 <br>
 {% if user.is_authenticated %}
-<p>Hello, {{user.name}}!</p>
+<h4>Hello, {{user.name}}!</h4>
+    <br>
 {%else%}
 <p>Not logged in ((( this will be changed to not show any elements
     if user not logged in)) </p>
