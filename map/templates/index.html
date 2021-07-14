@@ -73,7 +73,6 @@
 </head>
 
 <body>
-
     <div class="container-fluid" style="background-color: white;">
         <div class="row">
             <nav class="navbar navbar-expand">
@@ -124,8 +123,17 @@
 
         </div>
     </div>
-
-
+    <!-- KAI TO STYLE PROPERLY :) -->
+    <div style="" id="messages_div">
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        <li><button onclick="clear_messages()">OK</button></li>
+        </ul>
+        {% endif %}
+        </div>
     <div class="container-fluid">
         <div id="map" style="width:100%;height:90vh;"></div>
     </div>

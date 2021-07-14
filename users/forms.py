@@ -1,5 +1,6 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.exceptions import ValidationError
 from django import forms
 from .models import MyUser
 
@@ -14,9 +15,19 @@ class UserForm(UserCreationForm):
         model = MyUser
         fields = ["email", "name", "password1"]
 
+
 class AuthForm(AuthenticationForm):
     """This is the form used to log in MyUsers"""
     #email = forms.EmailField()
     class Meta:
         model = MyUser
         fields = ['email', 'password']
+
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        if MyUser.objects.filter(email=email).count > 0:
+            return email
+        else:
+            raise forms.ValidationError('No user with this email')
+
+

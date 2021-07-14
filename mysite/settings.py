@@ -159,7 +159,7 @@ CRONJOBS = [
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
+LOGIN_URL= '/map'
 LOGIN_REDIRECT_URL= '/map'
 AUTH_USER_MODEL = 'users.MyUser'
 AUTHENTICATION_BACKENDS = (
