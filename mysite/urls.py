@@ -20,15 +20,19 @@ from django.contrib.auth import views as a_views
 from users import views as v_users
 from favourites import views as f_views
 from map import views as m_views
+from users.forms import UserForm, AuthForm
+
+form1 = UserForm()
+form2 = AuthForm()
 
 urlpatterns = [
     path('map/', include('map.urls')),
     path('admin/', admin.site.urls),
     path('users/', v_users.users, name='users'),
-    #path('login/', a_views.LoginView.as_view(template_name='mystations.html'),name='login'),
-    path('login/', v_users.login, name='login'),
+    path('login/', a_views.LoginView.as_view(template_name='index.html', extra_context={"form1": form1, "form2": form2} ), name='index'),
+    #path('login/', v_users.login, name='login'),
     path('login/', v_users.login_failed, name='login'),
-    path('test/', v_users.extra, name='test'),
+    #path('test/', v_users.extra, name='test'),
     path('mystations/', f_views.stations, name='mystations'),
     path('mystations_auth/', f_views.check_auth, name='mystations_auth'),
     path('mystations/show_favs', f_views.show_favs, name='show_favs/'),

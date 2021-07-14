@@ -36,7 +36,16 @@
   </nav>
 </div>
 </header>
-
+ <div style="" id="messages_div">
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        <li><button onclick="clear_messages()">OK</button></li>
+        </ul>
+        {% endif %}
+        </div>
 <div id="greeting">
 <br>
 {% if user.is_authenticated %}

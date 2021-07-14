@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib import messages
 from django.conf import settings
-from django.contrib.auth import login as LOG, authenticate
+from django.contrib.auth import login, authenticate
 from .forms import UserForm, AuthForm
 import django.http.request as request
 from django.contrib.auth import authenticate, get_user_model
@@ -37,16 +37,18 @@ def users(response):
 def login(response):
     """Allows users to log in"""
     if response.method == "POST":
-        form = AuthForm(response.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+        postdata = response.POST.copy()
+        email = postdata.get('email', '')
+        password = postdata.get('password', '')
+        try:
+            print('trying to auth')
             user = authenticate(email=email, password=password)
-            #LOG(request, user)
-            if user is not None:  # Verify form's content existence
-                LOG(request, user)
-                return redirect("/map")
-    return redirect('/map')
+            print('trying to login')
+            login(request, user)
+            return redirect("/test")
+        except Exception as e:
+            print(e)
+    return redirect("/map")
 
 def extra(response):
     '''Render both forms for login and sign up on the index page'''

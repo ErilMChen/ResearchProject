@@ -1,6 +1,7 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.views import LoginView
 from django import forms
 from .models import MyUser
 
@@ -19,15 +20,18 @@ class UserForm(UserCreationForm):
 class AuthForm(AuthenticationForm):
     """This is the form used to log in MyUsers"""
     #email = forms.EmailField()
+    error_messages = {
+        'invalid_login': (
+            "Please enter a correct %(username)s and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        'inactive': ("This account is inactive."),
+    }
     class Meta:
         model = MyUser
         fields = ['email', 'password']
 
-    def clean_email(self, *args, **kwargs):
-        email = self.cleaned_data.get('email')
-        if MyUser.objects.filter(email=email).count > 0:
-            return email
-        else:
-            raise forms.ValidationError('No user with this email')
+class MyLoginView(LoginView):
+    authentication_form = AuthForm
 
 
