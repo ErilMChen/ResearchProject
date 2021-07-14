@@ -42,7 +42,7 @@ def get_times(stop_ids):
         if not sched.exists():
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': 'N/A'}
+                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
             continue
         for row2 in sched:
@@ -107,7 +107,7 @@ def return_json(data, command):
     else:
         #split the rows into dic
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
-                 "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name']} for x in data]
+                 "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name'].split(",")[0]} for x in data]
     print(list)
     return json.dumps(list)
 

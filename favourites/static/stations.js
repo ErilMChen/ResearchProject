@@ -44,7 +44,7 @@ function unpack(data){
                 // pushes to the array that is the data tag to the div
                 tags.push(data[k])
                 }
-            if (k == 'stop' || k == 'Stop'){
+            if (k == 'Name' || k == 'name'){
             //repeats same with the stop value
             stops.push(data[k])
             tags.push(data[k])
