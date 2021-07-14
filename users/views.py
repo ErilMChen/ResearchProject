@@ -5,6 +5,8 @@ from .forms import UserForm, AuthForm
 import django.http.request as request
 from django.contrib.auth import authenticate, get_user_model
 #from .models import MyUser
+from django.contrib.auth import logout
+from map import views as m_views
 
 # Create your views here.
 def users(response):
@@ -39,3 +41,8 @@ def extra(response):
     form1 = UserForm()
     form2 = AuthForm()
     return (response, "map/index.html", {"form1": form1, "form2": form2})
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect("/map")

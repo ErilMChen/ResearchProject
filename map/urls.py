@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from users import views as UV
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('add/', views.AddFavoriteStop, name="routedirection"),
     path('plan/', views.AddPlan, name="addplan"),
     path('status', views.GetUserStatus, name="userstatus"),
+
 ]

@@ -10,6 +10,7 @@ import users.forms as au
 import weather.models as wm
 from django.core import serializers
 
+
 # Create your views here.
 def index(request):
 	form1 = au.UserForm()

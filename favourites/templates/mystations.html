@@ -27,6 +27,7 @@
       <div>
           <div class="bg-light p-4">
             <ul class="nav list-inline ml-auto">
+                <li><button class= "button button-glow button-rounded button-royal button-pill" onclick="logOut()">Logout</button></li>
                 <li><a class= "button button-glow button-rounded button-primary button-pill" href="/map">Map</a> </li>
                 <li><a class="button button-glow button-rounded button-royal button-pill" href="">Refresh Data</a> </li>
             </ul>
@@ -65,15 +66,15 @@
 </div>
 
 <div id="test"></div>
+
+<form id='logout' method="POST" action="/logout/" class="form-group">
+            {% csrf_token %}
+        </form>
 </body>
 
 
 <script>
-// submit which user is currently logged in when page opens
 window.onload = getStops2()
-
-// this function gets the value of the delete stop container and sends
-// a hidden form with the value to django
 
 $('#edit_stops').on('change', function() {
   var x = $('#edit_stops').find(":selected").text();
@@ -90,7 +91,12 @@ $('#edit_stops').on('change', function() {
 
 
 </script>
-
+<script>
+function logOut(){
+    console.log('here')
+    document.getElementById("logout").submit();
+    }
+</script>
 <script>
 // this function filters the divs by the bus and stop selector menu
 $('#bus_dropdown').on('change', function() {
