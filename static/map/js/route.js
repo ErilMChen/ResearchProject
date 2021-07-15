@@ -129,7 +129,7 @@ function showRoutedetail(response, element){
     var target = document.createElement("div");
     setRouteDetailDiv(target);
     element.appendChild(target);
-    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minnuites";
+    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minites";
     writeLine(text, target);
     for (var i = 0; i< locations.length; i++){
         var target = document.createElement("div");
