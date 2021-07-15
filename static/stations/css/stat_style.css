@@ -3,13 +3,13 @@
     padding: 0;
     }
 
-p {
+h4 {
     text-align: center;
-    color: #FFFACD;
+    color: #FFCC00;
     }
 .bus-item {
     text-align: center;
-    background-color: #FFFACD;
+    background-color: #FFCC00;
     width: 100%;
     text-align: center;
      -webkit-box-shadow:0 0 15px #ffffff;
@@ -17,7 +17,7 @@ p {
     box-shadow:0 0 15px #ffffff;
     }
  #bod {
-    background-color: #baf1f7;
+    background-color: #25B5F1;
     font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
  }
 
@@ -45,21 +45,7 @@ float: right}
  float:right
   position: relative
 }
-.navbar-toggler-icon{
-background-color: #baf1f7;
-float: centre;
-}
-.navbar-toggler {
-float: right
-}
-.navbar-toggle .navbar-toggler-icon {
-  display: fixed;
-  width: 22px;
-  height: 2px;
-  border: 0;
-  background-color: lightgreen;
-  border-radius: 1px;
-}
+
 #greeting {
 text-align: centre;
 }

@@ -93,5 +93,5 @@ def extra(response):
 def get_live_updates(response):
 	x = wm.AA_Road_Report.objects.all()
 	road_updates = serializers.serialize("json", wm.AA_Road_Report.objects.all())
-	print(road_updates)
+	#print(road_updates)
 	return HttpResponse(road_updates, "application/json")

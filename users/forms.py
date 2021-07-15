@@ -20,13 +20,6 @@ class UserForm(UserCreationForm):
 class AuthForm(AuthenticationForm):
     """This is the form used to log in MyUsers"""
     #email = forms.EmailField()
-    error_messages = {
-        'invalid_login': (
-            "Please enter a correct %(username)s and password. Note that both "
-            "fields may be case-sensitive."
-        ),
-        'inactive': ("This account is inactive."),
-    }
     class Meta:
         model = MyUser
         fields = ['email', 'password']

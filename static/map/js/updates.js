@@ -47,9 +47,15 @@ function unpack(data){
             var br = document.createElement("br")
             newDiv.appendChild(br);
             document.getElementById('traffic_updates').append(newDiv)
+            document.getElementById('traffic_updates').append(br)
         }
 
 function see_on_map(vals){
     // Meng google map co-ordinates are the vals here
     console.log(vals)
     }
+
+
+function clear_messages(){
+    document.getElementById('messages_div').style.display = 'none';
+}
