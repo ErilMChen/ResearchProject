@@ -42,12 +42,39 @@ def GetUserStatus(request):
 		res = json.dumps("false")
 	return HttpResponse(res)
 
+# save plan into database 
 def AddPlan(request):
 	plan_name = request.GET.get("plan_name","")
 	start_stop = request.GET.get("start_stop","")
 	end_stop = request.GET.get("end_stop","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
+
+	print(plan_name + start_stop + end_stop + date + time)
+
+	if request.user.is_authenticated:
+		res = json.dumps("save true")
+		# add code here to import data 
+	else:
+		res = json.dumps("save false")
+	return HttpResponse(res)	
+
+# delete plan from database 
+def DeletePlan(request):
+	plan_name = request.GET.get("plan_name","")
+	start_stop = request.GET.get("start_stop","")
+	end_stop = request.GET.get("end_stop","")
+	date = request.GET.get("date","")
+	time = request.GET.get("time","")
+
+	print(plan_name + start_stop + end_stop + date + time)
+
+	if request.user.is_authenticated:
+		res = json.dumps("delete true")
+		# add code here to remove plan data from database 
+	else:
+		res = json.dumps("delete false")
+	return HttpResponse(res)
 
 def AddFavoriteStop(request):
 

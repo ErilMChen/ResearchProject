@@ -5,8 +5,9 @@ function saveBusRoute(){
     var end = document.forms["bus_stop"]["end_stop"].value;
     var date = document.forms["bus_stop"]["date"].value;
     var time = document.forms["bus_stop"]["time"].value;
+    var plan_name = document.forms["bus_stop"]["plan_name"].value;
     // creat url which use fro send request to django server
-    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time;
+    let url = 'addplan/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name;
     fetch(url, {
         method:'GET'}).then(function(response) {
             // read data from django server and prase to json
@@ -21,6 +22,7 @@ function savePlanToJson(){
     var end = document.forms["bus_stop"]["end_stop"].value;
     var date = document.forms["bus_stop"]["date"].value;
     var time = document.forms["bus_stop"]["time"].value;
+    var plan_name = document.forms["bus_stop"]["plan_name"].value;
 
     // form validation
     if(busStopsArray.includes(start) == false){
@@ -43,12 +45,13 @@ function savePlanToJson(){
 
     // creat url which use fro send request to django server
     // the url will be the key used in local storage
-    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time;
+    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name;
     var locations = {
         startStop :  start,
         endStop : end,
         date : date,
-        time : time
+        time : time,
+        name : plan_name,
     }
     str = JSON.stringify(locations);
     // key is url, value is location information
@@ -81,7 +84,8 @@ function loadPlanFromJson(){
         setPlanButton(container);
         // bind button with function
         container.addEventListener("click", function(){ showPlan(url);}); 
-        // write route infromation on buuton       
+        // write route infromation on buuton      
+        writeLine("name: "+ locations.name, container); 
         writeLine("start stop: "+ locations.startStop, container);
         writeLine("end stop: "+ locations.endStop, container);
         writeLine("date: "+ locations.date, container);
@@ -123,8 +127,22 @@ function setDeleteButton(element){
 }
 
 function deletePlan(url){
+    // remove item from database
+    var url = localStorage.key(url);
+    // get value by using key
+    var str=localStorage.getItem(url); 
+    var locations=JSON.parse(str);
+    let url2 = 'removeplan/'+'?start_stop='+locations.startStop+'&end_stop='+locations.endStop +'&date='+locations.date +'&time='+locations.time +'&plan_name=' + locations.name;
+    fetch(url2, {
+        method:'GET'}).then(function(response) {
+            // read data from django server and prase to json
+            return response.json();
+    });
+
     // remove item from local storage
     localStorage.removeItem(url);
+
+
     // clean plan pannel and reload
     document.getElementById("plan_container").innerHTML=""
     document.getElementById("plan_detail_container").innerHTML=""

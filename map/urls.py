@@ -9,7 +9,7 @@ urlpatterns = [
     path('busstation', views.BusStation, name='busstation'),
     path('route/', views.RouteDirection, name="routedirection"),
     path('add/', views.AddFavoriteStop, name="routedirection"),
-    path('plan/', views.AddPlan, name="addplan"),
+    path('addplan/', views.AddPlan, name="addplan"),
+    path('removeplan/', views.DeletePlan, name="removeplan"),
     path('status', views.GetUserStatus, name="userstatus"),
-
 ]

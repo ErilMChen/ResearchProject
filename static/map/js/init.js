@@ -77,7 +77,7 @@ function initBusStops(){
 function iniEventListener(){
     // bind button with function
     document.getElementById("submit").addEventListener("click", markBusRoute);
-    document.getElementById("save").addEventListener("click", savePlanToJson);
+    document.getElementById("save").addEventListener("click", saveBusRoute);
     document.getElementById("plan").addEventListener("click", showPlanPage);
     document.getElementById("search").addEventListener("click", showSearchPage);
     document.getElementById("weather").addEventListener("click", showWeatherWidget);
