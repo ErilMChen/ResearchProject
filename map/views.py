@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import *
 import json
-from users.models import my_stations
+from users.models import my_stations, plans
 import users.views as uv
 import users.forms as au
 import weather.models as wm
@@ -50,11 +50,16 @@ def AddPlan(request):
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
 
-	print(plan_name + start_stop + end_stop + date + time)
 
 	if request.user.is_authenticated:
 		res = json.dumps("save true")
-		# add code here to import data 
+		current_user = request.user
+		user_plan = plans(plan_name=plan_name, start_stop=start_stop,
+						  end_stop=end_stop, date=date, time=time, user=current_user)
+		user_plan.check_num_plans()
+		user_plan.save()
+		print('success')
+
 	else:
 		res = json.dumps("save false")
 	return HttpResponse(res)	
@@ -71,7 +76,10 @@ def DeletePlan(request):
 
 	if request.user.is_authenticated:
 		res = json.dumps("delete true")
-		# add code here to remove plan data from database 
+		current_user = request.user
+		plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
+							 end_stop=end_stop, date=date, time=time, user=current_user).delete()
+		print('delete success')
 	else:
 		res = json.dumps("delete false")
 	return HttpResponse(res)
@@ -85,20 +93,16 @@ def AddFavoriteStop(request):
 	data2 = list(ret2)
 
 	stop_name = data1[0]['stop_name']
-	print(stop_name)
 	route_nums = data1[0]['routes_serving'].split(',')
-	print(route_nums)
 	stop_id = data2[0]['stop_id']
-	print(stop_id)
 	if request.user.is_authenticated:
 		current_user = request.user
+		print('user id', current_user.id)
 		stop_name = data1[0]['stop_name']
-		print(stop_name)
 		route_nums = data1[0]['routes_serving'].split(',')
-		print(route_nums)
 		stop_id = data2[0]['stop_id']
-		print(stop_id)
 		user_fav = my_stations(stop_id=stop_id, user=current_user)
+		user_fav.check_num()
 		user_fav.save()
 
 	else:

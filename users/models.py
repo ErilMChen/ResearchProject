@@ -63,18 +63,28 @@ class MyUser(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
-class my_plans(models.Model):
+
+class plans(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    plan_name = models.CharField(max_length=50)
     start_stop = models.CharField(max_length=50)
     end_stop = models.CharField(max_length=50)
-    latitude1 = models.FloatField()
-    longitude1 = models.FloatField()
-    latitude2 = models.FloatField()
-    longitude2 = models.FloatField()
-    time = models.DateTimeField()
+    date = models.CharField(max_length=50)
+    time = models.CharField(max_length=50)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.name + ": " + self.start_stop + self.end_stop + self.time
+
+    def check_num_plans(self):
+        id = self.user.id
+        '''This function does not allow the user to have more than 5 plans saved.
+        It deletes by the process of last in first out'''
+        val = plans.objects.filter(user=self.user).count()
+        if val > 5:
+            all_ids = plans.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+            plans.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
+
 
 class my_stations(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
@@ -82,9 +92,10 @@ class my_stations(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     def check_num(self):
+        id = self.user.id
         '''This function does not allow the user to have more than 5 stations saved.
-        It deletes by the process of first in first out'''
-        val = my_stations.objects.filter(user=self.user).count()
+        It deletes by the process of last in first out'''
+        val = my_stations.objects.filter(user_id=id).count()
         if val > 5:
-            all_ids = my_stations.objects.filter(user=self.user).values_list('id', flat=True)[1:4]
-            my_stations.objects.filter(user=self.user).exclude(pk__in=list(all_ids)).delete()
+            all_ids = my_stations.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+            my_stations.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
