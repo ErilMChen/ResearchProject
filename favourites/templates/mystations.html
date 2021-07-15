@@ -19,57 +19,52 @@
 </head>
 <body id="bod">
 <header class="header">
-<div class="pos-f-t">
-  </div>
-  <nav class="navbar navbar-dark bg-light">
+    <div class="pos-f-t">
+    </div>
+    <nav class="navbar navbar-dark bg-light">
 
-      <img class= "logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();" />
-      <div>
-          <div class="bg-light p-4">
-            <ul class="nav list-inline ml-auto">
-                <li><button class= "button button-glow button-rounded button-royal button-pill" onclick="logOut()">Logout</button></li>
-                <li><a class= "button button-glow button-rounded button-primary button-pill" href="/map">Map</a> </li>
-                <li><a class="button button-glow button-rounded button-royal button-pill" href="">Refresh Data</a> </li>
-            </ul>
+        <img class="logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();"/>
+        <div>
+            <div class="bg-light p-4">
+                <ul class="nav list-inline ml-auto">
+                    <li>
+                        <button class="button button-glow button-rounded button-royal button-pill" onclick="logOut()">
+                            Logout
+                        </button>
+                    </li>
+                    <li><a class="button button-glow button-rounded button-primary button-pill" href="/map">Map</a></li>
+                    <li><a class="button button-glow button-rounded button-royal button-pill" href="">Refresh Data</a>
+                    </li>
+                </ul>
 
-      </div>
-  </nav>
-</div>
-</header>
- <div style="" id="messages_div">
-        {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-        <li><button onclick="clear_messages()">OK</button></li>
-        </ul>
-        {% endif %}
+            </div>
         </div>
+    </nav>
+    </div>
+</header>
 <div id="greeting">
-<br>
-{% if user.is_authenticated %}
-<h4>Hello, {{user.name}}!</h4>
     <br>
-{%else%}
-<p>Not logged in ((( this will be changed to not show any elements
-    if user not logged in)) </p>
-{%endif%}
+    {% if user.is_authenticated %}
+    <h4>Hello, {{user.name}}!</h4>
+    <br>
+    {%else%}
+    <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
+    {%endif%}
 </div>
 <!-- <form name='user1' action='/mystations_auth' method='GET' onsubmit="return false">
     <button class='btn' type='submit'>Submit</button>
 </form> -->
 
 <div id="main" class="main-panel">
-    <div id="sel_container dropdown" class="container-fluid" >
+    <div id="sel_container dropdown" class="container-fluid">
         <div style='display:inline;' id="select_stop"></div>
         <div style='display:inline;' id="bus_dropdown"></div>
         <div style='display:inline;' id="edit_stops"></div>
         <div id='del'>
-        <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
-            {% csrf_token %}
-            {{ form1 }}
-        </form>
+            <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+                {% csrf_token %}
+                {{ form1 }}
+            </form>
         </div>
     </div>
 </div>
@@ -77,8 +72,8 @@
 <div id="test"></div>
 
 <form id='logout' method="POST" action="/logout/" class="form-group">
-            {% csrf_token %}
-        </form>
+    {% csrf_token %}
+</form>
 </body>
 
 
@@ -99,12 +94,14 @@ $('#edit_stops').on('change', function() {
 });
 
 
+
 </script>
 <script>
 function logOut(){
     console.log('here')
     document.getElementById("logout").submit();
     }
+
 </script>
 <script>
 // this function filters the divs by the bus and stop selector menu
@@ -136,6 +133,7 @@ function clear_filter(){
     $('#test > div').show("slow");
 
 }
+
 </script>
 
 <script>
@@ -210,6 +208,7 @@ function get_filter(bus, stop){
        return ret
        }
 }
+
 </script>
 <script>
 
