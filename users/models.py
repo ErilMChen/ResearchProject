@@ -82,7 +82,7 @@ class plans(models.Model):
         It deletes by the process of last in first out'''
         val = plans.objects.filter(user=self.user).count()
         if val > 5:
-            all_ids = plans.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+            all_ids = plans.objects.filter(user_id=id).values_list('id', flat=True)[1:5]
             plans.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
 
 
@@ -97,5 +97,5 @@ class my_stations(models.Model):
         It deletes by the process of last in first out'''
         val = my_stations.objects.filter(user_id=id).count()
         if val > 5:
-            all_ids = my_stations.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+            all_ids = my_stations.objects.filter(user_id=id).values_list('id', flat=True)[1:5]
             my_stations.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
