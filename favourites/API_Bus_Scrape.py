@@ -2,7 +2,8 @@
 
 import django
 import os
-import sys 
+import sys
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -14,6 +15,9 @@ import json
 from pymysql import connect
 import dbinfo
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+print(BASE_DIR)
 #key e31a714730e34d21a2dfcbc8de363774
 
 def insert_multiple(val):
