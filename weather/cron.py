@@ -25,6 +25,10 @@ def collect_road_report():
     #current_weather_scraper.collect_weather(53.3, 6.2)
     os.system(config['python_path'] + ' ' + config['road_report'])
 
+
+def collect_live_API():
+    os.system(config['python_path'] + ' ' + config['live_bus'])
+
 #collect_current_weather()
 #collect_weather_forecast()
 #collect_road_report()
