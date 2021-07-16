@@ -10,7 +10,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 django.setup()
 
-with open(os.path.abspath('static/paths.json')) as config_file:
+with open(os.path.abspath('BusApp/ResearchProject/weather/static/paths.json')) as config_file:
     config = json.load(config_file)
 
 def collect_weather_forecast():
@@ -25,6 +25,8 @@ def collect_road_report():
     #current_weather_scraper.collect_weather(53.3, 6.2)
     os.system(config['python_path'] + ' ' + config['road_report'])
 
+def collect_live_API():
+    os.system(config['python_path'] + ' ' + config['live_bus'])
 #collect_current_weather()
 #collect_weather_forecast()
 #collect_road_report()
