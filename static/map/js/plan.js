@@ -104,18 +104,18 @@ function loadPlanFromJson(){
 }
 
 function setPlanDiv(element){
-    element.setAttribute("class", "plan-title");
+    element.setAttribute("class", "card route_card shadow ");
     element.innerHTML="MY PLAN"
 }
 
 function setDiv(element){
-    element.setAttribute("class", "btn-group");
+    element.setAttribute("class", "btn-group plan-group");
     element.setAttribute("role", "group");
 }
 
 function setPlanButton(element){
     element.setAttribute("href", "#plan_detail_panel");
-    element.setAttribute("class", "button-plan button-inverse");
+    element.setAttribute("class", "btn btn-dark btn button-plan");
     element.setAttribute("data-bs-toggle", "collapse")
     element.setAttribute("aria-expanded", "false")
     element.setAttribute("aria-controls", "plan_detail_panel")
@@ -123,7 +123,7 @@ function setPlanButton(element){
 }
 
 function setDeleteButton(element){
-    element.setAttribute("class", "button-delete button-caution");
+    element.setAttribute("class", "btn btn-danger btn button-delete");
 }
 
 function deletePlan(url){

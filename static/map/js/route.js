@@ -129,7 +129,7 @@ function showRoutedetail(response, element){
     var target = document.createElement("div");
     setRouteDetailDiv(target);
     element.appendChild(target);
-    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minites";
+    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minnuites";
     writeLine(text, target);
     for (var i = 0; i< locations.length; i++){
         var target = document.createElement("div");
@@ -153,10 +153,10 @@ function writeLine(text ,target){
 }
 
 function setRouteDetailDiv(element){
-    element.setAttribute("class", "route-detail");
+    element.setAttribute("class", "card route_detail_card");
 }
 
 function setRouteTitle(element){
-    element.setAttribute("class", "route-title");
+    element.setAttribute("class", "card route_card shadow");
     element.innerHTML = "ROUTE DETAIL";
 }

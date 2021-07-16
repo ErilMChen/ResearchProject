@@ -1,23 +1,53 @@
-#weather_detail_container::-webkit-scrollbar,#detail_container::-webkit-scrollbar, #plan_detail_container::-webkit-scrollbar,#search_form::-webkit-scrollbar, #plan_container::-webkit-scrollbar { width: 0 !important }
-#search_form, #plan_container{
+.detail_card::-webkit-scrollbar,.plan_detail_card::-webkit-scrollbar,.search_card::-webkit-scrollbar,.plan_card::-webkit-scrollbar,#weather_detail_container::-webkit-scrollbar,#detail_container::-webkit-scrollbar, #plan_detail_container::-webkit-scrollbar,#search_form::-webkit-scrollbar, #plan_container::-webkit-scrollbar { width: 0 !important }
+.search_card,.plan_card{
+    background-color: #fcfcfc !important;
+    width: 37.5em; 
+    height: 28em; 
+    border-radius: 10px !important;
     overflow-y: auto;
-    width:400px; 
-    height:300px;
-    background-color:white;
-    padding: 3%;
-    border-radius: 20px;
-    margin: 2%;
-    box-shadow: 0px 8px 6px 0px rgba(0,0,0,0.2), 3px 6px 10px 3px rgba(0,0,0,0.19);
 }
-#detail_container, #plan_detail_container{
+.plan_card{
+    padding-left: 3%;
+    padding-right: 3%;
+}
+.search_card{
+    padding: 5%;
+}
+.detail_card,.plan_detail_card{
+    background-color: #fcfcfc !important;
+    width: 37.5em; 
+    height: 22em; 
+    /* width: 400px; 
+    height: 250px;  */
+    border-radius: 10px !important;
+    margin-top: 3%;
     overflow-y: auto;
-    width:400px; 
-    height:250px;
-    background-color:white;
-    border-radius: 20px;
+    padding-right: 3%;
+    padding-left: 3%;
+}
+.route_card{
+    /* color: #fcfcfc!important;
+    background-color:#2f2f2f !important; */
+    color: #fcfcfc!important;
+    background-color:#2f2f2f !important;
+    text-align: center!important;
+    font-weight: bold;
     margin: 2%;
-    box-shadow: 0px 8px 6px 0px rgba(0,0,0,0.2), 3px 6px 10px 3px rgba(0,0,0,0.19);
+    padding: 1.5%;
+    font-size: 1.2em !important;
+}
+.route_detail_card{
+    background-color: #FFCC00 !important;
+    color: #2f2f2f !important;
+    text-align: left!important;
+    font-weight: bold;
+    margin: 2%;
+    margin-top: 3%;
+    font-size: 1.4em;
     padding: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    line-height: 1.5em;
 }
 #main_panel{
     margin-top: 2%;
@@ -39,146 +69,37 @@
     margin-top: 1%;
     margin-right: 1%;  
 }
-#floatingStart,#floatingEnd,#floatingDate,#floatingTime,#submit,#save,#search,#plan,#weather{
+#add_stop1,#add_stop2,#floatingStart,#floatingEnd,#floatingDate,#floatingTime,#submit,#save,#search,#plan,#weather{
     font-weight: bold;
-}
-.button-plan{
-    color: #666;
-    background-color: #EEE;
-    border-color: #EEE;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    text-decoration: none;
-    text-align: left;
-    line-height: 30px;
-    width: 19em;
-    /* height: 100%; */
-    padding-top: 1%;
-    padding-bottom: 1%;
-    margin: 1% 0 1% 1%;
-    display: inline-block;
-    appearance: none;
-    cursor: pointer;
-    border: none;
-    border-radius: 20px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition-property: all;
-            transition-property: all;
-    -webkit-transition-duration: .3s;
-            transition-duration: .3s;
-}
-
-.button-delete{
-    color: #666;
-    background-color: #EEE;
-    border-color: #EEE;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    text-decoration: none;
-    text-align: left;
-    line-height: 30px;
-    width: 5em;
-    /* height: 100%; */
-    padding-top: 1%;
-    padding-bottom: 1%;
-    margin: 1% 1% 1% 1%;
-    display: inline-block;
-    appearance: none;
-    cursor: pointer;
-    border: none;
-    border-radius: 20px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition-property: all;
-            transition-property: all;
-    -webkit-transition-duration: .3s;
-            transition-duration: .3s;
-}
-
-.route-detail{
-    background-color: #ffea2b;
-    border-color: #000000;
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    text-decoration:none;
-    text-align: left;
-    line-height: 30px;
-    width: 23em;
-    /* height: 100%; */
-    padding: 3% 1% 3% 3%;
-    margin: 1%;
-    display: inline-block;
-    appearance: none;
-    border:12em;
-    border-radius: 20px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition-property: all;
-            transition-property: all;
-    -webkit-transition-duration: .3s;
-            transition-duration: .3s;
-}
-
-.route-title{
-    background-color: #000000;
-    border-color: #000000;
-    color: #ffea2b;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    text-decoration:none;
-    text-align: center;
-    line-height: 30px;
-    width: 23em;
-    margin-left: 1%;
-    margin-bottom: 2%;
-    display: inline-block;
-    appearance: none;
-    border:12em;
-    border-radius: 10px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition-property: all;
-            transition-property: all;
-    -webkit-transition-duration: .3s;
-            transition-duration: .3s;
-}
-
-.plan-title{
-    background-color: #4cb0f9;
-    border-color: #000000;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    text-decoration:none;
-    text-align: center;
-    line-height: 30px;
-    width: 23em;
-    margin-left: 1%;
-    margin-bottom: 2%;
-    display: inline-block;
-    appearance: none;
-    border:12em;
-    border-radius: 10px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition-property: all;
-            transition-property: all;
-    -webkit-transition-duration: .3s;
-            transition-duration: .3s;
 }
 #id_name {
     max-height: 20px;
-
 }
+.plan-group{
+    margin: 2%;
+}
+.button-plan{
+    text-align: left!important;
+    width: 100%;
+    font-size: 1.2em !important;
+    line-height: 1.5em !important;
+    color: #fcfcfc!important;
+    background-color: #2f2f2f !important;
+}
+.button-delete{
+    font-size: 1.2em !important;
+    color: #fcfcfc!important;
+    
+}
+.button-myplan{
+    color: #2f2f2f!important;
+    background-color: #25B5F1 !important;
+}
+.button-search{
+    color: #2f2f2f!important;
+    background-color: #FFCC00 !important;
+}   
+.btn_size{
+    font-size: 1.2em !important;
+}
+
