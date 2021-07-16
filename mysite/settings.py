@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-$ir-x*+sn@3x!^rw=t$t2b5et%dsl%xsepm78%eg@#4p@v@owj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1',
+    'localhost',
+        '*']
 
 
 # Application definition
@@ -148,9 +150,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CRONJOBS = [
-    #('0 1 * * *', 'weather.cron.collect_current_weather'),
-    #('0 1 * * *', 'weather.cron.collect_weather_forecast'),
-    #('0 1 * * *', 'weather.cron.collect_road_report')
+    ('*/10 * * * *', 'weather.cron.collect_current_weather'),
+    ('0 1 * * *', 'weather.cron.collect_weather_forecast'),
+    ('0 1 * * *', 'weather.cron.collect_road_report')
 ]
 
 LOGIN_REDIRECT_URL= '/map'
