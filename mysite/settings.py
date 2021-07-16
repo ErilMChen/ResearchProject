@@ -154,8 +154,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CRONJOBS = [
     ('0 1 * * *', 'weather.cron.collect_current_weather'),
     ('0 1 * * *', 'weather.cron.collect_weather_forecast'),
-    ('*/2 * * * *', 'weather.cron.collect_road_report'),
-    ('*/2 * * * *', 'weather.cron.API_Bus_Scrape')
+    ('0 1 * * *', 'weather.cron.collect_road_report'),
+    ('*/2 * * * *', 'weather.cron.collect_live_API')
 
 ]
 STATICFILES_DIRS = [
