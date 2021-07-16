@@ -51,8 +51,40 @@ function unpack(data){
         }
 
 function see_on_map(vals){
-    // Meng google map co-ordinates are the vals here
-    console.log(vals)
+    // split the string into two values (lat and long
+    const myArr = vals.split(",");
+    //get map
+    directionsRenderer.setMap(map);
+    lat = parseFloat(vals)
+    lon = parseFloat(myArr[1])
+    // make marker
+    var latlng = new google.maps.LatLng(lat,lon);
+    //make info window
+    const infowindow = new google.maps.InfoWindow({
+    content: 'AA RoadWatch Incident Reported',
+    });
+
+    var marker = new google.maps.Marker({
+    position: latlng,
+    title:"Incident",
+    center: { lat: lat, lng: lon },
+    });
+
+    marker.addListener("click", () => {
+    infowindow.open({
+      anchor: marker,
+      map,
+      shouldFocus: false,
+    });
+  });
+
+    marker.setMap(map);
+    // center map on this
+    var myOptions = {
+            center: { lat: lat, lng: lon},
+            zoom : 14
+        };
+        map.setOptions(myOptions);
     }
 
 
