@@ -49,6 +49,19 @@
     padding-right: 5%;
     line-height: 1.5em;
 }
+.nav_bar{
+    width:99% !important; 
+    margin-bottom: 0.5% !important;
+    background-color: #FFCC00 !important;
+    border-radius: 5px !important;
+}
+#messages_div{
+    background-color: #f44336; 
+    color: white; 
+    width:99%; 
+    margin-bottom: 0.5%;
+    border-radius: 5px ;
+}
 #main_panel{
     margin-top: 2%;
     margin-left: 1%;
@@ -101,5 +114,9 @@
 }   
 .btn_size{
     font-size: 1.2em !important;
+}
+.btn_profile{
+    color: #fcfcfc!important;
+    background-color: #2f2f2f !important;   
 }
 

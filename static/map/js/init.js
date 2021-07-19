@@ -118,11 +118,12 @@ function initUserStatus(){
             return response.json();
         })
     .then(function(userStatus) {
-        if(userStatus == "true"){
-
-        }else{
+        // if(userStatus == "false"){
+            var log = document.getElementById('log');
+            log.style.display = "block";
+        // }else{
             var personal = document.getElementById('personal');
-            personal.style.display = "none";
-        }
+            personal.style.display = "block";
+        // }
     });
 }

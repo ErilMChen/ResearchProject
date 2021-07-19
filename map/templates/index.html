@@ -85,7 +85,7 @@
 
 <body>
     <!-- KAI TO STYLE PROPERLY :) -->
-    <div id="messages_div" class="container-fluid" style="background-color: #f44336; color: white;">
+    <div id="messages_div" class="container-fluid">
         {% if messages %}
         <div class="messages row p-3">
             {% for message in messages %}
@@ -95,62 +95,59 @@
         </div>
         {% endif %}
     </div>
-    <div class="container-fluid" style="background-color: white;">
+    <div class="container-fluid card nav_bar">
         <div class="row">
-            <nav class="navbar navbar-expand">
-                <div class="col-md-2">
-                    <a class="navbar-brand my-auto" href="#">No Fuss Bus</a>
+            <nav class="navbar navbar-expand navbar-light">
+                <div class="col-md">
+                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
                         aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-                <div id="personal">
-                    <form method="GET" action="/mystations">
-                        <input class="btn btn-primary" type="submit" value="Profile">
-                    </form>
-                </div>
-                <div class="col-md-8">
+                <div class="col-md-6 my-auto">
                     <div class="collapse navbar-collapse" id="navbarsExample02">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">
-                                    <p class="h3">Home</p>
+                                    <!-- <p class="h3">Home</p> -->
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <p class="h3" style="color: aqua;">Info</p>
+                                    <!-- <p class="h3" style="color: aqua;">Info</p> -->
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-1 my-auto">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Login/Register
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li>
-                                <!-- Button trigger register modal -->
-                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#register">
-                                    Register
-                                </button>
-                            </li>
-
-                            <li>
-                                <!-- Button trigger Login modal -->
-                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#login">
-                                    Login
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                <div id="personal" style="display: none; float:right; margin-right: 1%;">
+                    <form method="GET" action="/mystations">
+                        <input class="btn btn-primary btn_profile" type="submit" value="Profile">
+                    </form>
                 </div>
+
+                <div class="dropdown" id="log" style="display: none; float:right">
+                    <button class="btn btn-primary btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Login/Register
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>                            
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#register">
+                                Register
+                            </button>
+                        </li>
+                        <li>                            
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#login">
+                                Login
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
 
             </nav>
 
@@ -257,8 +254,8 @@
                             {% csrf_token %}
                             {{ form1|crispy }}
                             <br>
-                            <button type="submit" class="'btn  btn-primary"
-                                style="border-radius: 10px;">Register</button>
+                            <button type="submit" class="btn  btn-dark"
+                                >Register</button>
                         </form>
                     </div>
                 </div>
@@ -280,8 +277,8 @@
                         {% csrf_token %}
                         {{ form2|crispy }}
                         <br>
-                        <button type="submit" name="" class="'btn btn-primary"
-                            style="border-radius: 10px;">Login</button>
+                        <button type="submit" name="" class="btn btn-dark"
+                            >Login</button>
                     </form>
                 </div>
             </div>
