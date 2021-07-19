@@ -22,11 +22,12 @@
     <!-- bootstrap files -->
     <script src="https://code.jquery.com/jquery.js"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <link rel="stylesheet" href="{% static 'map/css/mdb.min.css' %}">
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
@@ -105,7 +106,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-                <div class="col-md-6 my-auto">
+                <div class="col-md-4 my-auto">
                     <div class="collapse navbar-collapse" id="navbarsExample02">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
@@ -121,6 +122,10 @@
                         </ul>
                     </div>
                 </div>
+
+                <button class="btn btn-primary btn_profile" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                aria-controls="offcanvasScrolling" style="margin-right: 1%;">BusNews</button>
+
                 <div id="personal" style="display: none; float:right; margin-right: 1%;">
                     <form method="GET" action="/mystations">
                         <input class="btn btn-primary btn_profile" type="submit" value="Profile">
@@ -133,26 +138,20 @@
                         Login/Register
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li>                            
+                        <li>
                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                 data-bs-target="#register">
                                 Register
                             </button>
                         </li>
-                        <li>                            
-                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#login">
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#login">
                                 Login
                             </button>
                         </li>
                     </ul>
                 </div>
-
-
             </nav>
-
-
-
         </div>
     </div>
 
@@ -254,16 +253,13 @@
                             {% csrf_token %}
                             {{ form1|crispy }}
                             <br>
-                            <button type="submit" class="btn  btn-dark"
-                                >Register</button>
+                            <button type="submit" class="btn  btn-dark">Register</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <div class="modal fade" id="login" tabindex="-1" aria-labelledby="login" aria-hidden="true">
         <div class="modal-dialog">
@@ -277,8 +273,7 @@
                         {% csrf_token %}
                         {{ form2|crispy }}
                         <br>
-                        <button type="submit" name="" class="btn btn-dark"
-                            >Login</button>
+                        <button type="submit" name="" class="btn btn-dark">Login</button>
                     </form>
                 </div>
             </div>
@@ -286,15 +281,25 @@
     </div>
     </div>
 
-
-    <div id='twitter_div' style="height: 30%; width: 30%">
-        <a class="twitter-timeline"
-            href="https://twitter.com/dublinbusnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
-            data-tweet-limit="10">
-            Tweets by @dublinbusnews</a>
-        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-    <div id="traffic_updates">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Dublin Bus Tweetes</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id='twitter_div' style="height: 100%; width: 100%">
+                <a class="twitter-timeline"
+                    href="https://twitter.com/dublinbusnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                    data-tweet-limit="10">
+                    Tweets by @dublinbusnews</a>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+        </div>
+        <!-- <div class="offcanvas-body">
+            <div id="traffic_updates">
+            </div>
+        </div> -->
     </div>
 
 </body>

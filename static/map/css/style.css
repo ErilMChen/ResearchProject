@@ -50,7 +50,7 @@
     line-height: 1.5em;
 }
 .nav_bar{
-    width:99% !important; 
+    width:98.5% !important; 
     margin-bottom: 0.5% !important;
     background-color: #FFCC00 !important;
     border-radius: 5px !important;
@@ -58,7 +58,7 @@
 #messages_div{
     background-color: #f44336; 
     color: white; 
-    width:99%; 
+    width:98.5%; 
     margin-bottom: 0.5%;
     border-radius: 5px ;
 }
