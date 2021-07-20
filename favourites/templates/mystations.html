@@ -15,6 +15,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
+
 </head>
 <body id="bod">
     <div class="pos-f-t">
@@ -48,7 +49,11 @@
     {%else%}
     <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
     {%endif%}
-
+ <form id='form2' action='/changepass/' class="form-group">
+            {% csrf_token %}
+            {{ form2 }}
+            <button type="submit">Submit</button>
+        </form>
 <div id="main" class="main-panel">
 
     <div id="sel_container dropdown" class="container-fluid" >
@@ -60,10 +65,7 @@
         <div style='display:inline;' id="edit_stops"></div>
         <div id='del'>
 
-        <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
-            {% csrf_token %}
-            {{ form1 }}
-        </form>
+
 
             <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
                 {% csrf_token %}
@@ -73,13 +75,12 @@
     </div>
 </div>
 
+
 <div id="test"></div>
 
 <form id='logout' method="POST" action="/logout/" class="form-group">
             {% csrf_token %}
         </form>
-    {% csrf_token %}
-</form>
 </body>
 
 
@@ -216,6 +217,21 @@ function get_filter(bus, stop){
 
 </script>
 <script>
+   $("#form2").submit(function(e) {
+    // e.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: form.serialize(),
+           success: function(data)
+           {
+               alert(data);
+           }
+         });
 
+
+});
 </script>
 </html>
