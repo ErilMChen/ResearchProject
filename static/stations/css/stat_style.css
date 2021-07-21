@@ -1,3 +1,17 @@
+element.style {
+    /* display: none; */
+    float: right;
+}
+.dropdown-menu {
+    display: block;
+    }
+
+.nav_bar{
+    width:99% !important;
+    margin-bottom: 0.5% !important;
+    background-color: #FFCC00 !important;
+    border-radius: 5px !important;
+}
 *{
     margin: 0;
     padding: 0;
@@ -7,52 +21,52 @@ h4 {
     text-align: center;
     color: #FFCC00;
     }
+
+ #bod {
+    background-color: #25B5F1;
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+ }
 .bus-item {
     text-align: center;
-    background-color: #FFCC00;
+    background-color: #FFCC00 !important
     width: 100%;
     text-align: center;
      -webkit-box-shadow:0 0 15px #ffffff;
     -moz-box-shadow: 0 0 15px #ffffff;
     box-shadow:0 0 15px #ffffff;
     }
- #bod {
-    background-color: #25B5F1;
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
- }
-
 .selects {
-display: inline;
+    text-align: center;
 }
 .my_label {
-    color: #4284f5;
+    color: #000000;
+
 }
 
-.navbar
-{   height:80px;
-    box-shadow: 0 5px 10px #efefef;
-    }
+.my_label1 {
+    margin-right: 40px;
+}
+.my_label2 {
+    margin-right: 13px;
+}
+.my_label3 {
+    margin-right: 5px;
+}
+
 .logo{
     height:45px;
     padding: 2px 0px
     }
 
-ul{
-float: right}
- li {
- padding: 8px;
- padding-top: 0px
- float:right
-  position: relative
-}
+
 
 #greeting {
-text-align: centre;
-}
+    text-align: centre;
+        }
 
 select {
-    background-color: #FFF0F5;
-
+    background-color: #ffffff  !important;
+    width: 30%;
      -webkit-box-shadow:0 0 15px #ffffff;
     -moz-box-shadow: 0 0 15px #ffffff;
     box-shadow:0 0 15px #ffffff;
@@ -69,4 +83,16 @@ select {
     position: relative;
     top: 50%;
     left: 15%;
+}
+
+.btn {
+    background-color: #000000;  !important;
+ }
+
+.btn-primary {
+ color: #000000;  !important;
+ }
+
+#sel_container_dropdown {
+    padding-left: 35%;
 }
