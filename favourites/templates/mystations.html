@@ -8,51 +8,71 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'stations/css/stat_style.css' %}">
-    <link rel="stylesheet" href="{% static 'map/css/buttons.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+
+    <link rel="stylesheet" href="{% static 'map/css/mdb.min.css' %}">
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
-
+    <style>
+        .btn {
+        background-color: #000000;  !important;
+        }
+        .bus-item {
+        background-color: #FFCC00!important;
+        }
+    </style>
 </head>
 <body id="bod">
-    <div class="pos-f-t">
-    </div>
-    <nav class="navbar navbar-dark bg-light">
-
-        <img class="logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();"/>
-        <div>
-            <div class="bg-light p-4">
-                 <ul class="nav list-inline ml-auto">
-                    <li>
-                        <button class="button button-glow button-rounded button-royal button-pill" onclick="logOut()">
-                        Logout
+    <div class="container-fluid card nav_bar">
+        <div class="row">
+            <nav class="navbar navbar-expand navbar-light">
+                <div class="col-md">
+                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+                        aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="col-md-6 my-auto">
+                    <div class="collapse navbar-collapse" id="navbarsExample02">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="personal" style="float:right; margin-right: 1%;">
+                    <form method="GET" action="/map">
+                        <input class="btn btn-primary btn_profile" type="submit" value="Map">
+                    </form>
+                </div>
+                <div id="logout_div" style="float:right">
+                    <button style="background-colour=black;" class="btn btn-primary btn_profile" onclick="logOut()">
+                            Logout
                         </button>
-                    </li>
-                    <li><a class="button button-glow button-rounded button-primary button-pill" href="/map">Map</a></li>
-                    <li><a class="button button-glow button-rounded button-royal button-pill" href="">Refresh Data</a>
-                    </li>
-                </ul>
-
-            </div>
+                </div>
+            </nav>
         </div>
-    </nav>
     </div>
-    </header>
     <div id="greeting">
-        <br>
-        {% if user.is_authenticated %}
-        <h4>Hello, {{user.name}}!</h4>
-        <br>
-        {%else%}
-        <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
-        {%endif%}
+    <br>
+    {% if user.is_authenticated %}
+    <h4>Hello, {{user.name}}!</h4>
+    <br>
+    {%else%}
+    <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
+    {%endif%}
+    </div>
 
-
-        <!-- Kai to style :) -->
+    <!-- Kai to style :) -->
         {% if user.is_authenticated %}
         <form id='form2' action='/changepass/' class="form-group">
             {% csrf_token %}
@@ -64,30 +84,26 @@
         {%endif%}
         <!-- end :) -->
 
-    <div id="main" class="main-panel">
+    <div id="sel_container_dropdown" class="container-fluid" >
 
-        <div id="sel_container dropdown" class="container-fluid">
-
-            <div id="sel_container dropdown" class="container-fluid">
-
-                <div style='display:inline;' id="select_stop"></div>
-                <div style='display:inline;' id="bus_dropdown"></div>
-                <div style='display:inline;' id="edit_stops"></div>
-                <div id='del'>
+        <div style='align-items: center;' id="select_stop"></div>
+        <div style='align-items: center;' id="bus_dropdown"></div>
+        <br>
+        <div style='align-items: center;' id="edit_stops"></div>
+        <br>
+        <div id='del'>
 
 
-                    <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
-                        {% csrf_token %}
-                        {{ form1 }}
-                    </form>
-                </div>
-            </div>
+            <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+                {% csrf_token %}
+                {{ form1 }}
+            </form>
         </div>
+    </div>
 
+<div id="test"></div>
 
-        <div id="test"></div>
-
-        <form id='logout' method="POST" action="/logout/" class="form-group">
+<form id='logout' method="POST" action="/logout/" class="form-group">
             {% csrf_token %}
         </form>
 </body>
