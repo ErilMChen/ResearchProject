@@ -57,7 +57,7 @@ function unpack(data){
             newDiv.classList.add('bus-item')
             newDiv.classList.add("shadow") //p-3 mb-5 bg-body rounded")
             newDiv.classList.add("p-3")
-            newDiv.classList.add("bg-body")
+
             newDiv.classList.add("rounded")
             var br = document.createElement("br");
             newDiv.appendChild(br);
@@ -78,8 +78,9 @@ function edit_stops3(stops){
     selectList.id = "myStopDelete";
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
-    var txt = document.createTextNode("Delete Stop: ")
+    var txt = document.createTextNode("Delete Stop:    ")
     label.classList.add('my_label')
+    label.classList.add('my_label1')
     label.appendChild(txt)
     document.getElementById("edit_stops").appendChild(label)
    // var br = document.createElement("br");
@@ -123,6 +124,7 @@ function get_buses(buses){
     label.setAttribute('for', 'buses')
     var txt = document.createTextNode("Select Bus Filter: ")
     label.classList.add('my_label')
+    label.classList.add('my_label2')
     label.appendChild(txt)
     document.getElementById("bus_dropdown").appendChild(label)
    // var br = document.createElement("br");
@@ -166,6 +168,7 @@ function sel_stops(stops){
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
       label.classList.add('my_label')
+      label.classList.add('my_label3')
     var txt = document.createTextNode("Select Stop Filter: ")
     label.appendChild(txt)
     document.getElementById("select_stop").appendChild(label)
