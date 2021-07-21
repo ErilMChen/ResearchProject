@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <title>My Stations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'stations/css/stat_style.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/mobile_stat_style.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+
+    <link rel="stylesheet" href="{% static 'map/css/mdb.min.css' %}">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <script src="/static/stations.js"></script>
+    <style>
+        .btn {
+        background-color: #000000;  !important;
+        }
+        .bus-item {
+        background-color: #FFCC00!important;
+        }
+    </style>
+</head>
+<body id="bod">
+    <div class="container-fluid card nav_bar">
+        <div class="row">
+            <nav class="navbar navbar-expand navbar-light">
+                <div class="col-md">
+                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+                        aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="col-md-6 my-auto">
+                    <div class="collapse navbar-collapse" id="navbarsExample02">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="personal" style="float:right; margin-right: 1%;">
+                    <form method="GET" action="/map">
+                        <input class="btn btn-primary btn_profile" type="submit" value="Map">
+                    </form>
+                </div>
+                <div id="logout_div" style="float:right">
+                    <button style="background-colour=black;" class="btn btn-primary btn_profile" onclick="logOut()">
+                            Logout
+                        </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div id="greeting">
+    <br>
+    {% if user.is_authenticated %}
+    <h4>Hello, {{user.name}}!</h4>
+    <br>
+    {%else%}
+    <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
+    {%endif%}
+    </div>
+
+    <!-- Kai to style :) -->
+        {% if user.is_authenticated %}
+        <form id='form2' action='/changepass/' class="form-group">
+            {% csrf_token %}
+            {{ form2|crispy }}
+            <button type="submit">Submit</button>
+        </form>
+        {%else%}
+        <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
+        {%endif%}
+        <!-- end :) -->
+
+    <div id="sel_container_dropdown" class="container-fluid" >
+
+        <div style='align-items: center;' id="select_stop"></div>
+        <div style='align-items: center;' id="bus_dropdown"></div>
+        <br>
+        </div>
+    <div id="edit-container" class = "container-fluid">
+        <div style='align-items: center;' id="edit_stops"></div>
+        <br>
+    </div>
+
+        <div id='del'>
+
+
+            <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+                {% csrf_token %}
+                {{ form1 }}
+            </form>
+        </div>
+
+<div id="test"></div>
+
+<form id='logout' method="POST" action="/logout/" class="form-group">
+            {% csrf_token %}
+        </form>
+</body>
+
+
+<script>
+window.onload = getStops2()
+
+$('#edit_stops').on('change', function() {
+  var x = $('#edit_stops').find(":selected").text();
+  console.log(x)
+  document.getElementById('form1').value = x;
+  document.forms['form1'].elements['name'].value = x
+  if (confirm("This stop will be deleted")){
+  $("#form1").submit()
+  }
+  else{
+  return
+  }
+});
+
+
+</script>
+<script>
+function logOut(){
+    console.log('here')
+    document.getElementById("logout").submit();
+    }
+
+</script>
+<script>
+// this function filters the divs by the bus and stop selector menu
+$('#bus_dropdown').on('change', function() {
+  var x = $('#bus_dropdown').find(":selected").text();
+  var y = $('#select_stop').find(":selected").text();
+  console.log(x, y)
+
+  if (x == 'All' && y=='All'){
+    clear_filter()
+    return;
+    }
+    else{
+
+    // check if both selectors are being used or just one (see get_filter function)
+    //returns either a stop, a bus or a stop and bus (depending on selectors)
+    var fil = get_filter(x, y)
+    //create a regex varaible for matching
+    var regex = new RegExp('\\b\\w*' + fil + '\\w*\\b');
+
+    $('#test > div').hide("slow").filter(function () {
+        //match the data tags (contain a stop and bus data)
+        return regex.test($(this).data('tag'))
+    }).show("slow");
+    }
+  });
+
+function clear_filter(){
+    $('#test > div').show("slow");
+
+}
+
+</script>
+
+<script>
+// repeats the function above on the stop selector menu
+$('#select_stop').on('change', function() {
+
+   var x = $('#bus_dropdown').find(":selected").text();
+  var y = $('#select_stop').find(":selected").text();
+    console.log(x, y)
+  if (x == 'All' && y=='All'){
+    clear_filter()
+    }
+    else{
+    var fil = get_filter(x, y)
+    var regex = new RegExp('\\b\\w*' + fil + '\\w*\\b');
+
+    $('#test > div').hide("slow").filter(function () {
+        return regex.test($(this).data('tag'))
+    }).show("slow");
+    }
+  });
+
+function change()
+
+// this function inverts the colours on the page for dark mode
+//code adapted from https://stackoverflow.com/questions/4766201/javascript-invert-color-on-all-elements-of-a-page
+{
+    let css = 'html {-webkit-filter: invert(100%);' +
+    '-moz-filter: invert(100%);' +
+    '-o-filter: invert(100%);' +
+    '-ms-filter: invert(100%); }';
+
+  let head = $('head')[0];
+  let invertStyle = $('#invert')[0];
+
+  if (invertStyle) {
+    head.removeChild(invertStyle);
+  } else {
+    let style = document.createElement('style');
+
+    style.type = 'text/css';
+    style.id = 'invert';
+    if (style.styleSheet){
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    //injecting the css to the head
+    head.appendChild(style);
+  }
+  }
+
+// this functiton is called when the selector menus are picked to see if it needs tto be filtered
+// by stop and bus or just stop or just bus
+function get_filter(bus, stop){
+    console.log(bus, stop)
+    if(bus == 'All' && stop == 'All'){
+    return 'All'
+
+    }
+
+    if(bus == 'All' && stop != 'All'){
+        return stop
+      }
+
+    if(stop == 'All' && bus != 'All'){
+    return bus }
+
+    if(stop != 'All' && bus !='All'){
+        var ret = (bus + "," + stop).toString()
+       return ret
+       }
+}
+
+</script>
+<script>
+   $("#form2").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: form.serialize(),
+           success: function(data)
+           {
+               alert(data);
+           }
+         });
+});
+</script>
+</html>

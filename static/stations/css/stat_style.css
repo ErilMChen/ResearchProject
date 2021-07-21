@@ -66,7 +66,7 @@ h4 {
 
 select {
     background-color: #ffffff  !important;
-    width: 30%;
+    width: 25%;
      -webkit-box-shadow:0 0 15px #ffffff;
     -moz-box-shadow: 0 0 15px #ffffff;
     box-shadow:0 0 15px #ffffff;
@@ -94,5 +94,8 @@ select {
  }
 
 #sel_container_dropdown {
-    padding-left: 35%;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
 }

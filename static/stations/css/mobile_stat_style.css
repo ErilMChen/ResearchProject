@@ -1,0 +1,40 @@
+h4 {
+    text-align: center;
+    color: #000000 !important;
+    }
+
+.my_label1 {
+    margin-right: 40px !important;
+}
+.my_label2 {
+    margin-right: 7px !important;
+}
+.my_label3 {
+    margin-right: 2px !important;
+}
+
+select {
+    background-color: #ffffff  !important;
+    width: 50% !important;
+     -webkit-box-shadow:0 0 15px #ffffff;
+    -moz-box-shadow: 0 0 15px #ffffff;
+    box-shadow:0 0 15px #ffffff;
+}
+
+#test {
+    position: relative;
+    top: 50%;
+   left: 15%;
+    width: 70%;
+            }
+
+ #sel_container_dropdown {
+    padding-left: 15%;
+}
+
+#edit-container {
+    padding-left: 15% !important;
+}
+#edit-container select{
+    width: 40%
+}

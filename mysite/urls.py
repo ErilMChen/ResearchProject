@@ -31,7 +31,6 @@ urlpatterns = [
     path('users/', v_users.users, name='users'),
     path('login/', v_users.login, name='login'),
     path('mystations/', f_views.stations, name='mystations'),
-    path('mystations_auth/', f_views.check_auth, name='mystations_auth'),
     path('mystations/show_favs', f_views.show_favs, name='show_favs/'),
     path('delete_my_stop/', f_views.delete_my_stop, name='/delete_my_stop/'),
     path('logout/', v_users.logoutUser, name='/logout/'),

@@ -7,27 +7,24 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import StopForm as S
 from users.forms import ChangePassword
 from users.models import MyUser
+import re
 
-
+#https://stackoverflow.com/questions/42273319/detect-mobile-devices-with-django-and-python-3
+def mobile(request):
+    user_agent = request.META['HTTP_USER_AGENT']
+    if 'Mobile' in user_agent:
+        return True
+    else:
+        return False
 
 def stations(request):
     """Sends the delete stop form to stations.html and render template"""
     myform = S
     change_pass = ChangePassword
-    return render(request, 'mystations.html', {"form1": myform, "form2": change_pass})
-
-def check_auth(request):
-    """Checks if user is authenticated. (((( NOT NEEDED))))"""
-    if request.user.is_authenticated:
-        current_user = request.user
-        station_id = '8240DB000231'
-        user_fav = my_stations(stop_id = station_id, user = current_user)
-        user_fav.check_num()
-        user_fav.save()
-        return HttpResponseRedirect('/mystations/')
+    if mobile(request) == True:
+        return render(request, 'stations_mob.html', {"form1": myform, "form2": change_pass})
     else:
-        ## do soemthing else
-        return HttpResponseRedirect('/mystations/')
+        return render(request, 'mystations.html', {"form1": myform, "form2": change_pass})
 
 
 def show_favs(request):
