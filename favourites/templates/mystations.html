@@ -26,10 +26,10 @@
         <img class="logo" src="https://icon-library.com/images/c216839f9c.png" onclick="change();"/>
         <div>
             <div class="bg-light p-4">
-                <ul class="nav list-inline ml-auto">
+                 <ul class="nav list-inline ml-auto">
                     <li>
                         <button class="button button-glow button-rounded button-royal button-pill" onclick="logOut()">
-                            Logout
+                        Logout
                         </button>
                     </li>
                     <li><a class="button button-glow button-rounded button-primary button-pill" href="/map">Map</a></li>
@@ -41,45 +41,53 @@
         </div>
     </nav>
     </div>
-</header>
-<div id="greeting">
-    <br>
-    {% if user.is_authenticated %}
-    <h4>Hello, {{user.name}}!</h4>
-    <br>
-    {%else%}
-    <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
-    {%endif%}
- <form id='form2' action='/changepass/' class="form-group">
+    </header>
+    <div id="greeting">
+        <br>
+        {% if user.is_authenticated %}
+        <h4>Hello, {{user.name}}!</h4>
+        <br>
+        {%else%}
+        <h4>You are not logged in! Return to the map page and log in to see your favourite stations.</h4>
+        {%endif%}
+
+
+        <!-- Kai to style :) -->
+        {% if user.is_authenticated %}
+        <form id='form2' action='/changepass/' class="form-group">
             {% csrf_token %}
             {{ form2|crispy }}
             <button type="submit">Submit</button>
         </form>
-<div id="main" class="main-panel">
+        {%else%}
+        <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
+        {%endif%}
+        <!-- end :) -->
 
-    <div id="sel_container dropdown" class="container-fluid" >
+    <div id="main" class="main-panel">
 
-    <div id="sel_container dropdown" class="container-fluid">
+        <div id="sel_container dropdown" class="container-fluid">
 
-        <div style='display:inline;' id="select_stop"></div>
-        <div style='display:inline;' id="bus_dropdown"></div>
-        <div style='display:inline;' id="edit_stops"></div>
-        <div id='del'>
+            <div id="sel_container dropdown" class="container-fluid">
+
+                <div style='display:inline;' id="select_stop"></div>
+                <div style='display:inline;' id="bus_dropdown"></div>
+                <div style='display:inline;' id="edit_stops"></div>
+                <div id='del'>
 
 
-
-            <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
-                {% csrf_token %}
-                {{ form1 }}
-</form>
+                    <form id='form1' method="POST" action="/delete_my_stop/" class="form-group">
+                        {% csrf_token %}
+                        {{ form1 }}
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
 
-<div id="test"></div>
+        <div id="test"></div>
 
-<form id='logout' method="POST" action="/logout/" class="form-group">
+        <form id='logout' method="POST" action="/logout/" class="form-group">
             {% csrf_token %}
         </form>
 </body>
