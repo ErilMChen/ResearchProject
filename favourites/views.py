@@ -62,12 +62,16 @@ def change_password(request):
     if request.method == 'POST':
         current_user = request.user
         form = ChangePassword(request.POST)
-        if form.is_valid():
-            new_p = form.clean_confirm_password()
-            u = MyUser.objects.get(id=current_user.id)
-            u.set_password(new_p)
-            u.save()
-            return HttpResponse('Password has been changed')
-        else:
-            print('invalid')
-    return HttpResponse('Password has not been changed')
+        try:
+            if form.is_valid():
+                new_p = form.clean_confirm_password()
+                user = MyUser.objects.get(id=current_user.id)
+                user.set_password(new_p)
+                print('set')
+                user.save()
+                return HttpResponse('Password has been changed')
+            else:
+                print('invalid')
+                return HttpResponse('Password has not been changed. Check your credentials.')
+        except:
+            return HttpResponse('Password has not been changed. Check your credentials.')

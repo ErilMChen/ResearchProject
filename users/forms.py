@@ -33,6 +33,7 @@ class MyLoginView(LoginView):
 
 
 class ChangePassword(PasswordResetForm):
+    email = forms.CharField()
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type':'password'}))
     new_password =  forms.CharField(widget=forms.PasswordInput(attrs={ 'class': 'form-control','type':'password'}))
     reenter_password =  forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','type':'password'}))
