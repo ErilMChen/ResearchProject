@@ -10,6 +10,7 @@ function getStops2(){
                 })
             .then(function(myData) {
                 try{
+                document.getElementById('test').innerHTML= ""
                 myData.forEach(element => {
                         unpack(element)
                 });

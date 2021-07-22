@@ -44,10 +44,10 @@ h4 {
 }
 
 .my_label1 {
-    margin-right: 40px;
+    margin-right: 45px;
 }
 .my_label2 {
-    margin-right: 13px;
+    margin-right: 12px;
 }
 .my_label3 {
     margin-right: 5px;
@@ -95,7 +95,8 @@ select {
 
 #sel_container_dropdown {
     height: auto;
-    margin: 0 auto;
+    justify-content: center;
+    left: 30%;
     padding: 10px;
     position: relative;
 }
