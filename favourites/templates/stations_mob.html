@@ -30,7 +30,7 @@
         <div class="row">
             <nav class="navbar navbar-expand navbar-light">
                 <div class="col-md">
-                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
+                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss <br> Bus</b></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
                         aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -38,22 +38,18 @@
                 </div>
                 <div class="col-md-6 my-auto">
                     <div class="collapse navbar-collapse" id="navbarsExample02">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                </a>
-                            </li>
-                        </ul>
+
                     </div>
                 </div>
                 <div id="personal" style="float:right; margin-right: 1%;">
                     <form method="GET" action="/map">
                         <input class="btn btn-primary btn_profile" type="submit" value="Map">
                     </form>
+                </div>
+                <div id="personal" style="float:right; margin-right: 1%;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changepass">
+                        Password
+                    </button>
                 </div>
                 <div id="logout_div" style="float:right">
                     <button style="background-colour=black;" class="btn btn-primary btn_profile" onclick="logOut()">
@@ -73,25 +69,37 @@
     {%endif%}
     </div>
 
-    <!-- Kai to style :) -->
-        {% if user.is_authenticated %}
-        <form id='form2' action='/changepass/' class="form-group">
-            {% csrf_token %}
-            {{ form2|crispy }}
-            <button type="submit">Submit</button>
-        </form>
-        {%else%}
-        <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
-        {%endif%}
-        <!-- end :) -->
 
-    <div id="sel_container_dropdown" class="container-fluid" >
+        <!-- Modal for change password-->
+        <div class="modal fade" id="changepass" tabindex="-1" aria-labelledby="changepass" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Welcome</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if user.is_authenticated %}
+                            <form id='form2' action='/changepass/' class="form-group">
+                            {% csrf_token %}
+                            {{ form2|crispy }}
+                            <br>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        {%else%}
+                            <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+    <div id="sel_container_dropdown2" class="container-fluid" >
+        <div id="edit-container" class = "container-fluid">
         <div style='align-items: center;' id="select_stop"></div>
         <div style='align-items: center;' id="bus_dropdown"></div>
         <br>
-        </div>
-    <div id="edit-container" class = "container-fluid">
         <div style='align-items: center;' id="edit_stops"></div>
         <br>
     </div>

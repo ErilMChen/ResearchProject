@@ -28,13 +28,12 @@ select {
     width: 70%;
             }
 
- #sel_container_dropdown {
-    padding-left: 15%;
-}
+
 
 #edit-container {
     padding-left: 15% !important;
 }
-#edit-container select{
+#edit-container2 select{
     width: 40%
+    margin-left: 25% !important;
 }
