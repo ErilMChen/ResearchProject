@@ -9,15 +9,18 @@
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'stations/css/stat_style.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'map/css/mdb.min.css' %}">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
     <style>
         .btn {
-        background-color: #000000;  !important;
+        background-color: #000000  !important;
         }
         .bus-item {
         background-color: #FFCC00!important;
@@ -54,8 +57,13 @@
                         <input class="btn btn-primary btn_profile" type="submit" value="Map">
                     </form>
                 </div>
+                <div id="personal" style="float:right; margin-right: 1%;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changepass">
+                        CHANGE PASSWORD
+                    </button>
+                </div>
                 <div id="logout_div" style="float:right">
-                    <button style="background-colour=black;" class="btn btn-primary btn_profile" onclick="logOut()">
+                    <button style="background:black;" class="btn btn-primary btn_profile" onclick="logOut()">
                             Logout
                         </button>
                 </div>
@@ -72,17 +80,32 @@
     {%endif%}
     </div>
 
-    <!-- Kai to style :) -->
-        {% if user.is_authenticated %}
-        <form id='form2' action='/changepass/' class="form-group">
-            {% csrf_token %}
-            {{ form2|crispy }}
-            <button type="submit">Submit</button>
-        </form>
-        {%else%}
-        <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
-        {%endif%}
-        <!-- end :) -->
+        <!-- Modal for change password-->
+        <div class="modal fade" id="changepass" tabindex="-1" aria-labelledby="changepass" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Welcome</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if user.is_authenticated %}
+                            <form id='form2' action='/changepass/' class="form-group">
+                            {% csrf_token %}
+                            {{ form2|crispy }}
+                            <br>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        {%else%}
+                            <h4>You are not logged in! Return to the map page and log in to change your password.</h4>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
     <div id="sel_container_dropdown" class="container-fluid" >
 
