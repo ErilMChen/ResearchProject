@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 import django
 import os
@@ -51,7 +50,7 @@ class Bus:
 
         vals = []
         counter = 0
-        #print(content)
+        # print(content)
         k = len(content["entity"]) - 1
         print(k)
         for i in range(0, k):
@@ -59,32 +58,32 @@ class Bus:
                 l = len(content["entity"][i]["trip_update"]["stop_time_update"]) - 1
                 value = []
                 value.append(str(content["header"]["timestamp"]))
-                    #value += ","
+                # value += ","
                 value.append(content["entity"][i]["id"])
-                    #value += ","
+                # value += ","
                 value.append(content["entity"][i]["trip_update"]["trip"]["trip_id"])
-                    #value += ","
+                # value += ","
                 value.append(content["entity"][i]["trip_update"]["trip"]["start_time"])
-                    #value += ","
+                # value += ","
                 value.append(content["entity"][i]["trip_update"]["trip"]["start_date"])
-                    #value += ","
+                # value += ","
                 value.append(content["entity"][i]["trip_update"]["trip"]["route_id"])
-                    #value += ","
+                # value += ","
                 value.append(str(content["entity"][i]["trip_update"]["stop_time_update"][l]["stop_sequence"]))
-                    #value += ","
+                # value += ","
                 try:
                     value.append(content["entity"][i]["trip_update"]["stop_time_update"][l]["arrival"]["delay"])
                 except Exception as e:
                     value.append(str(0))
-                    #$value += ","
+                    # $value += ","
                 try:
                     value.append(str(content["entity"][i]["trip_update"]["stop_time_update"][l]["departure"]["delay"]))
                 except Exception as e:
                     value.append(str(0))
-                    #value += ","
+                    # value += ","
                 value.append(content["entity"][i]["trip_update"]["stop_time_update"][l]["stop_id"])
-                    #res = tuple(map(value.split(str, ', ')))
-                    #value += ","
+                # res = tuple(map(value.split(str, ', ')))
+                # value += ","
                 tup = tuple(value)
                 vals.append(tup)
                 counter += 1
@@ -97,17 +96,16 @@ class Bus:
                 counter += 1
                 continue
 
-                #continue
-            if counter == k-1:
-                #send the remaining rows
+                # continue
+            if counter == k - 1:
+                    # send the remaining rows
                 insert_multiple(vals)
                 break
 
             if counter % 999 == 0:
-                #send every 999 rows (sql limit)
+                # send every 999 rows (sql limit)
                 insert_multiple(vals)
                 vals = []
-
 
     def run(self):
         self.parse_url()
