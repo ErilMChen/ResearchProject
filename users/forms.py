@@ -13,12 +13,13 @@ from django.contrib.auth.hashers import make_password, check_password
 
 class UserForm(UserCreationForm):
     """This is the form used to create MyUsers"""
+    i_consent_to_the_storage_of_my_email_and_name = forms.BooleanField()
     email = forms.EmailField()
 
 
     class Meta:
         model = MyUser
-        fields = ["email", "name", "password1"]
+        fields = ["email", "name", "password1", "i_consent_to_the_storage_of_my_email_and_name"]
 
 
 class AuthForm(AuthenticationForm):
