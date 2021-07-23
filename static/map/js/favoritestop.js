@@ -15,6 +15,10 @@ function addStop(element){
     fetch(url, {
         method:'GET'}).then(function(response) {
             // read data from django server and prase to json
-            console.log("add stop OK")
+            return response.json()
+    }).then(function(userStatus) {
+        if(userStatus == "false"){
+            alert("You Haven't Log In !");
+        }
     });
 }

@@ -62,7 +62,7 @@ def AddPlan(request):
 	time = request.GET.get("time","")
 
 	if request.user.is_authenticated:
-		res = json.dumps("save true")
+		res = json.dumps("true")
 		current_user = request.user
 		user_plan = plans(plan_name=plan_name, start_stop=start_stop,
 						  end_stop=end_stop, date=date, time=time, user=current_user)
@@ -70,7 +70,7 @@ def AddPlan(request):
 		user_plan.save()
 		print('success')
 	else:
-		res = json.dumps("save false")
+		res = json.dumps("false")
 	return HttpResponse(res)	
 
 # delete plan from database 
@@ -84,13 +84,13 @@ def DeletePlan(request):
 	print(plan_name + start_stop + end_stop + date + time)
 
 	if request.user.is_authenticated:
-		res = json.dumps("delete true")
+		res = json.dumps("true")
 		current_user = request.user
 		plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
 							 end_stop=end_stop, date=date, time=time, user=current_user).delete()
 		print('delete success')
 	else:
-		res = json.dumps("delete false")
+		res = json.dumps("false")
 	return HttpResponse(res)
 
 def AddFavoriteStop(request):
@@ -113,12 +113,13 @@ def AddFavoriteStop(request):
 		user_fav = my_stations(stop_id=stop_id, user=current_user)
 		user_fav.check_num()
 		user_fav.save()
-
+		res = json.dumps("true")
 	else:
 		print('not logged in')
+		res = json.dumps("false")
 		pass
 
-	return HttpResponse(data1)
+	return HttpResponse(res)
 
 def login(response):
     uv.login(response)
