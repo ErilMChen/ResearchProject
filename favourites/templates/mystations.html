@@ -132,10 +132,14 @@
 </body>
 
 
-<script>
-window.onload = document.getElementById('test').innerHTML= "<h4>Loading live station data. . . </h4>"
-window.onload = getStops2()
+{% if user.is_authenticated %}
+    <script>
+    window.onload = document.getElementById('test').innerHTML= "<h4>Loading live station data. . . </h4>"
+    window.onload = getStops2()
+    </script>
+{%endif%}
 
+<script>
 $('#edit_stops').on('change', function() {
   var x = $('#edit_stops').find(":selected").text();
   console.log(x)
