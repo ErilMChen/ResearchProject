@@ -25,7 +25,7 @@
         }
         .nav_bar{
     width:100% !important;
-}
+        }
     </style>
 </head>
 <body id="bod">
@@ -135,7 +135,7 @@
 
 {% if user.is_authenticated %}
     <script>
-    window.onload = document.getElementById('test').innerHTML= "<h4>Loading live station data. . . </h4>"
+    window.onload = document.getElementById('test').innerHTML= "<h4>Loading live station data... </h4>"
     window.onload = getStops2()
     </script>
 {%endif%}
