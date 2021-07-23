@@ -42,6 +42,17 @@ def GetUserStatus(request):
 		res = json.dumps("false")
 	return HttpResponse(res)
 
+def LoadPlan(request):
+	if request.user.is_authenticated:
+		current_user = request.user
+		ret = plans.objects.values('plan_name','start_stop','end_stop','date','time').filter(user=current_user).distinct()
+		data = list(ret)
+		data = json.dumps(data)
+		return HttpResponse(data)
+	else:
+		res = json.dumps()
+		return HttpResponse(res)
+
 # save plan into database 
 def AddPlan(request):
 	plan_name = request.GET.get("plan_name","")
@@ -49,7 +60,6 @@ def AddPlan(request):
 	end_stop = request.GET.get("end_stop","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-
 
 	if request.user.is_authenticated:
 		res = json.dumps("save true")
@@ -59,7 +69,6 @@ def AddPlan(request):
 		user_plan.check_num_plans()
 		user_plan.save()
 		print('success')
-
 	else:
 		res = json.dumps("save false")
 	return HttpResponse(res)	

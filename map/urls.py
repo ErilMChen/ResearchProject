@@ -10,6 +10,8 @@ urlpatterns = [
     path('route/', views.RouteDirection, name="routedirection"),
     path('add/', views.AddFavoriteStop, name="routedirection"),
     path('addplan/', views.AddPlan, name="addplan"),
+    path('loadplan/', views.LoadPlan, name="loadplan"),
     path('removeplan/', views.DeletePlan, name="removeplan"),
     path('status', views.GetUserStatus, name="userstatus"),
+
 ]
