@@ -111,15 +111,6 @@ def AddFavoriteStop(request):
 
 	return HttpResponse(data1)
 
-def login(response):
-    uv.login(response)
-
-def users(response):
-    uv.users(response)
-
-def extra(response):
-    uv.extra(response)
-
 
 def get_live_updates(response):
 	x = wm.AA_Road_Report.objects.all()

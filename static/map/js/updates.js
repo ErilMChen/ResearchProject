@@ -91,3 +91,17 @@ function see_on_map(vals){
 function clear_messages(){
     document.getElementById('messages_div').style.display = 'none';
 }
+
+function confirm_me(){
+    if (confirm("Confirm you wish to delete this account and all of your data?")){
+    var form = document.createElement("form");
+    form.id = "del_form";
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/delete_acc/")
+    document.body.appendChild(form);
+    document.getElementById('del_form').submit();
+    }
+    else {
+        return
+    }
+}

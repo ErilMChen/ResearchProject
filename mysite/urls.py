@@ -34,5 +34,6 @@ urlpatterns = [
     path('mystations/show_favs', f_views.show_favs, name='show_favs/'),
     path('delete_my_stop/', f_views.delete_my_stop, name='/delete_my_stop/'),
     path('logout/', v_users.logoutUser, name='/logout/'),
-    path('changepass/', f_views.change_password, name='/changepass/')
+    path('changepass/', f_views.change_password, name='/changepass/'),
+    path('delete_acc/', v_users.delete_acc, name = '/delete_acc')
 ]

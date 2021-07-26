@@ -149,6 +149,13 @@
                                 Login
                             </button>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li>
+                            <button type="submit" class="dropdown-item"  onclick="confirm_me()">
+                                Delete Account
+                            </button>
+                        </li>
+                        {%endif%}
                     </ul>
                 </div>
             </nav>
@@ -280,6 +287,7 @@
         </div>
     </div>
     </div>
+
 
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">

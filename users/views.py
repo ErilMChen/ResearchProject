@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as LOG
 from .forms import UserForm, AuthForm
 from django.contrib.auth import authenticate
@@ -61,4 +62,11 @@ def extra(response):
 
 def logoutUser(request):
     logout(request)
+    return redirect("/map")
+
+@csrf_exempt
+def delete_acc(request):
+    user = request.user
+    logout(request)
+    MyUser.objects.filter(email=user.email).delete()
     return redirect("/map")

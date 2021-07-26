@@ -59,7 +59,7 @@
                 </div>
                 <div id="personal" style="float:right; margin-right: 1%;">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changepass">
-                        CHANGE PASSWORD
+                        PASSWORD
                     </button>
                 </div>
                 <div id="logout_div" style="float:right">
@@ -213,37 +213,6 @@ $('#select_stop').on('change', function() {
     }).show("slow");
     }
   });
-
-function change()
-
-// this function inverts the colours on the page for dark mode
-//code adapted from https://stackoverflow.com/questions/4766201/javascript-invert-color-on-all-elements-of-a-page
-{
-    let css = 'html {-webkit-filter: invert(100%);' +
-    '-moz-filter: invert(100%);' +
-    '-o-filter: invert(100%);' +
-    '-ms-filter: invert(100%); }';
-
-  let head = $('head')[0];
-  let invertStyle = $('#invert')[0];
-
-  if (invertStyle) {
-    head.removeChild(invertStyle);
-  } else {
-    let style = document.createElement('style');
-
-    style.type = 'text/css';
-    style.id = 'invert';
-    if (style.styleSheet){
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-
-    //injecting the css to the head
-    head.appendChild(style);
-  }
-  }
 
 // this functiton is called when the selector menus are picked to see if it needs tto be filtered
 // by stop and bus or just stop or just bus
