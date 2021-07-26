@@ -1,8 +1,8 @@
 .detail_card::-webkit-scrollbar,.plan_detail_card::-webkit-scrollbar,.search_card::-webkit-scrollbar,.plan_card::-webkit-scrollbar,#weather_detail_container::-webkit-scrollbar,#detail_container::-webkit-scrollbar, #plan_detail_container::-webkit-scrollbar,#search_form::-webkit-scrollbar, #plan_container::-webkit-scrollbar { width: 0 !important }
 .search_card,.plan_card{
     background-color: #fcfcfc !important;
-    width: 37.5em; 
-    height: 28em; 
+    width: 98%; 
+    height: 22em; 
     border-radius: 10px !important;
     overflow-y: auto;
 }
@@ -15,7 +15,7 @@
 }
 .detail_card,.plan_detail_card{
     background-color: #fcfcfc !important;
-    width: 37.5em; 
+    width: 98%; 
     height: 22em; 
     /* width: 400px; 
     height: 250px;  */
@@ -50,10 +50,8 @@
     line-height: 1.5em;
 }
 .nav_bar{
-    width:98.5% !important; 
-    margin-bottom: 0.5% !important;
     background-color: #FFCC00 !important;
-    border-radius: 5px !important;
+    border-radius: 0px !important;
 }
 #messages_div{
     background-color: #f44336; 

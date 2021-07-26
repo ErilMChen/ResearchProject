@@ -10,7 +10,7 @@
     <!-- local static files -->
     <link rel="stylesheet" href="{% static 'map/css/mstyle.css' %}">
     <link rel="stylesheet" href="{% static 'map/css/buttons.css' %}">
-    <script src="{% static 'map/js/init.js' %}"></script>
+    <script src="{% static 'map/js/minit.js' %}"></script>
     <script src="{% static 'map/js/main.js' %}"></script>
     <script src="{% static 'map/js/route.js' %}"></script>
     <script src="{% static 'map/js/plan.js' %}"></script>
@@ -51,6 +51,7 @@
                 streetViewControl: false,
                 scaleControl: false,
                 fullscreenControl: false,
+                disableDefaultUI: true,
             };
             // google map initialization
             map = new google.maps.Map(document.getElementById("map"), mapProp);
@@ -163,9 +164,9 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+    <!-- <div class="container-fluid"> -->
         <div id="map" style="width:100%;height:90vh;"></div>
-    </div>
+    <!-- </div> -->
 
     <div id="main_panel">
         <div class="collapse " id="plan_panel">
