@@ -2,14 +2,17 @@ function initControl(){
     var search_button = document.getElementById('search');
     search_button.index = 1;
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(search_button);
+    search_button.style.display = "block";
 
     var plan_button = document.getElementById('plan');
     plan_button.index = 2;
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(plan_button);
+    plan_button.style.display = "block";
 
     var weather_button = document.getElementById('weather');
     weather_button.index = 3;
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(weather_button);
+    weather_button.style.display = "block";
 
     var main_panel = document.getElementById('main_panel');
     main_panel.index = 4;
