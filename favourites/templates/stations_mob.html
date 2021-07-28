@@ -21,15 +21,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="/static/stations.js"></script>
     <style>
         .btn {
-        background-color: #000000;  !important;
+        background-color: #000000 !important;
         }
         .bus-item {
-        background-color: #FFCC00!important;
+        background-color: #FFCC00 !important;
         }
         .nav_bar{
     width:100% !important;
@@ -40,18 +40,18 @@
     <div class="container-fluid card nav_bar" style="height: 8vh; border-radius: 0px !important;">
         <nav class="navbar navbar-expand navbar-light" style="height: 8vh;">
             <div>
-                <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f; float: right;"><b><small>No Fuss Bus</small></b></a>                 
+                <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f; float: right;"><small><b>No Fuss Bus</b></small></a>                 
             </div>
             <div id="personal" style="float:right;">
                 <form method="GET" action="/map">
-                    <input style="margin-right: 20px;margin-left: 5px; border-radius: 5px;" class="btn btn_profile" type="submit" value="Map">
+                    <input style="margin-right: 20px;margin-left: 5px; border-radius: 5px; font-weight: bold;" class="btn btn_profile" type="submit" value="Map">
                 </form>
             </div>
 
             <div class="dropdown" id="log" style="float:right">
                 <button class="btn btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 5px;">
-                    Account
+                        <b>Account</b>
                 </button>
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 110px;">
@@ -85,19 +85,7 @@
                         <button type="submit" class="dropdown-item"  onclick="confirm_me()">
                             Delete Account
                         </button>
-                    </li>
-                    {%else%}
-                    <li>
-                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#login">
-                            Login
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#register">
-                            Register
-                        </button>
-                    </li>                       
+                    </li>                                      
                     {%endif%}
                 </ul>
             </div>
