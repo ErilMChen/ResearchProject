@@ -27,49 +27,77 @@
         }
     </style>
 </head>
+
 <body id="bod">
-    <div class="container-fluid card nav_bar">
+    <div class="container-fluid card nav_bar" style="margin-top: 10px;">
         <div class="row">
             <nav class="navbar navbar-expand navbar-light">
                 <div class="col-md">
                     <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
-                        aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </div>
-                <div class="col-md-6 my-auto">
-                    <div class="collapse navbar-collapse" id="navbarsExample02">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                
                 <div id="personal" style="float:right; margin-right: 1%;">
                     <form method="GET" action="/map">
                         <input class="btn btn-primary btn_profile" type="submit" value="Map">
                     </form>
                 </div>
-                <div id="personal" style="float:right; margin-right: 1%;">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changepass">
-                        PASSWORD
+
+                <div class="dropdown" id="log" style="float:right">
+                    <button class="btn btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 5px; color: white;">
+                        My Account
                     </button>
-                </div>
-                <div id="logout_div" style="float:right">
-                    <button style="background:black;" class="btn btn-primary btn_profile" onclick="logOut()">
-                            Logout
-                        </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 115px;">
+                        
+                        {% if user.is_authenticated %}                       
+                        <li>
+                            <form  method="GET" action="/mystations">
+                                <input class="dropdown-item" type="submit" value="Profile">
+                            </form>                           
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changepass">
+                                Password
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" onclick="logOut()">
+                                Logout
+                            </button>
+                        </li>
+
+                        <form style="display: none;" id='logout' method="POST" action="/logout/" class="form-group">
+                            {% csrf_token %}
+                        </form>
+                        <script>
+                            function logOut(){document.getElementById("logout").submit();}                          
+                        </script>
+
+
+                        <li>
+                            <button type="submit" class="dropdown-item"  onclick="confirm_me()">
+                                Delete Account
+                            </button>
+                        </li>
+                        {%else%}
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#login">
+                                Login
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#register">
+                                Register
+                            </button>
+                        </li>                       
+                        {%endif%}
+                    </ul>
                 </div>
             </nav>
         </div>
     </div>
+
     <div id="greeting">
     <br>
     {% if user.is_authenticated %}
