@@ -1,22 +1,17 @@
 .detail_card::-webkit-scrollbar,.plan_detail_card::-webkit-scrollbar,.search_card::-webkit-scrollbar,.plan_card::-webkit-scrollbar,#weather_detail_container::-webkit-scrollbar,#detail_container::-webkit-scrollbar, #plan_detail_container::-webkit-scrollbar,#search_form::-webkit-scrollbar, #plan_container::-webkit-scrollbar { width: 0 !important }
-.search_card,.plan_card{
+
+.search_card {
     background-color: #fcfcfc !important;
     width: 98%; 
-    height: 22em; 
+    height: auto; 
     border-radius: 10px !important;
     overflow-y: auto;
 }
-.plan_card{
-    padding-left: 3%;
-    padding-right: 3%;
-}
-.search_card{
-    padding: 5%;
-}
-.detail_card,.plan_detail_card{
+/* search result box */
+.detail_card{
     background-color: #fcfcfc !important;
     width: 98%; 
-    height: 22em; 
+    height: 23em; 
     /* width: 400px; 
     height: 250px;  */
     border-radius: 10px !important;
@@ -25,6 +20,40 @@
     padding-right: 3%;
     padding-left: 3%;
 }
+
+.plan_card{
+    background-color: #fcfcfc !important;
+    width: 98%; 
+    height: 23em; 
+    border-radius: 10px !important;
+    overflow-y: auto;
+}
+
+.plan_detail_card{
+    background-color: #fcfcfc !important;
+    width: 98%; 
+    height: 26em; 
+    /* width: 400px; 
+    height: 250px;  */
+    border-radius: 10px !important;
+    margin-top: 3%;
+    overflow-y: auto;
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+
+.plan_card{
+    padding-left: 3%;
+    padding-right: 3%;
+}
+.search_card{
+    padding: 4%;
+}
+
+
+
+
 .route_card{
     /* color: #fcfcfc!important;
     background-color:#2f2f2f !important; */
@@ -103,17 +132,22 @@
     
 }
 .button-myplan{
-    /* color: #2f2f2f!important; */
-    /* background-color: #25B5F1 !important; */
+    color: #2f2f2f!important; 
+    background-color: #25B5F1 !important;
 }
 .button-search{
-    /* color: #2f2f2f!important; */
-    /* background-color: #FFCC00 !important; */
+     color: #2f2f2f!important;
+    background-color: #FFCC00 !important;
 }   
 .btn_size{
     font-size: 1.2em !important;
 }
 .btn_profile{
+    color: #fcfcfc!important;
+    background-color: #2f2f2f !important;   
+}
+
+.btn_myaccount{
     color: #fcfcfc!important;
     background-color: #2f2f2f !important;   
 }
