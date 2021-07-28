@@ -4,19 +4,25 @@
 
 <html lang="en">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-</html>
+
 
 <head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- local static files -->
-    <link rel="stylesheet" href="{% static 'map/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'map/css/mstyle.css' %}">
     <link rel="stylesheet" href="{% static 'map/css/buttons.css' %}">
-    <script src="{% static 'map/js/init.js' %}"></script>
+    <script src="{% static 'map/js/minit.js' %}"></script>
     <script src="{% static 'map/js/main.js' %}"></script>
     <script src="{% static 'map/js/route.js' %}"></script>
     <script src="{% static 'map/js/plan.js' %}"></script>
     <script src="{% static 'map/js/weather.js' %}"></script>
     <script src="{% static 'map/js/updates.js' %}"></script>
     <script src="{% static 'map/js/favoritestop.js' %}"></script>
+    
 
     <!-- bootstrap files -->
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -51,6 +57,7 @@
                 streetViewControl: false,
                 scaleControl: false,
                 fullscreenControl: false,
+                disableDefaultUI: true,
             };
             // google map initialization
             map = new google.maps.Map(document.getElementById("map"), mapProp);
@@ -81,7 +88,7 @@
 
     <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; window.myWidgetParam.push({ id: 9, cityid: '2964574', appid: '86e6d9e6dddfc8dccd6899f2454e98c2', units: 'metric', containerid: 'openweathermap-widget-9', }); (function () { var script = document.createElement('script'); script.async = true; script.charset = "utf-8"; script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s); })();</script>
     <style>
-
+        
     </style>
 </head>
 
@@ -97,30 +104,31 @@
         </div>
         {% endif %}
     </div>
-    <div class="container-fluid card nav_bar">
-        <div class="row">
-            <nav class="navbar navbar-expand navbar-light">
-                <div class="col-md">
-                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f;"><b>No Fuss Bus</b></a>
+
+    <div class="container-fluid card nav_bar" style="height: 8vh;">
+            <nav class="navbar navbar-expand navbar-light" style="height: 8vh;">
+                <div>
+                    <a class="navbar-brand my-auto" href="/map" style="color: #2f2f2f; float: right;"><b><small>No Fuss Bus</small></b></a>                 
                 </div>
-
-
-                <button class="btn btn-primary btn_profile" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-                aria-controls="offcanvasScrolling" style="margin-right: 1%;">BusNews</button>
+                
+                <button class="btn btn_profile" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                aria-controls="offcanvasScrolling" style="margin-right: 15px; border-radius: 5px;">BusNews</button>
 
                 <div class="dropdown" id="log" style="float:right">
-                    <button class="btn btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    <button class="btn btn_myaccount dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 5px;">
                         Account
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 115px;">
-
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 100px;">
+                        
                         {% if user.is_authenticated %}
                         <li>
                             <form  method="GET" action="/mystations">
                                 <input class="dropdown-item" type="submit" value="Profile">
-                            </form>
+                            </form>                           
                         </li>
+                        
+
                         <li>
                             <button class="dropdown-item" onclick="logOut()">
                                 Logout
@@ -131,22 +139,10 @@
                             {% csrf_token %}
                         </form>
                         <script>
-                            function logOut(){document.getElementById("logout").submit();}
+                            function logOut(){document.getElementById("logout").submit();}                          
                         </script>
 
 
-                <div id="personal" style="display: none; float:right; margin-right: 1%;">
-                    <form method="GET" action="/mystations">
-                        <input class="btn btn-primary btn_profile" type="submit" value="Profile">
-                    </form>
-                </div>
-
-                <div class="dropdown" id="log" style="float:right">
-                    <button class="btn btn-primary btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Login/Register
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
                             <button type="submit" class="dropdown-item"  onclick="confirm_me()">
                                 Delete Account
@@ -158,23 +154,23 @@
                                 Login
                             </button>
                         </li>
-                        {% if user.is_authenticated %}
                         <li>
                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                 data-bs-target="#register">
                                 Register
                             </button>
-                        </li>
+                        </li>                       
                         {%endif%}
                     </ul>
                 </div>
             </nav>
-        </div>
+        
     </div>
 
-    <div class="container-fluid">
-        <div id="map" style="width:100%;height:90vh;"></div>
-    </div>
+    <!-- <div class="container-fluid"> -->
+        <div id="map" style="height:92vh;"></div>
+    <!-- </div> -->
+
 
     <div id="main_panel">
         <div class="collapse " id="plan_panel">
@@ -243,13 +239,13 @@
     </div>
 
 
-    <input class="btn btn-info btn_size button-myplan" data-bs-toggle="collapse" href="#search_panel"
+    <input class="btn btn-light btn_size button-myplan" data-bs-toggle="collapse" href="#search_panel"
         aria-expanded="false" aria-controls="search_panel" id="search" type="button" value="Search Route"
-        style="display: none;">
+        style="display: none; margin-top: 8px;">
 
-    <input class="btn btn-secondary btn_size button-search" data-bs-toggle="collapse" href="#plan_panel"
+    <input class="btn btn-light btn_size button-search" data-bs-toggle="collapse" href="#plan_panel"
         aria-expanded="false" aria-controls="plan_panel" id="plan" type="button" value="My Plan"
-        style="display: none;">
+        style="display: none; margin-top: 8px; margin-left: 15px;">
 
     <input class="btn btn-light btn_size" data-bs-toggle="collapse" href="#weather_detail_container"
         aria-expanded="false" aria-controls="weather_detail_container" id="weather" type="button" value="Weather"
@@ -278,6 +274,7 @@
         </div>
     </div>
 
+    <!--modal for login-->
     <div class="modal fade" id="login" tabindex="-1" aria-labelledby="login" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

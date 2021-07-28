@@ -11,10 +11,20 @@ import weather.models as wm
 from django.core import serializers
 
 
+def mobile(request):
+    user_agent = request.META['HTTP_USER_AGENT']
+    if 'Mobile' in user_agent:
+        return True
+    else:
+        return False
+
 # Create your views here.
 def index(request):
 	form1 = au.UserForm()
 	form2 = au.AuthForm()
+
+	if mobile(request) == True:
+		return render(request, 'mindex.html', {"form1": form1, "form2": form2})
 	return render(request, 'index.html', {"form1": form1, "form2": form2})
 
 def BusStation(request):

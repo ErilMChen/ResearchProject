@@ -9,10 +9,9 @@ function initControl(){
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(plan_button);
     plan_button.style.display = "block";
 
-    var weather_button = document.getElementById('weather');
-    weather_button.index = 3;
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(weather_button);
-    weather_button.style.display = "block";
+    // var weather_button = document.getElementById('weather');
+    // weather_button.index = 3;
+    // map.controls[google.maps.ControlPosition.TOP_RIGHT].push(weather_button);
 
     var main_panel = document.getElementById('main_panel');
     main_panel.index = 4;
