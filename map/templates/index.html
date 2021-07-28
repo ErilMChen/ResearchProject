@@ -135,18 +135,6 @@
                         </script>
 
 
-                <div id="personal" style="display: none; float:right; margin-right: 1%;">
-                    <form method="GET" action="/mystations">
-                        <input class="btn btn-primary btn_profile" type="submit" value="Profile">
-                    </form>
-                </div>
-
-                <div class="dropdown" id="log" style="float:right">
-                    <button class="btn btn-primary btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Login/Register
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
                             <button type="submit" class="dropdown-item"  onclick="confirm_me()">
                                 Delete Account
@@ -158,7 +146,6 @@
                                 Login
                             </button>
                         </li>
-                        {% if user.is_authenticated %}
                         <li>
                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                 data-bs-target="#register">
