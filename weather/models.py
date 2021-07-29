@@ -18,13 +18,16 @@ class currentWeather(models.Model):
 class Forecast(models.Model):
     id = models.IntegerField
     fdate = models.TextField()
-    ffeelslike = models.TextField()
-    fpressure = models.FloatField()
-    fhumidity = models.CharField(max_length=45)
-    fmain = models.TextField(max_length=50)
-    fwind_speed = models.TextField(max_length=50)
-    pressure = models.TextField(max_length=50)
-
+    temp = models.TextField()
+    temp_max = models.TextField()
+    temp_min = models.TextField()
+    feelslike = models.TextField()
+    pressure = models.FloatField()
+    humidity = models.CharField(max_length=45)
+    main = models.TextField(max_length=50)
+    wind_speed = models.TextField(max_length=50)
+    wind_deg = models.TextField()
+    desc = models.TextField()
 
 class AA_Road_Report(models.Model):
     lat = models.FloatField()
