@@ -42,9 +42,8 @@ def get_weather(datetime_object):
 
     if result:
         return result
-
     else:
-        print("No weather data available")
+        print("Error retrieving weather data")
 
 
 def get_hour_weekday_month(datetime_object):
@@ -120,8 +119,6 @@ def create_dataframe(date, time):
 def get_direction(line, headsign):
     """Accepts bus-line number and headsign and queries database for direction of journey"""
 
-    headsign = headsign.rstrip(',')
-
     cur.reset()
     cur.execute(
         "SELECT match_headsign.direction_id FROM match_headsign WHERE match_headsign.line=%s AND match_headsign.route_endpoint=%s LIMIT 1;",
@@ -135,6 +132,9 @@ def get_direction(line, headsign):
 
 def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
     """Returns proportion of total journey-time that falls between user selected stops"""
+
+    print(total_time, bus_line, direction, origin_stop, dest_stop)
+    # print(type(bus_line))
 
     cur.reset()
     cur.execute(
@@ -156,11 +156,37 @@ def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
 
     return journey_time
 
+def check_stops_on_same_line(bus_line, origin_stop, dest_stop):
+    """Returns boolean value indicating whether both stops exist on the same line"""
+
+    cur.reset()
+    cur.execute(
+        "SELECT EXISTS (SELECT 1 FROM dubbusdb.stop_proportions WHERE LINEID=%s AND STOPPOINTID=%s);",
+        (bus_line, origin_stop))
+    origin_result = cur.fetchone()
+    origin_true = origin_result[0]
+
+    cur.reset()
+    cur.execute(
+        "SELECT EXISTS (SELECT 1 FROM dubbusdb.stop_proportions WHERE LINEID=%s AND STOPPOINTID=%s);",
+        (bus_line, dest_stop))
+    dest_result = cur.fetchone()
+    dest_true = dest_result[0]
+
+    if origin_true + dest_true == 2:
+        return True
+    else:
+        return False
 
 def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
     """Fetches pickled model from database and passes dataframe of user input to model, returning prediction.
 
     This is the main function which should be called from the front end."""
+
+    bool_stops_on_line = check_stops_on_same_line(bus_line, origin_stop, dest_stop)
+    print(bool_stops_on_line)
+
+    print(origin_stop, dest_stop, bus_line, headsign, date, time)
 
     direction = get_direction(bus_line, headsign)
 
@@ -185,11 +211,13 @@ def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
 
     user_journey_minutes = int(user_journey) // 60
 
+    print("HERE", user_journey_minutes)
+
     return user_journey_minutes
 
 
 # print('Number of arguments:', len(sys.argv), 'arguments.')
-#
+
 # if __name__ == "__main__":
 #     print(sys.argv[4])
 #     x = get_prediction(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
