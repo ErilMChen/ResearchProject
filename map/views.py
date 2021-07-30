@@ -44,11 +44,13 @@ def DurationPrediction(request):
 	bus_line = request.GET.get("line","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-	print(origin_stop.split(" ")[-1], dest_stop.split(" ")[-1], bus_line, headsign, date, time)
-	predtime = get_prediction.get_prediction(origin_stop.split(" ")[-1], dest_stop.split(" ")[-1], bus_line, headsign, date, time)
+	origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()
+	dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()
+	print(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, headsign, date, time)
+	predtime = get_prediction.get_prediction(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, headsign, date, time)
 	print(predtime)
 
-	res = json.dumps(date)
+	res = json.dumps(predtime)
 	return HttpResponse(res)
 
 def GetUserStatus(request):
