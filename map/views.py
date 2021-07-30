@@ -44,7 +44,8 @@ def DurationPrediction(request):
 	bus_line = request.GET.get("line","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-	predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time)
+	print(origin_stop.split(" ")[-1], dest_stop.split(" ")[-1], bus_line, headsign, date, time)
+	predtime = get_prediction.get_prediction(origin_stop.split(" ")[-1], dest_stop.split(" ")[-1], bus_line, headsign, date, time)
 	print(predtime)
 
 	res = json.dumps(date)
