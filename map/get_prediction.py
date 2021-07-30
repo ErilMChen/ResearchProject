@@ -3,6 +3,8 @@ import pickle
 from datetime import datetime
 import mysql.connector
 
+# import sys
+
 # Connect to database
 myhost = "dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com"
 myuser = "admin"
@@ -118,14 +120,18 @@ def create_dataframe(date, time):
 def get_direction(line, headsign):
     """Accepts bus-line number and headsign and queries database for direction of journey"""
 
+    headsign = headsign.rstrip(',')
+
     cur.reset()
     cur.execute(
-        "SELECT lines_for_plotting.direction_id FROM lines_for_plotting WHERE lines_for_plotting.line=%s AND lines_for_plotting.route_endpoint=%s LIMIT 1;",
+        "SELECT match_headsign.direction_id FROM match_headsign WHERE match_headsign.line=%s AND match_headsign.route_endpoint=%s LIMIT 1;",
         (line, headsign))
     result = cur.fetchone()
 
-    return result[0]
-
+    if result:
+        return result[0]
+    else:
+        print("Error retrieving direction")
 
 def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
     """Returns proportion of total journey-time that falls between user selected stops"""
@@ -180,3 +186,12 @@ def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
     user_journey_minutes = int(user_journey) // 60
 
     return user_journey_minutes
+
+
+# print('Number of arguments:', len(sys.argv), 'arguments.')
+#
+# if __name__ == "__main__":
+#     print(sys.argv[4])
+#     x = get_prediction(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+#     print(x)
+
