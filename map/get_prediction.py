@@ -34,7 +34,7 @@ def get_weather(datetime_object):
 
     cur.reset()
     cur.execute(
-        "SELECT * FROM weather_test WHERE weather_forecast.fdate < %s ORDER BY weather_forecast.fdate DESC LIMIT 1;",
+        "SELECT * FROM weather_forecast WHERE weather_forecast.fdate < %s ORDER BY weather_forecast.fdate DESC LIMIT 1;",
         (datetime_string,))
     result = cur.fetchone()
 
@@ -63,7 +63,7 @@ def get_cat_features(df):
     for column in df:
         cat_features.append(column + "_" + str(df.iloc[0][column]))
 
-    print(cat_features)
+    return cat_features
 
 
 def create_dataframe(date, time):
@@ -98,11 +98,8 @@ def create_dataframe(date, time):
     series = pd.Series(row, index=user_data.columns)
     user_data = user_data.append(series, ignore_index=True)
 
-    cat_features = {"weather_main": weather_main, "MONTH": month, "WEEKDAY": weekday, "HOUR": hour}
-    cat_df = pd.DataFrame(cat_features)
-
-    cat_feature_values = [[weather_main, month, weekday, hour]]
-    cat_df = pd.DataFrame(cat_feature_values, columns=["weather_main", "MONTH", "WEEKDAY", "HOUR"])
+    cat_data = {"weather_main": [weather_main], "MONTH": [month], "WEEKDAY": [weekday], "HOUR": [hour]}
+    cat_df = pd.DataFrame(data=cat_data)
 
     current_cat_features = get_cat_features(cat_df)
 
@@ -116,8 +113,7 @@ def create_dataframe(date, time):
     user_data.at[0, "wind_speed"] = wind_speed
     user_data.at[0, "wind_deg"] = wind_deg
 
-    return cat_df
-
+    return user_data
 
 def get_direction(line, headsign):
     """Accepts bus-line number and headsign and queries database for direction of journey"""
@@ -162,15 +158,15 @@ def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
 
     direction = get_direction(bus_line, headsign)
 
-    route = str(bus_line) + "_" + str(direction) + "RFR.pickle"
+    route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
 
     cur.reset()
-    cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", route)
+    cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
     id_result = cur.fetchone()
     pickle_ID = id_result[0]
 
     cur.reset()
-    cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", pickle_ID)
+    cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
     pickle_result = cur.fetchone()
     pickle_from_db = pickle_result[0]
 
