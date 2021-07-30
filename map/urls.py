@@ -8,6 +8,7 @@ urlpatterns = [
     path('get_live_updates', views.get_live_updates, name='updates'),
     path('busstation', views.BusStation, name='busstation'),
     path('route/', views.RouteDirection, name="routedirection"),
+    path('predict/', views.DurationPrediction, name="predict duration"),
     path('add/', views.AddFavoriteStop, name="routedirection"),
     path('addplan/', views.AddPlan, name="addplan"),
     path('loadplan/', views.LoadPlan, name="loadplan"),

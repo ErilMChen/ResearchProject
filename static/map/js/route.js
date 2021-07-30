@@ -52,7 +52,7 @@ function markBusRoute( ){
                 //draw route on map (google api)
                 directionsRenderer.setDirections(response);
                 //show route detail
-                showRoutedetail(response, "detail_container")
+                showRoutedetail(response, "detail_container", url)
             }
         });
     });
@@ -88,14 +88,14 @@ function showPlan(url){
                 //draw route on map (google api)
                 directionsRenderer.setDirections(response);
                 //show route detail
-                showRoutedetail(response, "plan_detail_container")
+                showRoutedetail(response, "plan_detail_container", url)
             }
         });
     });
 }
 
 // show route detail infromation
-function showRoutedetail(response, element){
+function showRoutedetail(response, element, url){
     // extract data from google response
     var myRoute = response.routes[0].legs[0];
     var locations = new Array();
@@ -108,6 +108,7 @@ function showRoutedetail(response, element){
             var location={
                 startStop : myRoute.steps[i].transit.departure_stop.name,
                 endStop : myRoute.steps[i].transit.arrival_stop.name,
+                lineName : myRoute.steps[i].transit.line.name,
                 line : myRoute.steps[i].transit.line.short_name,
                 distance : myRoute.steps[i].distance.text,
                 duration : myRoute.steps[i].duration.text,
@@ -116,6 +117,30 @@ function showRoutedetail(response, element){
             total_distance += Math.round(myRoute.steps[i].distance.value/1000);
             locations.push(location)
         }
+    }
+
+    var pairs = url.split("&");
+    var date = pairs[2].split("=")[1];
+    var time = pairs[3].split("=")[1];
+    var PredictedArray = new Array();
+    for(var i = 0; i< locations.length; i++){
+        (function(i){
+        let url2 = 'predict/'
+            +'?start_stop='+ locations[i].startStop
+            +'&end_stop='+locations[i].endStop
+            +'&line_name=' + locations[i].lineName
+            +'&line=' + locations[i].line
+            +'&date='+date
+            +'&time='+time;
+            
+        fetch(url2, {
+            method:'GET'}).then(function(response) {
+                // read data from django server and prase to json
+                console.log(response.json());
+                PredictedArray.push(response.json());
+                // return response.json();
+            });
+        }(i));
     }
 
     // write infrom mation on certain element

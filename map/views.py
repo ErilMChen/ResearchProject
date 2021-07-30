@@ -9,6 +9,7 @@ import users.views as uv
 import users.forms as au
 import weather.models as wm
 from django.core import serializers
+from map import get_prediction
 
 
 # Create your views here.
@@ -35,6 +36,20 @@ def RouteDirection(request):
 	data = json.dumps(data)
 	return HttpResponse(data)
 
+# machine learning interface
+def DurationPrediction(request):
+	origin_stop = request.GET.get("start_stop","")
+	dest_stop = request.GET.get("end_stop","")
+	headsign = request.GET.get("line_name","")
+	bus_line = request.GET.get("line","")
+	date = request.GET.get("date","")
+	time = request.GET.get("time","")
+	predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time)
+	print(predtime)
+
+	res = json.dumps(date)
+	return HttpResponse(res)
+
 def GetUserStatus(request):
 	if request.user.is_authenticated:
 		res = json.dumps("true")
@@ -42,6 +57,7 @@ def GetUserStatus(request):
 		res = json.dumps("false")
 	return HttpResponse(res)
 
+# scy plan
 def LoadPlan(request):
 	if request.user.is_authenticated:
 		current_user = request.user
