@@ -184,40 +184,41 @@ def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
     This is the main function which should be called from the front end."""
 
     bool_stops_on_line = check_stops_on_same_line(bus_line, origin_stop, dest_stop)
-    print(bool_stops_on_line)
 
-    print(origin_stop, dest_stop, bus_line, headsign, date, time)
+    if bool_stops_on_line:
 
-    direction = get_direction(bus_line, headsign)
+        direction = get_direction(bus_line, headsign)
 
-    route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
+        route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
 
-    cur.reset()
-    cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
-    id_result = cur.fetchone()
-    pickle_ID = id_result[0]
+        cur.reset()
+        cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
+        id_result = cur.fetchone()
+        pickle_ID = id_result[0]
 
-    cur.reset()
-    cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
-    pickle_result = cur.fetchone()
-    pickle_from_db = pickle_result[0]
+        cur.reset()
+        cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
+        pickle_result = cur.fetchone()
+        pickle_from_db = pickle_result[0]
 
-    input_dataframe = create_dataframe(date, time)
+        input_dataframe = create_dataframe(date, time)
 
-    model = pickle.loads(pickle_from_db)
-    prediction = model.predict(input_dataframe)
+        model = pickle.loads(pickle_from_db)
+        prediction = model.predict(input_dataframe)
 
-    user_journey = get_proportion(prediction, bus_line, direction, origin_stop, dest_stop)
+        user_journey = get_proportion(prediction, bus_line, direction, origin_stop, dest_stop)
 
-    user_journey_minutes = int(user_journey) // 60
+        user_journey_minutes = int(user_journey) // 60
 
-    print("HERE", user_journey_minutes)
+        return user_journey_minutes
 
-    return user_journey_minutes
+    else:
+
+        return False
 
 
 # print('Number of arguments:', len(sys.argv), 'arguments.')
-
+#
 # if __name__ == "__main__":
 #     print(sys.argv[4])
 #     x = get_prediction(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
