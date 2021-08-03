@@ -3,7 +3,7 @@ import pickle
 from datetime import datetime
 import mysql.connector
 
-# import sys
+import sys
 
 # Connect to database
 myhost = "dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com"
@@ -116,47 +116,74 @@ def create_dataframe(date, time):
 
     return user_data
 
-def get_direction(line, headsign):
-    """Accepts bus-line number and headsign and queries database for direction of journey"""
+
+def get_direction(origin_stop, dest_stop, bus_line):
+    """Accepts bus-line number, origin stop and destination stop and returns direction, based on stop sequence"""
 
     cur.reset()
     cur.execute(
-        "SELECT match_headsign.direction_id FROM match_headsign WHERE match_headsign.line=%s AND match_headsign.route_endpoint=%s LIMIT 1;",
-        (line, headsign))
-    result = cur.fetchone()
+        "SELECT stop_proportions.PROGRNUMBER FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.STOPPOINTID=%s ORDER BY stop_proportions.ROUTEID, stop_proportions.PROGRNUMBER LIMIT 1;",
+        (bus_line, origin_stop)
+    )
+    origin_seq = cur.fetchone()
 
-    if result:
-        return result[0]
+    cur.reset()
+    cur.execute(
+        "SELECT stop_proportions.PROGRNUMBER FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.STOPPOINTID=%s ORDER BY stop_proportions.ROUTEID, stop_proportions.PROGRNUMBER LIMIT 1;",
+        (bus_line, dest_stop)
+    )
+    dest_seq = cur.fetchone()
+
+    if origin_seq < dest_seq:
+        direction = 0
     else:
-        print("Error retrieving direction")
+        direction = 1
 
-def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
-    """Returns proportion of total journey-time that falls between user selected stops"""
+    # print("DIRECTION:", direction)
+    return direction
 
-    print(total_time, bus_line, direction, origin_stop, dest_stop)
-    # print(type(bus_line))
 
-    cur.reset()
-    cur.execute(
-        "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
-        (bus_line, direction, origin_stop))
-    origin_result = cur.fetchone()
-    origin_pc = origin_result[0]
+def check_same_direction(origin_stop, dest_stop, bus_line):
 
     cur.reset()
     cur.execute(
-        "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
-        (bus_line, direction, dest_stop))
-    dest_result = cur.fetchone()
-    dest_pc = dest_result[0]
+        "SELECT stop_proportions.DIRECTION FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.STOPPOINTID=%s ORDER BY stop_proportions.ROUTEID, stop_proportions.PROGRNUMBER;",
+        (bus_line, origin_stop)
+    )
 
-    journey_pc = dest_pc - origin_pc
+    origin_direction_result = cur.fetchall()
 
-    journey_time = (journey_pc / 100) * total_time
+    origin_directions = []
 
-    return journey_time
+    for row in origin_direction_result:
+        origin_directions.append(row[0])
 
-def check_stops_on_same_line(bus_line, origin_stop, dest_stop):
+    # print("ORIGIN directions", origin_directions)
+
+    cur.reset()
+    cur.execute(
+        "SELECT stop_proportions.DIRECTION FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.STOPPOINTID=%s ORDER BY stop_proportions.ROUTEID, stop_proportions.PROGRNUMBER;",
+        (bus_line, dest_stop)
+    )
+
+    dest_direction_result = cur.fetchall()
+
+    dest_directions = []
+
+    for row in dest_direction_result:
+        dest_directions.append(row[0])
+
+    # print("DEST directions", dest_directions)
+
+    shared_direction = [value for value in origin_directions if value in dest_directions]
+
+    if len(shared_direction) > 0:
+        return True
+    else:
+        return False
+
+
+def check_stops_on_same_line(origin_stop, dest_stop, bus_line):
     """Returns boolean value indicating whether both stops exist on the same line"""
 
     cur.reset()
@@ -178,49 +205,94 @@ def check_stops_on_same_line(bus_line, origin_stop, dest_stop):
     else:
         return False
 
-def get_prediction(origin_stop, dest_stop, bus_line, headsign, date, time):
+
+def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
+    """Returns proportion of total journey-time that falls between user selected stops"""
+
+    # print(total_time, bus_line, direction, origin_stop, dest_stop)
+
+    cur.reset()
+    cur.execute(
+        "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
+        (bus_line, direction, origin_stop))
+    origin_result = cur.fetchone()
+    origin_pc = origin_result[0]
+
+    cur.reset()
+    cur.execute(
+        "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
+        (bus_line, direction, dest_stop))
+    dest_result = cur.fetchone()
+    dest_pc = dest_result[0]
+
+    journey_pc = dest_pc - origin_pc
+
+    journey_time = (journey_pc / 100) * total_time
+
+    return journey_time
+
+
+def get_prediction(origin_stop, dest_stop, bus_line, date, time):
     """Fetches pickled model from database and passes dataframe of user input to model, returning prediction.
 
     This is the main function which should be called from the front end."""
 
-    bool_stops_on_line = check_stops_on_same_line(bus_line, origin_stop, dest_stop)
+    print("INPUT:", origin_stop, dest_stop, bus_line, date, time)
 
-    if bool_stops_on_line:
+    try:
 
-        direction = get_direction(bus_line, headsign)
+        bool_stops_on_line = check_stops_on_same_line(origin_stop, dest_stop, bus_line)
 
-        route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
+        if bool_stops_on_line:
 
-        cur.reset()
-        cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
-        id_result = cur.fetchone()
-        pickle_ID = id_result[0]
+            print("STOPS SHARE LINE")
 
-        cur.reset()
-        cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
-        pickle_result = cur.fetchone()
-        pickle_from_db = pickle_result[0]
+            direction_bool = check_same_direction(origin_stop, dest_stop, bus_line)
 
-        input_dataframe = create_dataframe(date, time)
+            if direction_bool:
 
-        model = pickle.loads(pickle_from_db)
-        prediction = model.predict(input_dataframe)
+                direction = get_direction(origin_stop, dest_stop, bus_line)
 
-        user_journey = get_proportion(prediction, bus_line, direction, origin_stop, dest_stop)
+                input_dataframe = create_dataframe(date, time)
 
-        user_journey_minutes = int(user_journey) // 60
+                route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
 
-        return user_journey_minutes
+                cur.reset()
+                cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
+                id_result = cur.fetchone()
+                pickle_ID = id_result[0]
 
-    else:
+                cur.reset()
+                cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
+                pickle_result = cur.fetchone()
+                pickle_from_db = pickle_result[0]
 
+                print("Model fetched")
+
+                model = pickle.loads(pickle_from_db)
+                prediction = model.predict(input_dataframe)
+
+                user_journey = get_proportion(prediction[0], bus_line, direction, origin_stop, dest_stop)
+
+                user_journey_minutes = int(user_journey) // 60
+
+                print("User journey:", user_journey_minutes)
+
+                return user_journey_minutes
+
+            else:
+                print("Stops don't share direction")
+                return False
+
+        else:
+            print("Stops don't share line")
+            return False
+
+    except Exception as ex:
+        print("Error:", ex)
         return False
 
-
-# print('Number of arguments:', len(sys.argv), 'arguments.')
-#
 # if __name__ == "__main__":
-#     print(sys.argv[4])
-#     x = get_prediction(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+#     print('Number of arguments:', len(sys.argv))
+#     x = get_prediction(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 #     print(x)
-
