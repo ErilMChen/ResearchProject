@@ -40,17 +40,24 @@ def RouteDirection(request):
 def DurationPrediction(request):
 	origin_stop = request.GET.get("start_stop","")
 	dest_stop = request.GET.get("end_stop","")
-	headsign = request.GET.get("line_name","")
 	bus_line = request.GET.get("line","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
 	origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()
 	dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()
-	print(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, headsign, date, time)
+	try:
+		print(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"])
+	except:
+		res = json.dumps("false")
+		print(False)
+		return HttpResponse(res)
+	print(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, date, time)
 	predtime = get_prediction.get_prediction(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, date, time)
 	print(predtime)
-
-	res = json.dumps(predtime)
+	if predtime:
+		res = json.dumps(predtime)
+	else:
+		res = json.dumps("false")
 	return HttpResponse(res)
 
 def GetUserStatus(request):
