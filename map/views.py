@@ -47,7 +47,7 @@ def DurationPrediction(request):
 	origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()
 	dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()
 	print(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, headsign, date, time)
-	predtime = get_prediction.get_prediction(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, headsign, date, time)
+	predtime = get_prediction.get_prediction(origin_stop[0]["stoppointid"], dest_stop[0]["stoppointid"], bus_line, date, time)
 	print(predtime)
 
 	res = json.dumps(predtime)
