@@ -20,6 +20,7 @@ db = mysql.connector.connect(
 
 cur = db.cursor()
 
+
 def get_datetime(date, time):
     """Accepts date and time strings and returns correctly formatted datetime object"""
 
@@ -33,6 +34,7 @@ def get_weather(datetime_object):
     """Accepts datetime object and queries database for most recent weather data corresponding to datetime passed"""
 
     datetime_string = str(datetime_object)
+    print(datetime_string)
 
     cur.reset()
     cur.execute(
@@ -118,7 +120,9 @@ def create_dataframe(date, time):
 
 
 def get_direction(origin_stop, dest_stop, bus_line):
-    """Accepts bus-line number, origin stop and destination stop and returns direction, based on stop sequence"""
+    """Accepts bus-line number, origin stop and destination stop and returns direction, based on stop sequence.
+
+    This function is only needed if both stops are in operation for both directions."""
 
     cur.reset()
     cur.execute(
@@ -144,6 +148,10 @@ def get_direction(origin_stop, dest_stop, bus_line):
 
 
 def check_same_direction(origin_stop, dest_stop, bus_line):
+    """Accepts origin and destination stops and bus line and verifies that stops share a direction for that line.
+
+    This function returns the direction if the stops share one direction only for the line and otherwise calls get_direction
+    to distinguish direction based on stop sequence."""
 
     cur.reset()
     cur.execute(
@@ -158,7 +166,7 @@ def check_same_direction(origin_stop, dest_stop, bus_line):
     for row in origin_direction_result:
         origin_directions.append(row[0])
 
-    # print("ORIGIN directions", origin_directions)
+    print("ORIGIN directions", origin_directions)
 
     cur.reset()
     cur.execute(
@@ -173,12 +181,18 @@ def check_same_direction(origin_stop, dest_stop, bus_line):
     for row in dest_direction_result:
         dest_directions.append(row[0])
 
-    # print("DEST directions", dest_directions)
+    print("DEST directions", dest_directions)
 
     shared_direction = [value for value in origin_directions if value in dest_directions]
+    print(shared_direction)
 
-    if len(shared_direction) > 0:
-        return True
+    if len(shared_direction) > 1:
+        direction = get_direction(origin_stop, dest_stop, bus_line)
+        print("Direction of current trip:", direction)
+        return direction
+    elif len(shared_direction) == 1:
+        direction = shared_direction[0]
+        return direction
     else:
         return False
 
@@ -209,7 +223,7 @@ def check_stops_on_same_line(origin_stop, dest_stop, bus_line):
 def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
     """Returns proportion of total journey-time that falls between user selected stops"""
 
-    # print(total_time, bus_line, direction, origin_stop, dest_stop)
+    print("For get proportion:", total_time, bus_line, direction, origin_stop, dest_stop)
 
     cur.reset()
     cur.execute(
@@ -249,13 +263,13 @@ def get_prediction(origin_stop, dest_stop, bus_line, date, time):
 
             direction_bool = check_same_direction(origin_stop, dest_stop, bus_line)
 
-            if direction_bool:
+            if direction_bool is not False:
 
-                direction = get_direction(origin_stop, dest_stop, bus_line)
+                # direction = get_direction(origin_stop, dest_stop, bus_line)
 
                 input_dataframe = create_dataframe(date, time)
 
-                route = str(bus_line) + "_" + str(direction) + "_RFR.pickle"
+                route = str(bus_line) + "_" + str(direction_bool) + "_RFR.pickle"
 
                 cur.reset()
                 cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
@@ -272,7 +286,7 @@ def get_prediction(origin_stop, dest_stop, bus_line, date, time):
                 model = pickle.loads(pickle_from_db)
                 prediction = model.predict(input_dataframe)
 
-                user_journey = get_proportion(prediction[0], bus_line, direction, origin_stop, dest_stop)
+                user_journey = get_proportion(prediction[0], bus_line, direction_bool, origin_stop, dest_stop)
 
                 user_journey_minutes = int(user_journey) // 60
 
