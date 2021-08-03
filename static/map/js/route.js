@@ -26,6 +26,13 @@ function markBusRoute( ){
 
     // create url
     let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time;
+    var pairs = url.split("&");
+    var date = pairs[2].split("=")[1];
+    var time = pairs[3].split("=")[1];
+    var hour = time.split(":")[0];
+    var year = date.split("/")[2];
+    var month = date.split("/")[1];
+    var day = date.split("/")[0];
     fetch(url, {
         // send request to django server
         method:'GET'}).then(function(response) {
@@ -43,6 +50,7 @@ function markBusRoute( ){
             travelMode: google.maps.TravelMode["TRANSIT"],
             provideRouteAlternatives :false,
             transitOptions: {
+                departureTime: new Date(year, month, day, hour),
                 modes: ['BUS'],
             },
 
@@ -62,6 +70,13 @@ function markBusRoute( ){
 function showPlan(url){
     // use the key of every local storage item as url
     // send request to django server
+    var pairs = url.split("&");
+    var date = pairs[2].split("=")[1];
+    var time = pairs[3].split("=")[1];
+    var hour = time.split(":")[0];
+    var year = date.split("/")[2];
+    var month = date.split("/")[1];
+    var day = date.split("/")[0];
     fetch(url, {
         method:'GET'}).then(function(response) {
             return response.json();
@@ -78,9 +93,9 @@ function showPlan(url){
             travelMode: google.maps.TravelMode["TRANSIT"],
             provideRouteAlternatives :false,
             transitOptions: {
+                departureTime: new Date(year, month, day, hour),
                 modes: ['BUS'],
             },
-
         };
         // send request to google map server
         directionsService.route(request, function(response, status) {
