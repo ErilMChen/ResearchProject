@@ -108,6 +108,9 @@
                 <button class="btn btn-primary btn_profile" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
                 aria-controls="offcanvasScrolling" style="margin-right: 1%;">BusNews</button>
 
+                <button class="btn btn-primary btn_profile" type="button" data-bs-toggle="offcanvas" data-bs-target="#tips"
+                aria-controls="offcanvasScrolling" style="margin-right: 1%;">Tips</button>
+
                 <div class="dropdown" id="log" style="float:right">
                     <button class="btn btn_profile dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 5px;">
@@ -285,14 +288,15 @@
     </div>
     </div>
 
-
+    <!--side bar for news-->
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Dublin Bus Tweetes</h5>
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">BUS NEWS</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <h6>&nbsp&nbsp&nbsp&nbspDUBLIN BUS TWEETS</h6>
+        <div class="offcanvas-body" style="height: 50%;">
             <div id='twitter_div' style="height: 100%; width: 100%">
                 <a class="twitter-timeline"
                     href="https://twitter.com/dublinbusnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
@@ -301,13 +305,44 @@
                 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
         </div>
-
-    </div>
-    <div class="">
-            <div id="traffic_updates">
+        <h6>&nbsp&nbsp&nbsp&nbspTRAFFIC UPDATES</h6>
+        <div class="offcanvas-body" style="height: 50%;">
+            <div class="container">
+                <div id="traffic_updates">
+                </div>
             </div>
+        </div>
     </div>
+    
+    <!--side bar for tips-->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+        id="tips" aria-labelledby="tipsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tipsLabel">Some Tips</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="container">
+                <h5>1. If you want to buy bus card you can visit leapcard official website.</br></h5>
+                <p>Leapcard is the bus card used in dublin.</br>(click the picture)</p>
+                <a href="https://leapcard.ie/en/Home/index.html"> <img src="https://www.leapcard.ie/_newlook/images/main-logo.png" alt="Click here visit leapcard website." style="height: 140px; width: 240px;"></a>
+                </br>
+                </br>
+                
+                <h5>2. If you were student, you can enjoy student discount leapcard.</br></h5>
+                <p>Visit student leapcard offical website.</br>(click the picture)</p>
+                <a href="https://www.studentleapcard.ie/"> <img src="https://images.squarespace-cdn.com/content/v1/5383a76de4b06dea6734f421/1609759239192-6ESCJJ3S438IH5RK4G0R/Image+of+the+new+Blue+Student+Leap+Card+2020%2F2021?format=750w" alt="Click here visit student leapcard website." style="height: 140px; width: 240px;"></a>
+                </br>
+                </br>
 
+                <h5>3. Bus fare is different depending on the number of the stations and the age of the passenger and if you have the leapcard the fare would be cheaper.</br></h5>
+                <p>Visit the site below to get the full price information.</br>(click the picture)</p>
+                <a href="https://www.transportforireland.ie/fares/bus-fares/"> <img src="https://www.transportforireland.ie/wp-content/themes/transportforireland/assets/img/branding/transport-for-ireland-logo.svg" alt="Fare for Dublin City Bus Network." style="height: 140px; width: 240px;"></a>
+                </br>
+                </br>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
