@@ -23,8 +23,17 @@ function unpack(data){
         const newDiv = document.createElement("div");
         const btn = document.createElement('button')
         Object.keys(data).forEach(k => {
+            if(k == 'lat'){
+            j = 'Latitude'
+            }
+            else if (k =='long'){
+            j = 'Longitude'}
+            else if (k =='report'){
+            j = 'Report'}
+            else if (k =='location'){
+            j = 'Location'}
 
-            var node = document.createTextNode(k + ": " + data[k])
+            var node = document.createTextNode(j + ": " + data[k])
             newDiv.append(node)
             var br = document.createElement("br");
             newDiv.appendChild(br);
@@ -43,9 +52,17 @@ function unpack(data){
             btn.setAttribute('value', vals)
             btn.setAttribute('onclick', 'see_on_map(this.value)')
             btn.innerHTML = 'See on Map!'
+            btn.classList.add('btn')
+            btn.classList.add('btn-primary')
+            btn.classList.add('btn_profile')
+            btn.classList.add('text-center')
+            var br = document.createElement("br")
+            newDiv.appendChild(br);
             newDiv.appendChild(btn)
             var br = document.createElement("br")
             newDiv.appendChild(br);
+            newDiv.classList.add('traffic_card')
+            newDiv.classList.add('justify-content-center')
             document.getElementById('traffic_updates').append(newDiv)
             document.getElementById('traffic_updates').append(br)
         }
