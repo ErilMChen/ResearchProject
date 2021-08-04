@@ -39,7 +39,7 @@ def get_times(stop_ids):
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
         sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh + 1) +':)?([0-5]?\d):)?([0-5]?\d)$').values()
-        print(sched)
+        #print(sched)
         # if it doesnt exist in our schedule
         if not sched.exists():
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
