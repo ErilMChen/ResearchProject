@@ -1,5 +1,6 @@
 import django
 import os
+import re
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from favourites.models import StopTimesGoogle
@@ -9,14 +10,14 @@ import datetime
 import json
 from map.models import NameToID
 now = str(datetime.datetime.now().time())
-nowh = now[0:2]
+nowh = int(now[0:2]) + 1
 nowm = now[3:5]
 from datetime import datetime
 
 def difference(h1, m1, h2, m2):
     """This gets time difference between now and the time in the schedule to see if it is within the
     next hour"""
-    h2 = int(h2)+1
+    h2 = int(h2)
 
     t1 = int(h1) * 60 + int(m1)
     t2 = int(h2) * 60 + int(m2)
@@ -37,7 +38,8 @@ def get_times(stop_ids):
     #get updates for this stop
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
-        sched = StopTimesGoogle.objects.filter(stop_id=stop_id).values()
+        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh + 1) +':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        print(sched)
         # if it doesnt exist in our schedule
         if not sched.exists():
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
@@ -178,4 +180,4 @@ def check_day(route):
     else:
         return False
 
-#get_times(['8240DB000231'])
+get_times(['8220DB001085'])
