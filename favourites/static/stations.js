@@ -205,3 +205,16 @@ function sel_stops(stops){
         document.getElementById("select_stop").appendChild(selectList)
 
 }
+function confirm_me(){
+    if (confirm("Confirm you wish to delete this account and all of your data?")){
+    var form = document.createElement("form");
+    form.id = "del_form";
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/delete_acc/")
+    document.body.appendChild(form);
+    document.getElementById('del_form').submit();
+    }
+    else {
+        return
+    }
+    }
