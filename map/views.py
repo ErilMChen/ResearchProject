@@ -69,7 +69,6 @@ def DurationPrediction(request):
 		res = json.dumps(predtime)
 	else:
 		res = json.dumps("false")
-	res = json.dumps("false")
 	return HttpResponse(res)
 
 def GetUserStatus(request):
