@@ -1,3 +1,4 @@
+import dj_database_url
 """
 Django settings for mysite project.
 
@@ -27,7 +28,7 @@ SECRET_KEY = 'django-insecure-$ir-x*+sn@3x!^rw=t$t2b5et%dsl%xsepm78%eg@#4p@v@owj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '192.168.178.24']
+ALLOWED_HOSTS = ['*', '192.168.178.24', 't8dublinbus.herokuapp.com']
 
 
 # Application definition
@@ -44,10 +45,12 @@ INSTALLED_APPS = [
     'django_crontab',
     'map',
     'users',
-    'favourites'
+    'favourites',
+    'herokuapp',
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -167,6 +170,17 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
+STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
 
+
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+
+
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
