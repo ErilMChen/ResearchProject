@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users import views as v_users
-from django.contrib.auth import views as a_views
-from users import views as v_users
 from favourites import views as f_views
-from map import views as m_views
-from users.forms import UserForm, AuthForm
+from tastypie.api import Api
+from tastypie.api import Api
+from api.resources import MyModelResource, BusModelResources
 
-form1 = UserForm()
-form2 = AuthForm()
+v1_api = Api(api_name='v1')
+v1_api.register(MyModelResource())
+v1_api.register(BusModelResources())
 
 urlpatterns = [
     path('map/', include('map.urls')),
@@ -35,5 +35,6 @@ urlpatterns = [
     path('delete_my_stop/', f_views.delete_my_stop, name='/delete_my_stop/'),
     path('logout/', v_users.logoutUser, name='/logout/'),
     path('changepass/', f_views.change_password, name='/changepass/'),
-    path('delete_acc/', v_users.delete_acc, name = '/delete_acc')
+    path('delete_acc/', v_users.delete_acc, name = '/delete_acc'),
+    path('api/', include(v1_api.urls)),
 ]

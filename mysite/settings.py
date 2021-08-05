@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_crontab',
     'map',
     'users',
-    'favourites'
+    'favourites',
+    'tastypie'
 ]
 
 MIDDLEWARE = [
@@ -166,6 +167,10 @@ AUTH_USER_MODEL = 'users.MyUser'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
+## for API resources
+API_LIMIT_PER_PAGE = 500
 
 
 # Default primary key field type
