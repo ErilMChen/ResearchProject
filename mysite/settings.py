@@ -45,8 +45,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'map',
     'users',
-    'favourites',
-    'herokuapp',
+    'favourites'
 ]
 
 MIDDLEWARE = [
