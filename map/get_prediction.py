@@ -6,9 +6,9 @@ import mysql.connector
 import sys
 
 # Connect to database
-myhost = "dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com"
+myhost = "heroku.cocoldeaofkv.us-east-2.rds.amazonaws.com"
 myuser = "admin"
-mypasswd = "t8dubbus"
+mypasswd = "dublinbus"
 mydatabase = "dubbusdb"
 
 db = mysql.connector.connect(
