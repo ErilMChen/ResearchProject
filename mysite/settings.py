@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,8 +88,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dubbusdb',
         'USER': 'admin',
-        'PASSWORD': 't8dubbus',
-        'HOST': 'dubbusdb.cayveqvorwmz.eu-west-1.rds.amazonaws.com',
+        'PASSWORD': 'dublinbus',
+        'HOST': 'heroku.cocoldeaofkv.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
@@ -169,12 +170,11 @@ AUTHENTICATION_BACKENDS = (
 )
 
 PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 
 #  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
