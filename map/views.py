@@ -9,7 +9,9 @@ import users.views as uv
 import users.forms as au
 import weather.models as wm
 from django.core import serializers
-
+from map import get_prediction
+import sys
+from time import sleep
 
 def mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']
@@ -45,6 +47,40 @@ def RouteDirection(request):
 	data = json.dumps(data)
 	return HttpResponse(data)
 
+# machine learning interface
+def DurationPrediction(request):
+	origin_stop = request.GET.get("start_stop","")
+	dest_stop = request.GET.get("end_stop","")
+	bus_line = request.GET.get("line","")
+	date = request.GET.get("date","")
+	time = request.GET.get("time","")
+
+	if origin_stop.split("stop ") and origin_stop.split("stop ")[-1].isdigit():
+		origin_stop = origin_stop.split("stop ")[-1]
+	else:
+		try:
+			origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
+		except:
+			res = json.dumps("false")
+			return HttpResponse(res)
+	if dest_stop.split("stop ") and dest_stop.split("stop ")[-1].isdigit():
+		dest_stop = dest_stop.split("stop ")[-1]
+	else:
+		try:
+			dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
+		except:
+			res = json.dumps("false")
+			return HttpResponse(res)
+	
+	predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, date, time)
+	print(predtime)
+
+	if predtime:
+		res = json.dumps(predtime)
+	else:
+		res = json.dumps("false")
+	return HttpResponse(res)
+
 def GetUserStatus(request):
 	if request.user.is_authenticated:
 		res = json.dumps("true")
@@ -52,6 +88,7 @@ def GetUserStatus(request):
 		res = json.dumps("false")
 	return HttpResponse(res)
 
+# scy plan
 def LoadPlan(request):
 	if request.user.is_authenticated:
 		current_user = request.user
