@@ -5,7 +5,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from favourites.models import StopTimesGoogle
 from pymysql import connect
-from favourites import dbinfo
 import datetime
 import json
 from mysite import dbinfo

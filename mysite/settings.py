@@ -1,4 +1,5 @@
-import dbinfo
+from . import dbinfo
+from . import dbinfo
 """
 Django settings for mysite project.
 
