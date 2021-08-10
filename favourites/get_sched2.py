@@ -14,6 +14,8 @@ nowh = int(now[0:2]) + 1
 nowm = now[3:5]
 from datetime import datetime
 
+#changes
+
 def difference(h1, m1, h2, m2):
     """This gets time difference between now and the time in the schedule to see if it is within the
     next hour"""
