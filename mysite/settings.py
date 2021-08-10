@@ -1,4 +1,4 @@
-
+import dbinfo
 """
 Django settings for mysite project.
 
@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dubbusdb',
-        'USER': 'admin',
-        'PASSWORD': 'dublinbus',
-        'HOST': 'heroku.cocoldeaofkv.us-east-2.rds.amazonaws.com',
+        'NAME': dbinfo.mydatabase,
+        'USER': dbinfo.myuser,
+        'PASSWORD': dbinfo.mypasswd,
+        'HOST': dbinfo.myhost,
         'PORT': '3306',
     }
 }

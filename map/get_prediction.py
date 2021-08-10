@@ -2,20 +2,17 @@ import pandas as pd
 import pickle
 from datetime import datetime
 import mysql.connector
+from mysite import dbinfo
 
 import sys
 
 # Connect to database
-myhost = "heroku.cocoldeaofkv.us-east-2.rds.amazonaws.com"
-myuser = "admin"
-mypasswd = "dublinbus"
-mydatabase = "dubbusdb"
 
 db = mysql.connector.connect(
-    host=myhost,
-    user=myuser,
-    password=mypasswd,
-    database=mydatabase
+    host=dbinfo.myhost,
+    user=dbinfo.myuser,
+    password=dbinfo.mypasswd,
+    database=dbinfo.mydatabase
 )
 
 cur = db.cursor()

@@ -5,7 +5,7 @@ django.setup()
 import requests
 import json
 from pymysql import connect
-import dbinfo
+from mysite import dbinfo
 
 #key e31a714730e34d21a2dfcbc8de363774
 

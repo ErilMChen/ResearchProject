@@ -8,6 +8,7 @@ from pymysql import connect
 from favourites import dbinfo
 import datetime
 import json
+from mysite import dbinfo
 from map.models import NameToID
 now = str(datetime.datetime.now().time())
 nowh = int(now[0:2]) + 1
