@@ -43,8 +43,8 @@ def RouteDirection(request):
 		lat = float(my_loc.split("/")[0])
 		long = float(my_loc.split("/")[1])
 		print(lat, long)
-		lat = 53.3493
-		long = -6.2611
+		#lat = 53.3493
+		#long = -6.2611
 		ret_start_stop = [{'stop_name': 'N/A', 'stop_lat': float(lat), 'stop_long': float(long)}]
 		print(ret_start_stop)
 	else:
