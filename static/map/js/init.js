@@ -116,17 +116,4 @@ function iniEventListener(){
     });
 }
 function initUserStatus(){
-    fetch("status", {
-        method:'GET'}).then(function(response) {
-            return response.json();
-        })
-    .then(function(userStatus) {
-        // if(userStatus == "false"){
-            var log = document.getElementById('log');
-            log.style.display = "block";
-        // }else{
-            var personal = document.getElementById('personal');
-            personal.style.display = "block";
-        // }
-    });
 }
