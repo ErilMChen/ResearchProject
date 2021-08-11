@@ -174,24 +174,40 @@ function showRoutedetail(response, element, url){
         }
         throw new Error('请求发生错误')
     })
-    .then(function(data){
-        console.log(data)
+    .then(function(timeData){
+        for(var i = 0; i< locations.length; i++){
+            (function(i){
+                var target = document.createElement("div");
+                setRouteDetailDiv(target);
+                element.appendChild(target);
+                writeLine("The "+ (i+1) + " leg of the journey", target)
+                writeLine("departure stop: "+locations[i].startStop, target)
+                writeLine("arrival stop: "+ locations[i].endStop, target)
+                writeLine("bus line: "+ locations[i].line, target)
+                writeLine("distance: "+ locations[i].distance, target)
+                
+                if (timeData[i] != "false")
+                    writeLine("duration: "+ timeData[i], target)
+                else
+                    writeLine("duration: "+ locations[i].duration, target)
+            }(i));
+        }
     })
     
 
-    for(var i = 0; i< locations.length; i++){
-        (function(i){
-            var target = document.createElement("div");
-            setRouteDetailDiv(target);
-            element.appendChild(target);
-            writeLine("The "+ (i+1) + " leg of the journey", target)
-            writeLine("departure stop: "+locations[i].startStop, target)
-            writeLine("arrival stop: "+ locations[i].endStop, target)
-            writeLine("bus line: "+ locations[i].line, target)
-            writeLine("distance: "+ locations[i].distance, target)
-            writeLine("duration: "+ locations[i].duration, target)
-        }(i));
-    }
+    // for(var i = 0; i< locations.length; i++){
+    //     (function(i){
+    //         var target = document.createElement("div");
+    //         setRouteDetailDiv(target);
+    //         element.appendChild(target);
+    //         writeLine("The "+ (i+1) + " leg of the journey", target)
+    //         writeLine("departure stop: "+locations[i].startStop, target)
+    //         writeLine("arrival stop: "+ locations[i].endStop, target)
+    //         writeLine("bus line: "+ locations[i].line, target)
+    //         writeLine("distance: "+ locations[i].distance, target)
+    //         writeLine("duration: "+ locations[i].duration, target)
+    //     }(i));
+    // }
 }
 
 // write text on certain element
