@@ -10,6 +10,7 @@ import users.forms as au
 import weather.models as wm
 from django.core import serializers
 from map import get_prediction
+#changes
 import sys
 from time import sleep
 
@@ -37,10 +38,25 @@ def BusStation(request):
 
 def RouteDirection(request):
 	start_stop = request.GET.get("start_stop","")
+	if start_stop == 'My Location':
+		my_loc = request.GET.get("my_loc", "")
+		lat = float(my_loc.split("/")[0])
+		long = float(my_loc.split("/")[1])
+		print(lat, long)
+		lat = 53.3493
+		long = -6.2611
+		ret_start_stop = [{'stop_name': 'N/A', 'stop_lat': float(lat), 'stop_long': float(long)}]
+		print(ret_start_stop)
+	else:
+		ret_start_stop = BusStops.objects.values('stop_name', 'stop_lat', 'stop_long').filter(
+			stop_name=start_stop).distinct()
+
+		print(ret_start_stop)
+
 	end_stop = request.GET.get("end_stop","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-	ret_start_stop = BusStops.objects.values('stop_name','stop_lat','stop_long').filter(stop_name = start_stop).distinct()
+
 	ret_end_stop = BusStops.objects.values('stop_name','stop_lat','stop_long').filter(stop_name = end_stop).distinct()
 	ret = chain(ret_start_stop, ret_end_stop)
 	data = list(ret)

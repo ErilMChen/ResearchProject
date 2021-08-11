@@ -1,13 +1,44 @@
 // Submit the starting and ending stations and return to the navigation route
+
+function getLocation() {
+    var x = document.getElementById("demo1");
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+function showPosition(position) {
+    var x = document.getElementById("demo1");
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+  document.getElementById('floatingStart').value = "My Location";
+  document.getElementById("add_stop1").disabled = true;
+  document.getElementById('demo1').value = (position.coords.latitude).toString() + "/" +(position.coords.longitude).toString();
+}
+
+function clear_details(){
+    document.getElementById('floatingStart').value = "";
+    document.getElementById('floatingEnd').value = "";
+    document.getElementById('floatingDate').value = "";
+    document.getElementById('floatingTime').value = "";
+    document.getElementById("add_stop1").disabled = false;
+}
+
 function markBusRoute( ){
     // read user input from form
     var start = document.forms["bus_stop"]["start_stop"].value;
     var end = document.forms["bus_stop"]["end_stop"].value;
     var date = document.forms["bus_stop"]["date"].value;
     var time = document.forms["bus_stop"]["time"].value;
+    var my_loc = 0;
 
     // form validation
-    if(busStopsArray.includes(start) == false){
+    console.log(start)
+    if(start == 'My Location'){
+        my_loc = (document.getElementById('demo1').value).toString()
+    }
+    else if(busStopsArray.includes(start) == false){
         alert("Wrong Start Bus Stop Input");
         return "wrong start stop name input"
     }
@@ -25,7 +56,7 @@ function markBusRoute( ){
     }  
 
     // create url
-    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time;
+    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time + '&my_loc=' + my_loc;
     var pairs = url.split("&");
     var date = pairs[2].split("=")[1];
     var time = pairs[3].split("=")[1];

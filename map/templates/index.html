@@ -180,8 +180,8 @@
 
         <div class="collapse " id="search_panel">
             <div class="card search_card">
+                <button class="btn btn-danger btn_size" onclick="getLocation()">From My Location</button>
                 <form action="route/" name="bus_stop" id="search_form">
-
                     <div class="input-group mb-3">
                         <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"
                             placeholder="From*" />
@@ -218,6 +218,8 @@
                     <input class="btn btn-danger btn_size" id="save" type="button" value="Add Plan"
                         style="height: 3em; margin: 0.5em;">
                 </form>
+                <button class="btn btn-danger btn_size" id="clear" value=""
+                        style="height: 3em; margin: 0.5em;" onclick="clear_details()">Clear</button>
             </div>
 
             <div class="card detail_card">
@@ -341,6 +343,7 @@
             </div>
         </div>
     </div>
+    <div style = display='none' id="demo1"></div>
+    <div style = display='none' id="demo2"></div>
 </body>
-
 </html>
