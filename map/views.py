@@ -12,6 +12,7 @@ from django.core import serializers
 from map import get_prediction
 import sys
 from time import sleep
+from django.views.decorators.csrf import csrf_exempt
 
 def mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']
@@ -48,37 +49,51 @@ def RouteDirection(request):
 	return HttpResponse(data)
 
 # machine learning interface
+@csrf_exempt
 def DurationPrediction(request):
-	origin_stop = request.GET.get("start_stop","")
-	dest_stop = request.GET.get("end_stop","")
-	bus_line = request.GET.get("line","")
-	date = request.GET.get("date","")
-	time = request.GET.get("time","")
+	if(request.method == 'POST'):
+		timeList = list()
+		postBody = request.body
+		json_result = json.loads(postBody)
+		data = json_result['jsonArray']
+		for route in data:
+			try:
+				origin_stop = route['startStop']
+				dest_stop = route['endStop']
+				bus_line = route['line']
+				date = route['date']
+				time = route['time']
+			except:
+				timeList.append("false")
+				continue
 
-	if origin_stop.split("stop ") and origin_stop.split("stop ")[-1].isdigit():
-		origin_stop = origin_stop.split("stop ")[-1]
-	else:
-		try:
-			origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
-		except:
-			res = json.dumps("false")
-			return HttpResponse(res)
-	if dest_stop.split("stop ") and dest_stop.split("stop ")[-1].isdigit():
-		dest_stop = dest_stop.split("stop ")[-1]
-	else:
-		try:
-			dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
-		except:
-			res = json.dumps("false")
-			return HttpResponse(res)
-	
-	predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, date, time)
-	print(predtime)
+			if origin_stop.split("stop ") and origin_stop.split("stop ")[-1].isdigit():
+				origin_stop = origin_stop.split("stop ")[-1]
+			else:
+				try:
+					origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
+				except:
+					timeList.append("false")
+					continue
+			if dest_stop.split("stop ") and dest_stop.split("stop ")[-1].isdigit():
+				dest_stop = dest_stop.split("stop ")[-1]
+			else:
+				try:
+					dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
+				except:
+					timeList.append("false")
+					continue
+			
+			# predtime = origin_stop+ " " + dest_stop+ " " + bus_line+ " " + date+ " " + time
+			predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, date, time)
+			print(predtime)
 
-	if predtime:
-		res = json.dumps(predtime)
-	else:
-		res = json.dumps("false")
+			if predtime:
+				timeList.append(predtime)
+			else:
+				timeList.append("false")
+
+	res = json.dumps(timeList)
 	return HttpResponse(res)
 
 def GetUserStatus(request):

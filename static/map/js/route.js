@@ -115,6 +115,10 @@ function showRoutedetail(response, element, url){
     var myRoute = response.routes[0].legs[0];
     var locations = new Array();
     var total_distance = 0, total_duration = 0;
+    
+    var pairs = url.split("&");
+    var date = pairs[2].split("=")[1];
+    var time = pairs[3].split("=")[1];
     // var jsonData = {};
     for (var i = 0; i < myRoute.steps.length; i++) {
         if(myRoute.steps[i].travel_mode == "TRANSIT")
@@ -127,16 +131,14 @@ function showRoutedetail(response, element, url){
                 line : myRoute.steps[i].transit.line.short_name,
                 distance : myRoute.steps[i].distance.text,
                 duration : myRoute.steps[i].duration.text,
+                date : date,
+                time : time,
             }
             total_duration += Math.round(myRoute.steps[i].duration.value/60);
             total_distance += Math.round(myRoute.steps[i].distance.value/1000);
             locations.push(location)
         }
     }
-
-    var pairs = url.split("&");
-    var date = pairs[2].split("=")[1];
-    var time = pairs[3].split("=")[1];
 
     // write infrom mation on certain element
     var element = document.getElementById(element);
@@ -152,34 +154,42 @@ function showRoutedetail(response, element, url){
     var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minnuites";
     writeLine(text, target);
 
+    var pBody=new Array();
     for(var i = 0; i< locations.length; i++){
         (function(i){
-        let url2 = 'predict/'
-            +'?start_stop='+ locations[i].startStop
-            +'&end_stop='+locations[i].endStop
-            +'&line_name=' + locations[i].lineName
-            +'&line=' + locations[i].line
-            +'&date='+date
-            +'&time='+time;
-            
-        var preTime;
-        fetch(url2, {
-            method:'GET'}).then(function(response) {
-                return response.json();
-            }).then(function(timeDate){
-                var target = document.createElement("div");
-                setRouteDetailDiv(target);
-                element.appendChild(target);
-                writeLine("The "+ (i+1) + " leg of the journey", target)
-                writeLine("departure stop: "+locations[i].startStop, target)
-                writeLine("arrival stop: "+ locations[i].endStop, target)
-                writeLine("bus line: "+ locations[i].line, target)
-                writeLine("distance: "+ locations[i].distance, target)
-                if (timeDate == "false")
-                    writeLine("duration: "+ locations[i].duration, target)
-                else
-                    writeLine("duration: "+ timeDate +" mins", target)
-            });
+            pBody.push({ "i" : locations[i]});
+        }(i));
+    }
+    console.log(locations)
+    fetch('predict/', {
+    body: JSON.stringify({jsonArray : locations}),
+    headers: {
+        'content-type': 'application/json'
+    },
+    method: 'POST',
+    })
+    .then(function(response){
+        if (response.ok){//判断请求是否成功
+            return response.json()
+        }
+        throw new Error('请求发生错误')
+    })
+    .then(function(data){
+        console.log(data)
+    })
+    
+
+    for(var i = 0; i< locations.length; i++){
+        (function(i){
+            var target = document.createElement("div");
+            setRouteDetailDiv(target);
+            element.appendChild(target);
+            writeLine("The "+ (i+1) + " leg of the journey", target)
+            writeLine("departure stop: "+locations[i].startStop, target)
+            writeLine("arrival stop: "+ locations[i].endStop, target)
+            writeLine("bus line: "+ locations[i].line, target)
+            writeLine("distance: "+ locations[i].distance, target)
+            writeLine("duration: "+ locations[i].duration, target)
         }(i));
     }
 }
