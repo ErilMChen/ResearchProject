@@ -185,9 +185,9 @@ function showRoutedetail(response, element, url){
                 writeLine("arrival stop: "+ locations[i].endStop, target)
                 writeLine("bus line: "+ locations[i].line, target)
                 writeLine("distance: "+ locations[i].distance, target)
-                
+                console.log(timeData[i])
                 if (timeData[i] != "false")
-                    writeLine("duration: "+ timeData[i], target)
+                    writeLine("duration: "+ timeData[i] + " mins", target)
                 else
                     writeLine("duration: "+ locations[i].duration, target)
             }(i));
