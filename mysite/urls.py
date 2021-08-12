@@ -26,6 +26,7 @@ form1 = UserForm()
 form2 = AuthForm()
 
 urlpatterns = [
+    path('', include('map.urls')),
     path('map/', include('map.urls')),
     path('admin/', admin.site.urls),
     path('users/', v_users.users, name='users'),
