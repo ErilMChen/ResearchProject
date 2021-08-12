@@ -4,6 +4,8 @@ import json
 import unittest
 import datetime
 import time
+from users.models import MyUser
+from django.test import Client
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 import get_sched2 as schedule_return
@@ -13,7 +15,7 @@ nowm = now[3:5]
 
 
 
-#UNIT TESTING
+#UNIT TESTING for the return of the schedule script. More detailed tests are in the users directory
 
 from users.models import MyUser, my_stations
 
@@ -50,7 +52,7 @@ class TestSchedule(unittest.TestCase):
         ret = schedule_return.get_times(['8220DB004432'])
         self.data1 = json.loads(ret)
         fields = []
-        print(self.data1)
+        #print(self.data1)
         stop = self.data1[0]['Stop']
         bus = self.data1[0]['Bus']
         arr = self.data1[0]['Arrival Time']
@@ -67,5 +69,6 @@ class TestSchedule(unittest.TestCase):
         self.assertTrue(stop=='8220DB004432')
         self.assertTrue(diff < 60)
         self.assertTrue(name == 'Griffith Downs')
+
 if __name__ == '__main__':
     unittest.main()

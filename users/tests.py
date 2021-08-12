@@ -5,6 +5,8 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from users.models import MyUser, my_stations
+from django.test import Client
+
 
 
 #Unit testing users
@@ -46,16 +48,42 @@ class Test_Stations(unittest.TestCase):
     def test_addition_limit(self):
         usertest = MyUser.objects.filter(email='test@test.com').first()
         count = my_stations.objects.filter(user=usertest).count()
-        print(count)
+        #print(count)
         ## now try to add more than 5 stations
         for i in range(0,10):
             ob = my_stations(stop_id=i, user=usertest)
             ob.check_num()
             ob.save()
         count2 = my_stations.objects.filter(user=usertest).count()
-        print(count2)
+        #print(count2)
         ## attempted to add 10 but will only keep 5 at a time
-        self.assertTrue(count2 == 5)
+        self.assertTrue(count2 < 6)
+
+    def log_in_test(self):
+        # testing user login post form
+        #this test will fail if the password is changed
+        usertest = MyUser.objects.filter(email='test@test.com')
+        if usertest.exists():
+            MyUser.objects.filter(email='test@test.com').delete()
+        c = Client()
+        user = MyUser(email='test@test.com', password='dublinbus', name='MrTest')
+        logged_in = c.post('login/', {'username': 'test@test.com', 'password': 'dublinbus'})
+        self.assertTrue(logged_in)
+
+    def users_registration_post_test(self):
+        #testing user creation post form
+        usertest = MyUser.objects.filter(email='test1@test.com')
+        if usertest.exists():
+            MyUser.objects.filter(email='test1@test.com').delete()
+        c = Client()
+        creation = c.post('users/', {'username': 'test1@test.com', 'password1': 'dublinbus'})
+        usertest = MyUser.objects.filter(email='test1@test.com')
+        if usertest.exists():
+            count = MyUser.objects.filter(email='test1@test.com').count()
+            print(count)
+        self.assertTrue(count = 1)
+
+
 
 
 if __name__ == '__main__':
