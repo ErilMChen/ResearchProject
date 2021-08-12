@@ -112,7 +112,7 @@ def return_json(data, command):
         #split the rows into dic
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
                  "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name'].split(",")[0]} for x in data]
-    print(list)
+    #print(list)
     return json.dumps(list)
 
 def get_API(stop_id):
@@ -182,4 +182,4 @@ def check_day(route):
     else:
         return False
 
-get_times(['8220DB001085'])
+#get_times(['8220DB001085'])
