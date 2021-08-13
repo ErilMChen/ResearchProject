@@ -8,6 +8,7 @@ function getLocation() {
     x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
+
 function showPosition(position) {
     var x = document.getElementById("demo1");
   x.innerHTML = "Latitude: " + position.coords.latitude +
@@ -23,6 +24,13 @@ function clear_details(){
     document.getElementById('floatingDate').value = "";
     document.getElementById('floatingTime').value = "";
     document.getElementById("add_stop1").disabled = false;
+}
+
+function getCoordinates() {
+    var place = this.getPlace();
+    if (!place.geometry || !place.geometry.location) {
+        window.alert("No details available for input: '" + place.name + "'");
+    }
 }
 
 function markBusRoute( ){

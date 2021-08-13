@@ -57,6 +57,23 @@
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer();
 
+            var inputs = document.getElementsByClassName("ac-inputs");
+
+            var options = {
+                componentRestrictions: {country: "ie"},
+                fields: ["formatted_address", "geometry", "name"],
+                strictBounds: false
+            };
+
+            var locations = [];
+
+            for (var i = 0; i < inputs.length; i++) {
+                var autocomplete = new google.maps.places.Autocomplete(inputs[i], options);
+                autocomplete.inputId = inputs[i].id;
+                autocomplete.addListener("place_changed", getCoordinates);
+                locations.push(autocomplete);
+            }
+
             // time date option initialization
             initDateTime();
             // Bus stop option initialization
