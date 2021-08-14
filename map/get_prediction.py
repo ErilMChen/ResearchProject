@@ -2,20 +2,24 @@ import pandas as pd
 import pickle
 from datetime import datetime
 import mysql.connector
+import bz2
+# import time as tm
 from mysite import dbinfo
-
-import sys
+# import sys
 
 # Connect to database
+try:
+    db = mysql.connector.connect(
+        host=dbinfo.myhost,
+        user=dbinfo.myuser,
+        password=dbinfo.mypasswd,
+        database=dbinfo.mydatabase
+    )
 
-db = mysql.connector.connect(
-    host=dbinfo.myhost,
-    user=dbinfo.myuser,
-    password=dbinfo.mypasswd,
-    database=dbinfo.mydatabase
-)
+    cur = db.cursor()
 
-cur = db.cursor()
+except Exception as e:
+    print("Database connection error:", e)
 
 
 def get_datetime(date, time):
@@ -28,10 +32,9 @@ def get_datetime(date, time):
 
 
 def get_weather(datetime_object):
-    """Accepts datetime object and queries database for most recent weather data corresponding to datetime passed"""
+    """Accepts datetime object and returns most recent weather data from database corresponding to datetime passed"""
 
     datetime_string = str(datetime_object)
-    print(datetime_string)
 
     cur.reset()
     cur.execute(
@@ -39,18 +42,24 @@ def get_weather(datetime_object):
         (datetime_string,))
     result = cur.fetchone()
 
-    if result:
+    if all(result):
         return result
+
+    # If any null values exist take second most recent record
     else:
-        print("Error retrieving weather data")
+        cur.reset()
+        cur.execute(
+            "SELECT * FROM weather_forecast WHERE weather_forecast.fdate < %s ORDER BY weather_forecast.fdate DESC LIMIT 1, 1;")
+        result = cur.fetchone()
+        return result
 
 
 def get_hour_weekday_month(datetime_object):
     """Accepts datetime object and pulls hour, weekday and month from datetime object"""
 
     hour = datetime_object.hour
-    weekday = datetime_object.isoweekday()
-    month = datetime_object.month
+    weekday = datetime_object.isoweekday() - 1
+    month = datetime_object.month - 1
 
     return hour, weekday, month
 
@@ -77,28 +86,28 @@ def create_dataframe(date, time):
     humidity, weather_main, wind_speed, pressure, feels_like, temp, temp_max, temp_min, wind_deg = weather_result[2], \
                                                                                                    weather_result[3], \
                                                                                                    weather_result[4], \
-                                                                                                   weather_result[5], \
+                                                                                                   int(weather_result[5]), \
                                                                                                    weather_result[6], \
                                                                                                    weather_result[7], \
                                                                                                    weather_result[8], \
                                                                                                    weather_result[9], \
                                                                                                    weather_result[10]
 
-    user_data = pd.DataFrame(columns=["temp", "feels_like", "humidity", "wind_speed", "wind_deg", "weather_main_Clouds",
-                                      "weather_main_Drizzle", "weather_main_Fog", "weather_main_Mist",
-                                      "weather_main_Rain", "weather_main_Smoke", "weather_main_Snow", "MONTH_2",
-                                      "MONTH_3", "MONTH_4", "MONTH_5", "MONTH_6", "MONTH_7", "MONTH_8", "MONTH_9",
-                                      "MONTH_10", "MONTH_11", "MONTH_12", "WEEKDAY_2", "WEEKDAY_3", "WEEKDAY_4",
-                                      "WEEKDAY_5", "WEEKDAY_6", "WEEKDAY_7", "HOUR_3", "HOUR_4", "HOUR_5", "HOUR_6",
-                                      "HOUR_7", "HOUR_8", "HOUR_9", "HOUR_10", "HOUR_11", "HOUR_12", "HOUR_13",
-                                      "HOUR_14", "HOUR_15", "HOUR_16", "HOUR_17", "HOUR_18", "HOUR_19", "HOUR_20",
-                                      "HOUR_21", "HOUR_22", "HOUR_23"])
+
+    user_data = pd.DataFrame(columns=["temp", "feels_like", "temp_min", "temp_max", "pressure", "humidity",
+                                      "wind_speed", "wind_deg", "MONTH_1", "MONTH_2", "MONTH_3", "MONTH_4", "MONTH_5",
+                                      "MONTH_6", "MONTH_7", "MONTH_8", "MONTH_9", "MONTH_10", "MONTH_11", "WEEKDAY_1",
+                                      "WEEKDAY_2", "WEEKDAY_3", "WEEKDAY_4", "WEEKDAY_5", "WEEKDAY_6", "HOUR_1",
+                                      "HOUR_2", "HOUR_3", "HOUR_4", "HOUR_5", "HOUR_6", "HOUR_7", "HOUR_8", "HOUR_9",
+                                      "HOUR_10", "HOUR_11", "HOUR_12", "HOUR_13", "HOUR_14", "HOUR_15", "HOUR_16",
+                                      "HOUR_17", "HOUR_18", "HOUR_19", "HOUR_20", "HOUR_21", "HOUR_22", "HOUR_23",
+                                      "weekend_true_1"])
 
     row = [0] * user_data.shape[1]
     series = pd.Series(row, index=user_data.columns)
     user_data = user_data.append(series, ignore_index=True)
 
-    cat_data = {"weather_main": [weather_main], "MONTH": [month], "WEEKDAY": [weekday], "HOUR": [hour]}
+    cat_data = {"MONTH": [month], "WEEKDAY": [weekday], "HOUR": [hour]}
     cat_df = pd.DataFrame(data=cat_data)
 
     current_cat_features = get_cat_features(cat_df)
@@ -108,10 +117,16 @@ def create_dataframe(date, time):
             user_data.at[0, column] = 1
 
     user_data.at[0, "temp"] = temp
+    user_data.at[0, "temp_min"] = temp_min
+    user_data.at[0, "temp_max"] = temp_max
     user_data.at[0, "feels_like"] = feels_like
     user_data.at[0, "humidity"] = humidity
     user_data.at[0, "wind_speed"] = wind_speed
     user_data.at[0, "wind_deg"] = wind_deg
+    if weekday < 5:
+        user_data.at[0, "weekend_true_1"] = 0
+    else:
+        user_data.at[0, "weekend_true_1"] = 1
 
     return user_data
 
@@ -140,7 +155,6 @@ def get_direction(origin_stop, dest_stop, bus_line):
     else:
         direction = 1
 
-    # print("DIRECTION:", direction)
     return direction
 
 
@@ -163,8 +177,6 @@ def check_same_direction(origin_stop, dest_stop, bus_line):
     for row in origin_direction_result:
         origin_directions.append(row[0])
 
-    print("ORIGIN directions", origin_directions)
-
     cur.reset()
     cur.execute(
         "SELECT stop_proportions.DIRECTION FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.STOPPOINTID=%s ORDER BY stop_proportions.ROUTEID, stop_proportions.PROGRNUMBER;",
@@ -178,18 +190,16 @@ def check_same_direction(origin_stop, dest_stop, bus_line):
     for row in dest_direction_result:
         dest_directions.append(row[0])
 
-    print("DEST directions", dest_directions)
-
     shared_direction = [value for value in origin_directions if value in dest_directions]
-    print(shared_direction)
 
     if len(shared_direction) > 1:
         direction = get_direction(origin_stop, dest_stop, bus_line)
-        print("Direction of current trip:", direction)
         return direction
+
     elif len(shared_direction) == 1:
         direction = shared_direction[0]
         return direction
+
     else:
         return False
 
@@ -220,9 +230,8 @@ def check_stops_on_same_line(origin_stop, dest_stop, bus_line):
 def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
     """Returns proportion of total journey-time that falls between user selected stops"""
 
-    print("For get proportion:", total_time, bus_line, direction, origin_stop, dest_stop)
-
     cur.reset()
+
     cur.execute(
         "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
         (bus_line, direction, origin_stop))
@@ -230,6 +239,7 @@ def get_proportion(total_time, bus_line, direction, origin_stop, dest_stop):
     origin_pc = origin_result[0]
 
     cur.reset()
+
     cur.execute(
         "SELECT stop_proportions.STOP_PERCENT FROM stop_proportions WHERE stop_proportions.LINEID=%s AND stop_proportions.DIRECTION=%s AND stop_proportions.STOPPOINTID=%s;",
         (bus_line, direction, dest_stop))
@@ -248,7 +258,11 @@ def get_prediction(origin_stop, dest_stop, bus_line, date, time):
 
     This is the main function which should be called from the front end."""
 
-    print("INPUT:", origin_stop, dest_stop, bus_line, date, time)
+    # start = tm.perf_counter()
+
+    # Return False if database connection has failed
+    if not cur:
+        return False
 
     try:
 
@@ -256,52 +270,42 @@ def get_prediction(origin_stop, dest_stop, bus_line, date, time):
 
         if bool_stops_on_line:
 
-            print("STOPS SHARE LINE")
-
             direction_bool = check_same_direction(origin_stop, dest_stop, bus_line)
 
             if direction_bool is not False:
 
-                # direction = get_direction(origin_stop, dest_stop, bus_line)
-
                 input_dataframe = create_dataframe(date, time)
 
-                route = str(bus_line) + "_" + str(direction_bool) + "_RFR.pickle"
+                file_name = "pickled_models/{}_{}.pickle"
+                compressed_pickle_file = (file_name.format(str(bus_line), str(direction_bool + 1)))
 
-                cur.reset()
-                cur.execute("SELECT RF_Key.id FROM RF_Key WHERE route=%s", (route,))
-                id_result = cur.fetchone()
-                pickle_ID = id_result[0]
+                pickle_file = bz2.open(compressed_pickle_file, "rb")
+                read_pickle = pickle_file.read()
 
-                cur.reset()
-                cur.execute("SELECT RF.pkl FROM RF WHERE id=%s", (pickle_ID,))
-                pickle_result = cur.fetchone()
-                pickle_from_db = pickle_result[0]
+                model = pickle.loads(read_pickle)
 
-                print("Model fetched")
-
-                model = pickle.loads(pickle_from_db)
                 prediction = model.predict(input_dataframe)
 
                 user_journey = get_proportion(prediction[0], bus_line, direction_bool, origin_stop, dest_stop)
 
                 user_journey_minutes = int(user_journey) // 60
 
-                print("User journey:", user_journey_minutes)
+                # end = tm.perf_counter()
+                # total = end - start
+                # print("Time taken:", total)
 
                 return user_journey_minutes
 
             else:
-                print("Stops don't share direction")
                 return False
 
         else:
-            print("Stops don't share line")
             return False
 
     except Exception as ex:
         print("Error:", ex)
         return False
+
 
 # if __name__ == "__main__":
 #     print('Number of arguments:', len(sys.argv))
