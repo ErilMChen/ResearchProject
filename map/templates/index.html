@@ -41,6 +41,7 @@
         var dateArray = new Array();
         var timeArray = new Array();
         var busStopsArray = new Array();
+        var glocations = [];
         // Map initialization
         function initMap() {
             var mapProp = {
@@ -65,13 +66,18 @@
                 strictBounds: false
             };
 
-            var locations = [];
-
             for (var i = 0; i < inputs.length; i++) {
                 var autocomplete = new google.maps.places.Autocomplete(inputs[i], options);
                 autocomplete.inputId = inputs[i].id;
                 autocomplete.addListener("place_changed", getCoordinates);
-                locations.push(autocomplete);
+                glocations.push(autocomplete);
+            }
+
+            function getCoordinates() {
+                var place = this.getPlace();
+                if (!place.geometry || !place.geometry.location) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                }
             }
 
             // time date option initialization
@@ -92,7 +98,7 @@
     </script>
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHY3W-xvNE-42BipvMY_-lu4aKdnB5xn4&callback=initMap&libraries=&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHY3W-xvNE-42BipvMY_-lu4aKdnB5xn4&callback=initMap&libraries=places&v=weekly"
         async>
         </script>
 
@@ -197,21 +203,26 @@
 
         <div class="collapse " id="search_panel">
             <div class="card search_card">
-                <button class="btn btn-danger btn_size" onclick="getLocation()">From My Location</button>
+
+                <!-- <input id="origin-input" class="ac-inputs" type="text" placeholder="Enter your starting location"/> -->
+                <!-- <input id="destination-input" class="ac-inputs" type="text" placeholder="Enter your destination location"/> -->
+
+                <button class="btn btn-danger btn_size " onclick="getLocation()">From My Location</button>
+
                 <form action="route/" name="bus_stop" id="search_form">
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"
+                        <input class="form-control ac-inputs" id="floatingStart" list="start_stop" name="start_stop"
                             placeholder="From*" />
                         <input class="btn btn-outline-danger" id="add_stop1" type="button" value="STAR">
                     </div>
-                    <datalist id="start_stop"></datalist>
+                    <!-- <datalist id="start_stop"></datalist> -->
 
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingEnd" list="end_stop" name="end_stop"
+                        <input class="form-control ac-inputs" id="floatingEnd" list="end_stop" name="end_stop"
                             placeholder="To*" />
                         <input class="btn btn-outline-danger " id="add_stop2" type="button" value="STAR">
                     </div>
-                    <datalist id="end_stop"></datalist>
+                    <!-- <datalist id="end_stop"></datalist> -->
 
                     <div class="input-group">
                         <input class="form-control" id="floatingDate" list="date" name="date" placeholder="Date*" />
