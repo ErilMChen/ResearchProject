@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import *
 import json
-from users.models import my_stations, plans
+from users.models import my_stations, my_plans
 import users.views as uv
 import users.forms as au
 import weather.models as wm
@@ -44,8 +44,6 @@ def RouteDirection(request):
 		lat = float(my_loc.split("/")[0])
 		long = float(my_loc.split("/")[1])
 		print(lat, long)
-		#lat = 53.3493
-		#long = -6.2611
 		ret_start_stop = [{'stop_name': 'N/A', 'stop_lat': float(lat), 'stop_long': float(long)}]
 		print(ret_start_stop)
 	else:
@@ -147,8 +145,9 @@ def AddPlan(request):
 	if request.user.is_authenticated:
 		res = json.dumps("true")
 		current_user = request.user
-		user_plan = plans(plan_name=plan_name, start_stop=start_stop,
-						  end_stop=end_stop, date=date, time=time, user=current_user)
+		user_plan = my_plans(plan_name=plan_name, start_stop=start_stop,
+						  end_stop=end_stop, date=date, time=time, user=current_user, start_lat= slat, start_long = slng, end_lat=elat,
+							 end_long = elng)
 		user_plan.check_num_plans()
 		user_plan.save()
 		print('success')
