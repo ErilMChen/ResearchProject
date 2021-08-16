@@ -4,7 +4,7 @@ This project was developed as part of the Msc Computer Science (Conversion) cour
 This application aims to provide Dublin Bus passengers with accurate travel time estimates by training models on 2018 historical bus data, and 2018 weather data.
 Other features have also been developed as means to provide passengers with real time information, saved preferences and relavent travel information based on users' location.
 
-This repository contains the code required to set up and host the application locally, but does not have the database credentials required to run the application. Create a dbinfo.py file in the mysite directory and fill in your own database info to have a working project.
+This repository contains the code required to set up and host the application locally, but does not have the database credentials required to run the application. Create a dbinfo.py file in the mysite directory and fill in your own database info to have a working project. Not that if you wish to use cronjob to fill your database, the correct pathways must be configured in the paths.json file located in the weather/static directory.
 The file must look like this:
 
 myhost="...." <br>
