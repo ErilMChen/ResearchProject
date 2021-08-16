@@ -14,7 +14,6 @@ function showPosition(position) {
   x.innerHTML = "Latitude: " + position.coords.latitude +
   "<br>Longitude: " + position.coords.longitude;
   document.getElementById('floatingStart').value = "My Location";
-  document.getElementById("add_stop1").disabled = true;
   document.getElementById('demo1').value = (position.coords.latitude).toString() + "/" +(position.coords.longitude).toString();
 }
 
