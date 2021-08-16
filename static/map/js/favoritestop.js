@@ -4,6 +4,7 @@ function addStop(element){
     else if (element == "add_stop2")
         var stop_name = document.forms["bus_stop"]["end_stop"].value;
 
+    console.log(glocations)
     // form validation
     if(busStopsArray.includes(stop_name) == false){
         alert("Wrong Bus Stop Input");

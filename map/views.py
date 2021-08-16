@@ -138,7 +138,11 @@ def AddPlan(request):
 	end_stop = request.GET.get("end_stop","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-
+	# start_stop lat/lng, end_stop lat/lng  (double)
+	slat = request.GET.get("slat","")
+	slng = request.GET.get("slng","")
+	elat = request.GET.get("elat","")
+	elng = request.GET.get("elng","")
 
 	if request.user.is_authenticated:
 		res = json.dumps("true")

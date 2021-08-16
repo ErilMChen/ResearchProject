@@ -59,16 +59,16 @@ function initBusStops(){
         var str= "";
         var count = 0;
         busData.forEach(element => {
-            // create strat option from each bus stop
-            var startOption=document.createElement("option")
-            startOption.setAttribute("value",element.stop_name);
-            startStop.appendChild(startOption);
-            // create end option from each bus stop
-            var endOption=document.createElement("option")
-            endOption.setAttribute("value",element.stop_name);
-            endStop.appendChild(endOption);
-            // array fro input validation (not done yet)
-            busStopsArray.push(element.stop_name);
+            // // create strat option from each bus stop
+            // var startOption=document.createElement("option")
+            // startOption.setAttribute("value",element.stop_name);
+            // startStop.appendChild(startOption);
+            // // create end option from each bus stop
+            // var endOption=document.createElement("option")
+            // endOption.setAttribute("value",element.stop_name);
+            // endStop.appendChild(endOption);
+            // // array fro input validation (not done yet)
+            // busStopsArray.push(element.stop_name);
         });
     });
 }

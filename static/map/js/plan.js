@@ -6,8 +6,14 @@ function saveBusRoute(){
     var date = document.forms["bus_stop"]["date"].value;
     var time = document.forms["bus_stop"]["time"].value;
     var plan_name = document.forms["bus_stop"]["plan_name"].value;
+
+    var slat = glocations[0].getPlace().geometry.viewport.mc.g
+    var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    var elat = glocations[1].getPlace().geometry.viewport.mc.g
+    var elng = glocations[1].getPlace().geometry.viewport.Eb.g
     // creat url which use fro send request to django server
-    let url = 'addplan/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name;
+    let url = 'addplan/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name
+    +'&slat='+slat +'&slng='+slng +'&elat='+elat +'&elng='+elng;
     fetch(url, {
         method:'GET'}).then(function(response) {
             // read data from django server and prase to json
@@ -25,14 +31,14 @@ function savePlanToJson(){
     var plan_name = document.forms["bus_stop"]["plan_name"].value;
 
     // form validation
-    if(busStopsArray.includes(start) == false){
-        alert("Wrong Start Bus Stop Input");
-        return "wrong start stop name input"
-    }
-    if(busStopsArray.includes(end) == false){
-        alert("Wrong End Bus Stop Input");
-        return "wrong end stop name input"
-    }
+    // if(busStopsArray.includes(start) == false){
+    //     alert("Wrong Start Bus Stop Input");
+    //     return "wrong start stop name input"
+    // }
+    // if(busStopsArray.includes(end) == false){
+    //     alert("Wrong End Bus Stop Input");
+    //     return "wrong end stop name input"
+    // }
     if(dateArray.includes(date) == false){
         alert("Wrong Date Input");
         return "wrong date input"
@@ -42,15 +48,25 @@ function savePlanToJson(){
         return "wrong time input"   
     }  
 
+    var slat = glocations[0].getPlace().geometry.viewport.mc.g
+    var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    var elat = glocations[1].getPlace().geometry.viewport.mc.g
+    var elng = glocations[1].getPlace().geometry.viewport.Eb.g
+
     // creat url which use fro send request to django server
     // the url will be the key used in local storage
-    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name;
+    let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name
+    +'&slat='+slat +'&slng='+slng +'&elat='+elat +'&elng='+elng;
     var locations = {
         startStop :  start,
         endStop : end,
         date : date,
         time : time,
         name : plan_name,
+        slat : slat,
+        slng : slng,
+        elat : elat,
+        elng : elng
     }
     str = JSON.stringify(locations);
     // key is url, value is location information
@@ -66,7 +82,8 @@ function scy_plan(){
         // get value by using key
         var str=localStorage.getItem(url); 
         var locations=JSON.parse(str); 
-        let url2 = 'addplan/'+'?start_stop='+locations.startStop+'&end_stop='+locations.endStop +'&date='+locations.date +'&time='+locations.time +'&plan_name=' + locations.name;
+        let url2 = 'addplan/'+'?start_stop='+locations.startStop+'&end_stop='+locations.endStop +'&date='+locations.date +'&time='+locations.time +'&plan_name=' + locations.name
+        +'&slat='+locations.slat +'&slng='+locations.slng +'&elat='+locations.elat +'&elng='+locations.elng;
         fetch(url2, {
             method:'GET'}).then(function(response) {
                 // read data from django server and prase to json
@@ -82,13 +99,18 @@ function scy_plan(){
             return response.json();
     }).then(function(planDate){
         planDate.forEach(element => {
-            let url4 = 'route/'+'?start_stop='+element.start_stop+'&end_stop='+element.end_stop+'&date='+element.date+'&time='+ element.time+'&plan_name=' +element.plan_name ;
+            let url4 = 'route/'+'?start_stop='+element.start_stop+'&end_stop='+element.end_stop+'&date='+element.date+'&time='+ element.time+'&plan_name=' +element.plan_name
+            +'&slat='+element.slat +'&slng='+element.slng +'&elat='+element.elat +'&elng='+element.elng;
             var location = {
                 startStop :  element.start_stop,
                 endStop : element.end_stop,
                 date : element.date,
                 time : element.time,
                 name : element.plan_name,
+                slat : element.slat,
+                slng : element.slng,
+                elat : element.elat,
+                elng : element.elng
             }
             str = JSON.stringify(location);
             // key is url, value is location information
