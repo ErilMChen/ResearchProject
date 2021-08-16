@@ -87,7 +87,7 @@ def DurationPrediction(request):
 				origin_stop = origin_stop.split("stop ")[-1]
 			else:
 				try:
-					origin_stop = BusStops.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
+					origin_stop = MatchStopNames.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
 				except:
 					timeList.append("false")
 					continue
@@ -95,7 +95,7 @@ def DurationPrediction(request):
 				dest_stop = dest_stop.split("stop ")[-1]
 			else:
 				try:
-					dest_stop = BusStops.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
+					dest_stop = MatchStopNames.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
 				except:
 					timeList.append("false")
 					continue

@@ -15,3 +15,13 @@ class NameToID(models.Model):
     stop_lat = models.FloatField()
     stop_long = models.FloatField()
     stop_num = models.IntegerField()
+
+
+
+class MatchStopNames(models.Model):
+    stoppointid = models.IntegerField(blank=True, null=True)
+    stop_name = models.CharField(max_length=30, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'match_stop_names'
