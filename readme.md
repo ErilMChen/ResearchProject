@@ -1,4 +1,4 @@
-Welcome to the No Fuss Bus Application!
+<h2>Welcome to the No Fuss Bus Application!</h2>
 
 This project was developed as part of the Msc Computer Science (Conversion) course, from June 2021 - August 2021. The four team members involved in the planning, development and testing of the application are Michelle Duggan, Meng Chen, Jane Slevin and Kai Xu. 
 This application aims to provide Dublin Bus passengers with accurate travel time estimates by training models on 2018 historical bus data, and 2018 weather data.
@@ -7,11 +7,11 @@ Other features have also been developed as means to provide passengers with real
 This repository contains the code required to set up and host the application locally, but does not have the database credentials required to run the application. Create a dbinfo.py file in the mysite directory and fill in your own database info to have a working project.
 The file must look like this:
 
-myhost="...."
-mypasswd="..."
-myuser="..."
-mydatabase="..."
-mycharset="utf8mb4"
+myhost="...." <br>
+mypasswd="..." <br>
+myuser="..." <br>
+mydatabase="..." <br>
+mycharset="utf8mb4" <br>
 
 engine = f"mysql+mysqlconnector://{myuser}:{mypasswd}@{myhost}:3306/{mydatabase}"
 
