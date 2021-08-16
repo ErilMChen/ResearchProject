@@ -50,6 +50,11 @@ Additional Functionality:
 <img width="771" alt="Screenshot 2021-08-16 at 13 14 39" src="https://user-images.githubusercontent.com/71897640/129562156-14b8defe-0509-4944-9e8b-b4b86c2210c8.png">
 
 
+
+Navigate to the 'Wiki' panel to read about the development process.
+
+
+
 Run the app locally 
 
 1. Create a conda environment
