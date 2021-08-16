@@ -182,4 +182,4 @@ def check_day(route):
     else:
         return False
 
-#get_times(['8220DB001085'])
+get_times(['8220DB001085'])
