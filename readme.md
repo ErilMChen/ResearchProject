@@ -7,9 +7,33 @@ Other features have also been developed as means to provide passengers with real
 This repository contains the code required to set up and run the application locally. The live version of the application is deployed on a heroku server ( dublinbus.herokuapp.com ).
 
 
+Basic functionality:
+- Input of origin and destination address
+- Input of date and time
+- Map representation of the route
+- Route detail
+- Predicted travel time estimate
+
 <img width="1262" alt="Screenshot 2021-08-16 at 13 09 34" src="https://user-images.githubusercontent.com/71897640/129561509-abfda508-6ba0-4909-9678-f55a0f134954.png">
 
 
+Additional Functionality:
+- User account creation
+- Saving of favourite stations
+- Live bus tweets
+- Live traffic updates
+- Live bus schedule for saved stations
+- Saving of plans
+
+<img width="461" alt="Screenshot 2021-08-16 at 13 13 33" src="https://user-images.githubusercontent.com/71897640/129562010-baf07af2-44ea-4698-a615-9f1333d6cd66.png">
+
+<img width="1287" alt="Screenshot 2021-08-16 at 13 12 17" src="https://user-images.githubusercontent.com/71897640/129561887-bca5b33e-eeb8-4a0c-ae6e-f86fdc63c0cb.png">
+
+
+<img width="646" alt="Screenshot 2021-08-16 at 13 13 57" src="https://user-images.githubusercontent.com/71897640/129562066-1d4e9945-1ec9-4637-a5af-d07da35addca.png">
+
+
+<img width="771" alt="Screenshot 2021-08-16 at 13 14 39" src="https://user-images.githubusercontent.com/71897640/129562156-14b8defe-0509-4944-9e8b-b4b86c2210c8.png">
 
 
 Run the app locally 
