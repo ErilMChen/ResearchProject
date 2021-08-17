@@ -121,7 +121,7 @@ def GetUserStatus(request):
 def LoadPlan(request):
 	if request.user.is_authenticated:
 		current_user = request.user
-		ret = plans.objects.values('plan_name','start_stop','end_stop','date','time').filter(user=current_user).distinct()
+		ret = my_plans.objects.values('plan_name','start_stop','end_stop','date','time','start_lat', 'start_long', 'end_lat', 'end_long').filter(user=current_user).distinct()
 		data = list(ret)
 		data = json.dumps(data)
 		return HttpResponse(data)
@@ -169,7 +169,7 @@ def DeletePlan(request):
 	if request.user.is_authenticated:
 		res = json.dumps("true")
 		current_user = request.user
-		plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
+		my_plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
 							 end_stop=end_stop, date=date, time=time, user=current_user).delete()
 		print('delete success')
 	else:

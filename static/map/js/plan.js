@@ -100,17 +100,17 @@ function scy_plan(){
     }).then(function(planDate){
         planDate.forEach(element => {
             let url4 = 'route/'+'?start_stop='+element.start_stop+'&end_stop='+element.end_stop+'&date='+element.date+'&time='+ element.time+'&plan_name=' +element.plan_name
-            +'&slat='+element.slat +'&slng='+element.slng +'&elat='+element.elat +'&elng='+element.elng;
+            +'&slat='+element.start_lat +'&slng='+element.start_long +'&elat='+element.end_lat +'&elng='+element.end_long;
             var location = {
                 startStop :  element.start_stop,
                 endStop : element.end_stop,
                 date : element.date,
                 time : element.time,
                 name : element.plan_name,
-                slat : element.slat,
-                slng : element.slng,
-                elat : element.elat,
-                elng : element.elng
+                slat : element.start_lat,
+                slng : element.start_long,
+                elat : element.end_lat,
+                elng : element.end_long
             }
             str = JSON.stringify(location);
             // key is url, value is location information
