@@ -47,6 +47,7 @@
         var dateArray = new Array();
         var timeArray = new Array();
         var busStopsArray = new Array();
+        var glocations = [];
         // Map initialization
         function initMap() {
             var mapProp = {
@@ -63,6 +64,28 @@
             map = new google.maps.Map(document.getElementById("map"), mapProp);
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer();
+
+            var inputs = document.getElementsByClassName("ac-inputs");
+
+            var options = {
+                componentRestrictions: {country: "ie"},
+                fields: ["formatted_address", "geometry", "name"],
+                strictBounds: false
+            };
+
+            for (var i = 0; i < inputs.length; i++) {
+                var autocomplete = new google.maps.places.Autocomplete(inputs[i], options);
+                autocomplete.inputId = inputs[i].id;
+                autocomplete.addListener("place_changed", getCoordinates);
+                glocations.push(autocomplete);
+            }
+
+            function getCoordinates() {
+                var place = this.getPlace();
+                if (!place.geometry || !place.geometry.location) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                }
+            }
 
             // time date option initialization
             initDateTime();
@@ -82,9 +105,9 @@
     </script>
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHY3W-xvNE-42BipvMY_-lu4aKdnB5xn4&callback=initMap&libraries=&v=weekly"
-        async>
-        </script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHY3W-xvNE-42BipvMY_-lu4aKdnB5xn4&callback=initMap&libraries=places&v=weekly"
+    async>
+    </script>
 
     <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; window.myWidgetParam.push({ id: 9, cityid: '2964574', appid: '86e6d9e6dddfc8dccd6899f2454e98c2', units: 'metric', containerid: 'openweathermap-widget-9', }); (function () { var script = document.createElement('script'); script.async = true; script.charset = "utf-8"; script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s); })();</script>
     <style>
@@ -204,22 +227,19 @@
 
         <div class="collapse " id="search_panel">
             <div class="card search_card">
-                <button class="btn btn-danger btn_size" onclick="getLocation()">From My Location</button>
                 <form action="route/" name="bus_stop" id="search_form">
-
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingStart" list="start_stop" name="start_stop"
+                        <input class="form-control ac-inputs" id="floatingStart" list="start_stop" name="start_stop"
                             placeholder="From*" />
-                        <input class="btn btn-outline-danger" id="add_stop1" type="button" value="STAR">
+                        <button class="btn btn-outline-danger" onclick="getLocation()">My Location</button>
                     </div>
-                    <datalist id="start_stop"></datalist>
+                    <!-- <datalist id="start_stop"></datalist> -->
 
                     <div class="input-group mb-3">
-                        <input class="form-control" id="floatingEnd" list="end_stop" name="end_stop"
+                        <input class="form-control ac-inputs" id="floatingEnd" list="end_stop" name="end_stop"
                             placeholder="To*" />
-                        <input class="btn btn-outline-danger " id="add_stop2" type="button" value="STAR">
                     </div>
-                    <datalist id="end_stop"></datalist>
+                    <!-- <datalist id="end_stop"></datalist> -->
 
                     <div class="input-group">
                         <input class="form-control" id="floatingDate" list="date" name="date" placeholder="Date*" />
@@ -236,15 +256,23 @@
                     </div>
                     <datalist id="time"></datalist>
 
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="floatingAdd" list="add_stop" name="add_stop"
+                            placeholder="Add your faavorite stop" />
+                        <input class="btn btn-outline-danger" id="add_stop1" type="button" value="STAR">
+                    </div>
+                    <datalist id="add_stop"></datalist>
+
                     <input class="btn btn-dark btn_size" data-bs-toggle="collapse" href="#search_detail_panel"
                         aria-expanded="false" aria-controls="search_detail_panel" id="submit" type="button"
                         value="Submit" style="height: 3em; margin: 0.5em;">
 
+                    <button class="btn btn-light btn_size" id="clear" value=""
+                        style="height: 3em; margin: 0.5em;" onclick="clear_details()">Clear</button>
+
                     <input class="btn btn-danger btn_size" id="save" type="button" value="Add Plan"
                         style="height: 3em; margin: 0.5em;">
                 </form>
-                <button class="btn btn-danger btn_size" id="clear" value=""
-                        style="height: 3em; margin: 0.5em;" onclick="clear_details()">Clear</button>
             </div>
 
             <div class="card detail_card">
