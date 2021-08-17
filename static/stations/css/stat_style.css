@@ -95,8 +95,15 @@ select {
 
 #sel_container_dropdown {
     height: auto;
-    justify-content: center;
-    left: 30%;
     padding: 10px;
     position: relative;
+    width: 50%;
+}
+
+
+#sel_container_dropdown2 {
+    height: auto;
+    padding: 10px;
+    position: relative;
+    width: 100%;
 }
