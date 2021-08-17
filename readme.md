@@ -18,7 +18,7 @@ engine = f"mysql+mysqlconnector://{myuser}:{mypasswd}@{myhost}:3306/{mydatabase}
 
 
 
-The live version of the application is deployed on a heroku server ( dublinbus.herokuapp.com ).
+The live version of the application is deployed on a UCD server.
 
 
 Basic functionality:
