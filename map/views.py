@@ -12,6 +12,7 @@ from django.core import serializers
 from map import get_prediction
 #changes
 import sys
+import re
 from time import sleep
 from django.views.decorators.csrf import csrf_exempt
 
@@ -81,22 +82,45 @@ def DurationPrediction(request):
 				timeList.append("false")
 				continue
 
-			if origin_stop.split("stop ") and origin_stop.split("stop ")[-1].isdigit():
-				origin_stop = origin_stop.split("stop ")[-1]
+			origin_digits_bool = re.findall("\d+", origin_stop)
+
+			if origin_digits_bool:
+				for num in origin_digits_bool:
+					if ("top " + str(num)) in origin_stop:
+						origin_stop = int(num)
 			else:
-				try:
-					origin_stop = MatchStopNames.objects.values('stoppointid').filter(stop_name = origin_stop).distinct()[0]["stoppointid"]
-				except:
+				section_origin = origin_stop.split(",")
+				for section in section_origin:
+					section = section.strip()
+					origin_stop_line = str(section) + "_" + str(bus_line)
+					try:
+						origin_from_db = MatchStopNames.objects.values("stoppointid").filter(stop_name=origin_stop_line).distinct()[0]["stoppointid"]
+					except:
+						continue
+				if origin_from_db:
+					origin_stop = origin_from_db
+				else:
 					timeList.append("false")
-					continue
-			if dest_stop.split("stop ") and dest_stop.split("stop ")[-1].isdigit():
-				dest_stop = dest_stop.split("stop ")[-1]
+
+			dest_digits_bool = re.findall("\d+", dest_stop)
+
+			if dest_digits_bool:
+				for num in dest_digits_bool:
+					if ("top " + str(num)) in dest_stop:
+						dest_stop = int(num)
 			else:
-				try:
-					dest_stop = MatchStopNames.objects.values('stoppointid').filter(stop_name = dest_stop).distinct()[0]["stoppointid"]
-				except:
+				section_dest = dest_stop.split(",")
+				for section in section_dest:
+					section = section.strip()
+					dest_stop_line = str(section) + "_" + str(bus_line)
+					try:
+						dest_from_db = MatchStopNames.objects.values("stoppointid").filter(stop_name=dest_stop_line).distinct()[0]["stoppointid"]
+					except:
+						continue
+				if dest_from_db:
+					dest_stop = dest_from_db
+				else:
 					timeList.append("false")
-					continue
 			
 			# predtime = origin_stop+ " " + dest_stop+ " " + bus_line+ " " + date+ " " + time
 			predtime = get_prediction.get_prediction(origin_stop, dest_stop, bus_line, date, time)
