@@ -199,7 +199,8 @@ function showRoutedetail(response, element, url){
     var target = document.createElement("div");
     setRouteDetailDiv(target);
     element.appendChild(target);
-    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minnuites";
+    //var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minuites";
+    var text = 'Your Journey Estimates'
     writeLine(text, target);
 
     var pBody=new Array();
