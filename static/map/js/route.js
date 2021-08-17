@@ -161,6 +161,7 @@ function showPlan(url){
 // show route detail infromation
 function showRoutedetail(response, element, url){
     // extract data from google response
+	console.log(response);
     var myRoute = response.routes[0].legs[0];
     var locations = new Array();
     var total_distance = 0, total_duration = 0;

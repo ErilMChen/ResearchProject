@@ -38,11 +38,15 @@ function initDateTime(){
     // create time for the 24 hours
     var time = document.getElementById('time');
     for(var j= 1; j <= 24; j++){
+	if (j < 1 || j < 6){
+	}
+	    else{
         var str = j + ":00"
         var timeOption = document.createElement("option");
         timeOption.setAttribute("value", str);
         time.appendChild(timeOption);
         timeArray.push(str);
+	    }
     }
 }
 
