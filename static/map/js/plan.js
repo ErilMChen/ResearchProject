@@ -211,3 +211,8 @@ function deletePlan(url){
     showPlanPage();
 }
 
+document.onkeydown=function(){
+    if(window.event.keyCode=='13'){
+        event.preventDefault();
+    }
+}
