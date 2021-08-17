@@ -77,6 +77,7 @@ function edit_stops3(stops){
             let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
      var selectList = document.createElement("select");
     selectList.id = "myStopDelete";
+    selectList.classList.add('form-select');
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
     var txt = document.createTextNode("Delete Stop:    ")
@@ -119,6 +120,7 @@ function get_buses(buses){
     // get the unique buses from the stops array and create select menu
     let unique = buses.filter((x, i, a) => a.indexOf(x) === i)
     var selectList = document.createElement("select");
+    selectList.classList.add("form-select");
     selectList.id = "mySelect";
     var label = document.createElement('label');
 
@@ -166,6 +168,7 @@ function sel_stops(stops){
     let unique = stops.filter((x, i, a) => a.indexOf(x) === i)
      var selectList = document.createElement("select");
     selectList.id = "myStopSelect";
+    selectList.classList.add("form-select");
     var label = document.createElement('label');
     label.setAttribute('for', 'stops')
       label.classList.add('my_label')
