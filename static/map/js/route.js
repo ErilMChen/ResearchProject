@@ -1,6 +1,7 @@
 // Submit the starting and ending stations and return to the navigation route
 
 function getLocation() {
+	alert('This feature is currently depreciated - SSL certificate pending :(');
     var x = document.getElementById("demo1");
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -22,7 +23,7 @@ function clear_details(){
     document.getElementById('floatingEnd').value = "";
     document.getElementById('floatingDate').value = "";
     document.getElementById('floatingTime').value = "";
-    document.getElementById("add_stop1").disabled = false;
+	// document.getElementById("add_stop1").disabled = false;
 }
 
 
