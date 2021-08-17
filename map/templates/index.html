@@ -58,6 +58,9 @@
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer();
 
+            // set button on google map
+            initControl();
+    
             var inputs = document.getElementsByClassName("ac-inputs");
 
             var options = {
@@ -90,8 +93,6 @@
             scy_plan();
             // load plan from local storage
             loadPlanFromJson();
-            // set button on google map
-            initControl();
             // set log in/log out button
             initUserStatus();
         }
@@ -379,7 +380,7 @@
             </div>
         </div>
     </div>
-    <div style = display='none' id="demo1"></div>
-    <div style = display='none' id="demo2"></div>
+    <div style = "display:none" id="demo1"></div>
+    <div style = "display:none" id="demo2"></div>
 </body>
 </html>

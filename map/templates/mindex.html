@@ -65,6 +65,9 @@
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer();
 
+            // set button on google map
+            initControl();
+
             var inputs = document.getElementsByClassName("ac-inputs");
 
             var options = {
@@ -97,8 +100,6 @@
             scy_plan();
             // load plan from local storage
             loadPlanFromJson();
-            // set button on google map
-            initControl();
             // set log in/log out button
             initUserStatus();
         }
@@ -263,14 +264,14 @@
                     </div>
                     <datalist id="add_stop"></datalist>
 
-                    <input class="btn btn-dark btn_size" data-bs-toggle="collapse" href="#search_detail_panel"
+                    <input class="btn btn-dark " data-bs-toggle="collapse" href="#search_detail_panel"
                         aria-expanded="false" aria-controls="search_detail_panel" id="submit" type="button"
                         value="Submit" style="height: 3em; margin: 0.5em;">
 
-                    <button class="btn btn-light btn_size" id="clear" value=""
+                    <button class="btn btn-light " id="clear" value=""
                         style="height: 3em; margin: 0.5em;" onclick="clear_details()">Clear</button>
 
-                    <input class="btn btn-danger btn_size" id="save" type="button" value="Add Plan"
+                    <input class="btn btn-danger " id="save" type="button" value="Add Plan"
                         style="height: 3em; margin: 0.5em;">
                 </form>
             </div>
@@ -398,8 +399,8 @@
             </div>
         </div>
     </div>
-    <div style = display='none' id="demo1"></div>
-    <div style = display='none' id="demo2"></div>
+    <div style = "display:none" id="demo1"></div>
+    <div style = "display:none" id="demo2"></div>
 </body>
 
 </html>
