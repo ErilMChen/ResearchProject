@@ -126,7 +126,7 @@ def LoadPlan(request):
 		data = json.dumps(data)
 		return HttpResponse(data)
 	else:
-		res = json.dumps()
+		res = json.dumps([])
 		return HttpResponse(res)
 
 # save plan into database 
