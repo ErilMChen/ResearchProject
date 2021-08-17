@@ -181,7 +181,7 @@ function showRoutedetail(response, element, url){
     var target = document.createElement("div");
     setRouteDetailDiv(target);
     element.appendChild(target);
-    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minnuites";
+    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minutes";
     writeLine(text, target);
 
     var pBody=new Array();
@@ -210,7 +210,7 @@ function showRoutedetail(response, element, url){
                 var target = document.createElement("div");
                 setRouteDetailDiv(target);
                 element.appendChild(target);
-                writeLine("The "+ (i+1) + " leg of the journey", target)
+                writeLine("Leg "+ (i+1) + " of the journey", target)
                 writeLine("departure stop: "+locations[i].startStop, target)
                 writeLine("arrival stop: "+ locations[i].endStop, target)
                 writeLine("bus line: "+ locations[i].line, target)
