@@ -55,18 +55,23 @@ function initBusStops(){
         // create bus station option 
         var startStop = document.getElementById('start_stop');
         var endStop = document.getElementById('end_stop');
+        var addStop = document.getElementById('add_stop');
         var str= "";
         var count = 0;
         busData.forEach(element => {
             // create strat option from each bus stop
-            var startOption=document.createElement("option")
-            startOption.setAttribute("value",element.stop_name);
-            startStop.appendChild(startOption);
-            // create end option from each bus stop
+            // var startOption=document.createElement("option")
+            // startOption.setAttribute("value",element.stop_name);
+            // startStop.appendChild(startOption);
+            // // create end option from each bus stop
+            // var endOption=document.createElement("option")
+            // endOption.setAttribute("value",element.stop_name);
+            // endStop.appendChild(endOption);
+            // // array fro input validation (not done yet)
+            // busStopsArray.push(element.stop_name);
             var endOption=document.createElement("option")
             endOption.setAttribute("value",element.stop_name);
-            endStop.appendChild(endOption);
-            // array fro input validation (not done yet)
+            addStop.appendChild(endOption);
             busStopsArray.push(element.stop_name);
         });
     });
@@ -80,7 +85,6 @@ function iniEventListener(){
     document.getElementById("search").addEventListener("click", showSearchPage);
     document.getElementById("weather").addEventListener("click", showWeatherWidget);
     document.getElementById("add_stop1").addEventListener("click", function(){ addStop("add_stop1");}); 
-    document.getElementById("add_stop2").addEventListener("click", function(){ addStop("add_stop2");}); 
 
     document.getElementById("plan_panel").addEventListener("show.bs.collapse", function () {
         var search_panel = document.getElementById('search_panel');
@@ -115,17 +119,5 @@ function iniEventListener(){
     });
 }
 function initUserStatus(){
-    fetch("status", {
-        method:'GET'}).then(function(response) {
-            return response.json();
-        })
-    .then(function(userStatus) {
-        // if(userStatus == "false"){
-            var log = document.getElementById('log');
-            log.style.display = "block";
-        // }else{
-            var personal = document.getElementById('personal');
-            personal.style.display = "block";
-        // }
-    });
+
 }

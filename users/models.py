@@ -71,10 +71,10 @@ class my_plans(models.Model):
     date = models.CharField(max_length=50)
     time = models.CharField(max_length=50)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    start_lat = models.CharField(max_length=50)
-    start_long = models.CharField(max_length=50)
-    end_lat = models.CharField(max_length=50)
-    end_long = models.CharField(max_length=50)
+    start_lat = models.FloatField(max_length=50)
+    start_long = models.FloatField(max_length=50)
+    end_lat = models.FloatField(max_length=50)
+    end_long = models.FloatField(max_length=50)
 
     def __str__(self):
         return self.user.name + ": " + self.start_stop + self.end_stop + self.time

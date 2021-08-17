@@ -145,7 +145,7 @@ def GetUserStatus(request):
 def LoadPlan(request):
 	if request.user.is_authenticated:
 		current_user = request.user
-		ret = my_plans.objects.values('plan_name','start_stop','end_stop','date','time').filter(user=current_user).distinct()
+		ret = my_plans.objects.values('plan_name','start_stop','end_stop','date','time','start_lat', 'start_long', 'end_lat', 'end_long').filter(user=current_user).distinct()
 		data = list(ret)
 		data = json.dumps(data)
 		return HttpResponse(data)
@@ -160,16 +160,20 @@ def AddPlan(request):
 	end_stop = request.GET.get("end_stop","")
 	date = request.GET.get("date","")
 	time = request.GET.get("time","")
-
+	# start_stop lat/lng, end_stop lat/lng  (double)
+	slat = request.GET.get("slat","")
+	slng = request.GET.get("slng","")
+	elat = request.GET.get("elat","")
+	elng = request.GET.get("elng","")
 
 	if request.user.is_authenticated:
 		res = json.dumps("true")
 		current_user = request.user
-		#user_plan = my_plans(plan_name=plan_name, start_stop=start_stop,
-		#				  end_stop=end_stop, date=date, time=time, user=current_user, start_lat= slat, start_long = slng, end_lat=elat,
-		#					 end_long = elng)
-		#user_plan.check_num_plans()
-		#user_plan.save()
+		user_plan = my_plans(plan_name=plan_name, start_stop=start_stop,
+						  end_stop=end_stop, date=date, time=time, user=current_user, start_lat= slat, start_long = slng, end_lat=elat,
+							 end_long = elng)
+		user_plan.check_num_plans()
+		user_plan.save()
 		print('success')
 
 	else:
@@ -189,7 +193,7 @@ def DeletePlan(request):
 	if request.user.is_authenticated:
 		res = json.dumps("true")
 		current_user = request.user
-		plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
+		my_plans.objects.filter(plan_name=plan_name, start_stop=start_stop,
 							 end_stop=end_stop, date=date, time=time, user=current_user).delete()
 		print('delete success')
 	else:

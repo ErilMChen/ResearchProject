@@ -2,7 +2,7 @@
 .search_card,.plan_card{
     background-color: #fcfcfc !important;
     width: 37.5em; 
-    height: 28em; 
+    height: 30em; 
     border-radius: 10px !important;
     overflow-y: auto;
 }

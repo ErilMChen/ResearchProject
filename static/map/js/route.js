@@ -8,6 +8,7 @@ function getLocation() {
     x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
+
 function showPosition(position) {
     var x = document.getElementById("demo1");
   x.innerHTML = "Latitude: " + position.coords.latitude +
@@ -24,6 +25,8 @@ function clear_details(){
     document.getElementById("add_stop1").disabled = false;
 }
 
+
+
 function markBusRoute( ){
     // read user input from form
     var start = document.forms["bus_stop"]["start_stop"].value;
@@ -33,18 +36,17 @@ function markBusRoute( ){
     var my_loc = 0;
 
     // form validation
-    console.log(start)
     if(start == 'My Location'){
         my_loc = (document.getElementById('demo1').value).toString()
     }
-    else if(busStopsArray.includes(start) == false){
-        alert("Wrong Start Bus Stop Input");
-        return "wrong start stop name input"
-    }
-    if(busStopsArray.includes(end) == false){
-        alert("Wrong End Bus Stop Input");
-        return "wrong end stop name input"
-    }
+    // else if(busStopsArray.includes(start) == false){
+    //     alert("Wrong Start Bus Stop Input");
+    //     return "wrong start stop name input"
+    // }
+    // if(busStopsArray.includes(end) == false){
+    //     alert("Wrong End Bus Stop Input");
+    //     return "wrong end stop name input"
+    // }
     if(dateArray.includes(date) == false){
         alert("Wrong Date Input");
         return "wrong date input"
@@ -63,37 +65,46 @@ function markBusRoute( ){
     var year = date.split("/")[2];
     var month = date.split("/")[1];
     var day = date.split("/")[0];
-    fetch(url, {
-        // send request to django server
-        method:'GET'}).then(function(response) {
-            return response.json();
-        })
-    .then(function(routeDate){
+    // fetch(url, {
+    //     // send request to django server
+    //     method:'GET'}).then(function(response) {
+    //         return response.json();
+    //     })
+    // .then(function(routeDate){
         // use google api to set route on map
-        directionsRenderer.setMap(map);
+    directionsRenderer.setMap(map);
+    console.log(glocations[0])
         // set strat posiotion and end posiotion
-        var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
-        var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
-        var request = {
-            origin: start_position,
-            destination: end_position,
-            travelMode: google.maps.TravelMode["TRANSIT"],
-            provideRouteAlternatives :false,
-            transitOptions: {
-                departureTime: new Date(year, month, day, hour),
-                modes: ['BUS'],
-            },
+        // var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
+        // var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
+    var slat = glocations[0].getPlace().geometry.viewport.mc.g
+    var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    var elat = glocations[1].getPlace().geometry.viewport.mc.g
+    var elng = glocations[1].getPlace().geometry.viewport.Eb.g
+    var start_position = new google.maps.LatLng(slat, slng);
+    var end_position = new google.maps.LatLng(elat, elng);
+        // console.log(start_position)
+        // console.log(end_position)
+    var request = {
+        origin: start_position ,
+        destination: end_position,
+        travelMode: google.maps.TravelMode["TRANSIT"],
+        provideRouteAlternatives :false,
+        transitOptions: {
+            departureTime: new Date(year, month, day, hour),
+            modes: ['BUS'],
+        },
 
-        };
-        directionsService.route(request, function(response, status) {
-            if (status == 'OK') {
-                //draw route on map (google api)
-                directionsRenderer.setDirections(response);
-                //show route detail
-                showRoutedetail(response, "detail_container", url)
-            }
-        });
+    };
+    directionsService.route(request, function(response, status) {
+        if (status == 'OK') {
+            //draw route on map (google api)
+            directionsRenderer.setDirections(response);
+            //show route detail
+            showRoutedetail(response, "detail_container", url)
+        }
     });
+    // });
 }
 
 // show plan route detail
@@ -107,36 +118,43 @@ function showPlan(url){
     var year = date.split("/")[2];
     var month = date.split("/")[1];
     var day = date.split("/")[0];
-    fetch(url, {
-        method:'GET'}).then(function(response) {
-            return response.json();
-        })
-    .then(function(routeDate){
+    var slat = pairs[5].split("=")[1];
+    var slng = pairs[6].split("=")[1];
+    var elat = pairs[7].split("=")[1];
+    var elng = pairs[8].split("=")[1];
+    // fetch(url, {
+    //     method:'GET'}).then(function(response) {
+    //         return response.json();
+    //     })
+    // .then(function(routeDate){
         // use google api to set route on map
-        directionsRenderer.setMap(map);
-        // set strat posiotion and end posiotion
-        var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
-        var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
-        var request = {
-            origin: start_position,
-            destination: end_position,
-            travelMode: google.maps.TravelMode["TRANSIT"],
-            provideRouteAlternatives :false,
-            transitOptions: {
-                departureTime: new Date(year, month, day, hour),
-                modes: ['BUS'],
-            },
-        };
-        // send request to google map server
-        directionsService.route(request, function(response, status) {
-            if (status == 'OK') {
-                //draw route on map (google api)
-                directionsRenderer.setDirections(response);
-                //show route detail
-                showRoutedetail(response, "plan_detail_container", url)
-            }
-        });
+    directionsRenderer.setMap(map);
+    // set strat posiotion and end posiotion
+    // var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
+    // var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
+
+    var start_position = new google.maps.LatLng(slat, slng);
+    var end_position = new google.maps.LatLng(elat, elng);
+    var request = {
+        origin: start_position,
+        destination: end_position,
+        travelMode: google.maps.TravelMode["TRANSIT"],
+        provideRouteAlternatives :false,
+        transitOptions: {
+            departureTime: new Date(year, month, day, hour),
+            modes: ['BUS'],
+        },
+    };
+    // send request to google map server
+    directionsService.route(request, function(response, status) {
+        if (status == 'OK') {
+            //draw route on map (google api)
+            directionsRenderer.setDirections(response);
+            //show route detail
+            showRoutedetail(response, "plan_detail_container", url)
+        }
     });
+    // });
 }
 
 // show route detail infromation
@@ -181,7 +199,8 @@ function showRoutedetail(response, element, url){
     var target = document.createElement("div");
     setRouteDetailDiv(target);
     element.appendChild(target);
-    var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minutes";
+    //var text ="Total distance: " + total_distance + " kilometres\n" + "Total duration: " + total_duration + " minuites";
+    var text = 'Your Journey Estimates'
     writeLine(text, target);
 
     var pBody=new Array();
@@ -195,7 +214,7 @@ function showRoutedetail(response, element, url){
     body: JSON.stringify({jsonArray : locations}),
     headers: {
         'content-type': 'application/json'
-    },
+    },  
     method: 'POST',
     })
     .then(function(response){
