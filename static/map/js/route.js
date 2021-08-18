@@ -1,8 +1,7 @@
 // Submit the starting and ending stations and return to the navigation route
 
 function getLocation() {
-	alert('This feature is currently depreciated - SSL certificate pending :(');
-    var x = document.getElementById("demo1");
+	var x = document.getElementById("demo1");
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
         } else {
