@@ -39,14 +39,14 @@ function markBusRoute( ){
     if(start == 'My Location'){
         my_loc = (document.getElementById('demo1').value).toString()
     }
-    // else if(busStopsArray.includes(start) == false){
-    //     alert("Wrong Start Bus Stop Input");
-    //     return "wrong start stop name input"
-    // }
-    // if(busStopsArray.includes(end) == false){
-    //     alert("Wrong End Bus Stop Input");
-    //     return "wrong end stop name input"
-    // }
+    else if(start == ""){
+        alert("Wrong Start Bus Stop Input");
+        return "wrong start stop name input"
+    }
+    if(end == ""){
+        alert("Wrong End Bus Stop Input");
+        return "wrong end stop name input"
+    }
     if(dateArray.includes(date) == false){
         alert("Wrong Date Input");
         return "wrong date input"
@@ -54,7 +54,8 @@ function markBusRoute( ){
     if(timeArray.includes(time) == false){
         alert("Wrong Time Input");
         return "wrong time input"   
-    }  
+    }
+
 
     // create url
     let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time + '&my_loc=' + my_loc;
