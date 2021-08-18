@@ -90,6 +90,7 @@ def DurationPrediction(request):
 						origin_stop = int(num)
 			else:
 				section_origin = origin_stop.split(",")
+				origin_from_db = ""
 				for section in section_origin:
 					section = section.strip()
 					origin_stop_line = str(section) + "_" + str(bus_line)
@@ -110,6 +111,7 @@ def DurationPrediction(request):
 						dest_stop = int(num)
 			else:
 				section_dest = dest_stop.split(",")
+				dest_from_db = ""
 				for section in section_dest:
 					section = section.strip()
 					dest_stop_line = str(section) + "_" + str(bus_line)
