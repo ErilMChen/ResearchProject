@@ -6,9 +6,37 @@ function saveBusRoute(){
     var date = document.forms["bus_stop"]["date"].value;
     var time = document.forms["bus_stop"]["time"].value;
     var plan_name = document.forms["bus_stop"]["plan_name"].value;
+    if(start == 'My Location'){
+        my_loc = (document.getElementById('demo1').value).toString()
+    }
+    else if(start == ""){
+        alert("Wrong Start Bus Stop Input");
+        return "wrong start stop name input"
+    }
+    if(end == ""){
+        alert("Wrong End Bus Stop Input");
+        return "wrong end stop name input"
+    }
+    if(dateArray.includes(date) == false){
+        alert("Wrong Date Input");
+        return "wrong date input"
+    }
+    if(timeArray.includes(time) == false){
+        alert("Wrong Time Input");
+        return "wrong time input"   
+    }
 
-    var slat = glocations[0].getPlace().geometry.viewport.mc.g
-    var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    if (start = 'My Location'){
+        coord = document.getElementById('demo1').value;
+        coord_arr = coord.split("/")
+        var slat = coord_arr[0]
+        var slng = coord_arr[1]
+        console.log(slat,slng)
+    }
+    else{
+        var slat = glocations[0].getPlace().geometry.viewport.mc.g
+        var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    }
     var elat = glocations[1].getPlace().geometry.viewport.mc.g
     var elng = glocations[1].getPlace().geometry.viewport.Eb.g
     // creat url which use fro send request to django server
@@ -31,14 +59,17 @@ function savePlanToJson(){
     var plan_name = document.forms["bus_stop"]["plan_name"].value;
 
     // form validation
-    // if(busStopsArray.includes(start) == false){
-    //     alert("Wrong Start Bus Stop Input");
-    //     return "wrong start stop name input"
-    // }
-    // if(busStopsArray.includes(end) == false){
-    //     alert("Wrong End Bus Stop Input");
-    //     return "wrong end stop name input"
-    // }
+    if(start == 'My Location'){
+        my_loc = (document.getElementById('demo1').value).toString()
+    }
+    else if(start == ""){
+        alert("Wrong Start Bus Stop Input");
+        return "wrong start stop name input"
+    }
+    if(end == ""){
+        alert("Wrong End Bus Stop Input");
+        return "wrong end stop name input"
+    }
     if(dateArray.includes(date) == false){
         alert("Wrong Date Input");
         return "wrong date input"
@@ -46,10 +77,19 @@ function savePlanToJson(){
     if(timeArray.includes(time) == false){
         alert("Wrong Time Input");
         return "wrong time input"   
-    }  
+    } 
 
-    var slat = glocations[0].getPlace().geometry.viewport.mc.g
-    var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    if (start = 'My Location'){
+        coord = document.getElementById('demo1').value;
+        coord_arr = coord.split("/")
+        var slat = coord_arr[0]
+        var slng = coord_arr[1]
+        console.log(slat,slng)
+    }
+    else{
+        var slat = glocations[0].getPlace().geometry.viewport.mc.g
+        var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+    }
     var elat = glocations[1].getPlace().geometry.viewport.mc.g
     var elng = glocations[1].getPlace().geometry.viewport.Eb.g
 
