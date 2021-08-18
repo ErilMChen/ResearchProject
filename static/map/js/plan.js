@@ -26,7 +26,7 @@ function saveBusRoute(){
         return "wrong time input"   
     }
 
-    if (start = 'My Location'){
+    if (start == 'My Location'){
         coord = document.getElementById('demo1').value;
         coord_arr = coord.split("/")
         var slat = coord_arr[0]
@@ -79,7 +79,7 @@ function savePlanToJson(){
         return "wrong time input"   
     } 
 
-    if (start = 'My Location'){
+    if (start == 'My Location'){
         coord = document.getElementById('demo1').value;
         coord_arr = coord.split("/")
         var slat = coord_arr[0]
