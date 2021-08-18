@@ -79,7 +79,7 @@ function markBusRoute( ){
         // var start_position = new google.maps.LatLng(routeDate[0].stop_lat, routeDate[0].stop_long);
         // var end_position = new google.maps.LatLng(routeDate[1].stop_lat, routeDate[1].stop_long);
     var start = document.forms["bus_stop"]["start_stop"].value;
-    if (start = 'My Location'){
+    if (start == 'My Location'){
         coord = document.getElementById('demo1').value;
         coord_arr = coord.split("/")
         var slat = coord_arr[0]
