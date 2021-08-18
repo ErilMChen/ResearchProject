@@ -1,5 +1,5 @@
 function addStop(element){
-    var stop_name = document.forms["bus_stop"]["start_stop"].value;
+    var stop_name = document.forms["bus_stop"]["add_stop"].value;
     // form validation
     if(busStopsArray.includes(stop_name) == false){
         alert("Wrong Bus Stop Input");
