@@ -9,8 +9,14 @@ import datetime
 import json
 from mysite import dbinfo
 from map.models import NameToID
-now = str(datetime.datetime.now().time())
-nowh = int(now[0:2]) + 1
+#now = str(datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%Z")
+#now = str(datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S"))
+from datetime import datetime
+import pytz
+country_time_zone = pytz.timezone('Europe/Dublin')
+country_time = datetime.now(country_time_zone)
+now = country_time.strftime("%H:%M:%S")
+nowh = int(now[0:2])
 nowm = now[3:5]
 from datetime import datetime
 
