@@ -85,7 +85,7 @@ class my_plans(models.Model):
         It deletes by the process of last in first out'''
         val = my_plans.objects.filter(user=self.user).count()
         if val > 5:
-            all_ids = my_plans.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+            all_is = my_plans.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
             print(all_ids)
             my_plans.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
 
@@ -100,6 +100,6 @@ class my_stations(models.Model):
         '''This function does not allow the user to have more than 5 stations saved.
         It deletes by the process of last in first out'''
         val = my_stations.objects.filter(user_id=id).count()
-        if val > 5:
-            all_ids = my_stations.objects.filter(user_id=id).values_list('id', flat=True)[1:4]
+        if val > 3:
+            all_ids = my_stations.objects.filter(user_id=id).values_list('id', flat=True)[1:3]
             my_stations.objects.filter(user_id=id).exclude(pk__in=list(all_ids)).delete()
