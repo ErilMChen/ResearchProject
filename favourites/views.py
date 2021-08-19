@@ -7,6 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import StopForm as S
 from users.forms import ChangePassword
 from users.models import MyUser
+from datetime import datetime
+import pytz
+
 import re
 from django.views.decorators.cache import never_cache
 
@@ -32,10 +35,15 @@ def show_favs(request):
     """When stations.html is rendered, the live schedule for the
     users favourite stations are returned from get_sched2 file and are sent to front end as json"""
     if request.user.is_authenticated:
+        country_time_zone = pytz.timezone('Europe/Dublin')
+        country_time = datetime.now(country_time_zone)
+        now = country_time.strftime("%H:%M:%S")
+        nowh = int(now[0:2])
+        nowm = now[3:5]
         data = []
         current_user = request.user
         stations = my_stations.objects.filter(user=current_user).values_list('stop_id', flat=True).distinct()
-        s = get_sched2.get_times(stations)
+        s = get_sched2.get_times(stations, nowh, nowm)
         data.append(s)
         #print(data)
         return HttpResponse(data, "application/json")

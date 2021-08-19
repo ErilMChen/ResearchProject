@@ -1,6 +1,7 @@
 import django
 import os
 import re
+import numpy
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from favourites.models import StopTimesGoogle
@@ -37,7 +38,7 @@ def difference(h1, m1, h2, m2):
 
 
 
-def get_times(stop_ids):
+def get_times(stop_ids, t1, t2):
     """This function checks the rows of the schedule and creates an array of the rows in the next hour.
     It also calls the real time API data function and checks which rows need to be changed"""
     data = []
@@ -63,7 +64,7 @@ def get_times(stop_ids):
                     h = row2['arr_time'][0:2]
                     m = row2['arr_time'][3:5]
                     #check if within he next hour
-                    if difference(h, m, nowh, nowm) == True:
+                    if difference(h, m, t1, t2) == True:
                         there_are_buses = True
                     #check if API updated need to be applied
                         for i in range(0, len(API_updates)):
@@ -118,7 +119,7 @@ def return_json(data, command):
         #split the rows into dic
         list = [{"Route": x['trip_id'], "Bus": x['trip_id'].split("-")[1], "Arrival Time": x['arr_time'],
                  "Departure Time": x['dep_time'], "Stop": x['stop_id'], "Sequence": x['stopp_seq'], 'Name': x['stop_name'].split(",")[0]} for x in data]
-    #print(list)
+    print(list)
     return json.dumps(list)
 
 def get_API(stop_id):
@@ -188,4 +189,3 @@ def check_day(route):
     else:
         return False
 
-get_times(['8220DB001085'])
