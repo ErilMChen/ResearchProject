@@ -34,11 +34,11 @@ function saveBusRoute(){
         console.log(slat,slng)
     }
     else{
-        var slat = glocations[0].getPlace().geometry.viewport.mc.g
-        var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+        var slat = glocations[0].getPlace().geometry.viewport.tc.g
+        var slng = glocations[0].getPlace().geometry.viewport.Hb.g
     }
-    var elat = glocations[1].getPlace().geometry.viewport.mc.g
-    var elng = glocations[1].getPlace().geometry.viewport.Eb.g
+    var elat = glocations[1].getPlace().geometry.viewport.tc.g
+    var elng = glocations[1].getPlace().geometry.viewport.Hb.g
     // creat url which use fro send request to django server
     let url = 'addplan/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time +'&plan_name=' + plan_name
     +'&slat='+slat +'&slng='+slng +'&elat='+elat +'&elng='+elng;
@@ -87,11 +87,11 @@ function savePlanToJson(){
         console.log(slat,slng)
     }
     else{
-        var slat = glocations[0].getPlace().geometry.viewport.mc.g
-        var slng = glocations[0].getPlace().geometry.viewport.Eb.g
+        var slat = glocations[0].getPlace().geometry.viewport.tc.g
+        var slng = glocations[0].getPlace().geometry.viewport.Hb.g
     }
-    var elat = glocations[1].getPlace().geometry.viewport.mc.g
-    var elng = glocations[1].getPlace().geometry.viewport.Eb.g
+    var elat = glocations[1].getPlace().geometry.viewport.tc.g
+    var elng = glocations[1].getPlace().geometry.viewport.Hb.g
 
     // creat url which use fro send request to django server
     // the url will be the key used in local storage
