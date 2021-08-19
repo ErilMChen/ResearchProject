@@ -33,6 +33,7 @@ def show_favs(request):
     """When stations.html is rendered, the live schedule for the
     users favourite stations are returned from get_sched2 file and are sent to front end as json"""
     if request.user.is_authenticated:
+        data = []
         current_user = request.user
         stations = my_stations.objects.filter(user=current_user).values_list('stop_id', flat=True).distinct()
         s = get_sched2.get_times(stations)

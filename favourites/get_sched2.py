@@ -2,7 +2,7 @@ import django
 import os
 import requests
 import re
-import numpy
+from itertools import chain
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from favourites.models import StopTimesGoogle
@@ -48,10 +48,13 @@ def get_times(stop_ids):
     #get updates for this stop
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
-        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        #sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched = list(chain(sched1, sched2))
         #print(sched)
         # if it doesnt exist in our schedule
-        if not sched.exists():
+        if not sched:
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
