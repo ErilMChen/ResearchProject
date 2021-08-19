@@ -8,6 +8,7 @@ from .forms import StopForm as S
 from users.forms import ChangePassword
 from users.models import MyUser
 import re
+from django.views.decorators.cache import never_cache
 
 #https://stackoverflow.com/questions/42273319/detect-mobile-devices-with-django-and-python-3
 def mobile(request):
@@ -16,7 +17,7 @@ def mobile(request):
         return True
     else:
         return False
-
+@never_cache
 def stations(request):
     """Sends the delete stop form to stations.html and render template"""
     myform = S

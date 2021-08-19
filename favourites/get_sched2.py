@@ -46,7 +46,7 @@ def get_times(stop_ids):
     #get updates for this stop
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
-        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh + 1) +':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         #print(sched)
         # if it doesnt exist in our schedule
         if not sched.exists():
