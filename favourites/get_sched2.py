@@ -1,5 +1,6 @@
 import django
 import os
+import requests
 import re
 import numpy
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
@@ -14,11 +15,6 @@ from map.models import NameToID
 #now = str(datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S"))
 from datetime import datetime
 import pytz
-country_time_zone = pytz.timezone('Europe/Dublin')
-country_time = datetime.now(country_time_zone)
-now = country_time.strftime("%H:%M:%S")
-nowh = int(now[0:2])
-nowm = now[3:5]
 from datetime import datetime
 
 #changes
@@ -38,16 +34,21 @@ def difference(h1, m1, h2, m2):
 
 
 
-def get_times(stop_ids, t1, t2):
+def get_times(stop_ids):
     """This function checks the rows of the schedule and creates an array of the rows in the next hour.
     It also calls the real time API data function and checks which rows need to be changed"""
+    url = 'https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Dublin'
+    response = requests.get(url)
+    res = json.loads(response.text)
+    nowh = res['hour']
+    nowm = res['minute']
     data = []
     for stop_id in stop_ids:
         there_are_buses = False
     #get updates for this stop
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
-        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         #print(sched)
         # if it doesnt exist in our schedule
         if not sched.exists():
@@ -64,7 +65,7 @@ def get_times(stop_ids, t1, t2):
                     h = row2['arr_time'][0:2]
                     m = row2['arr_time'][3:5]
                     #check if within he next hour
-                    if difference(h, m, t1, t2) == True:
+                    if difference(h, m, nowh, nowm) == True:
                         there_are_buses = True
                     #check if API updated need to be applied
                         for i in range(0, len(API_updates)):
@@ -189,3 +190,5 @@ def check_day(route):
     else:
         return False
 
+
+get_times(['8220DB001085'])
