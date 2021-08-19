@@ -1,10 +1,11 @@
 import pandas as pd
-import pickle
+# import pickle
 from datetime import datetime
 import mysql.connector
-import bz2
+# import bz2
 # import time as tm
 from mysite import dbinfo
+import joblib
 # import sys
 
 # Connect to database
@@ -94,14 +95,14 @@ def create_dataframe(date, time):
                                                                                                    weather_result[10]
 
 
-    user_data = pd.DataFrame(columns=["temp", "feels_like", "temp_min", "temp_max", "pressure", "humidity",
+    user_data = pd.DataFrame(columns=["temp", "humidity",
                                       "wind_speed", "wind_deg", "MONTH_1", "MONTH_2", "MONTH_3", "MONTH_4", "MONTH_5",
                                       "MONTH_6", "MONTH_7", "MONTH_8", "MONTH_9", "MONTH_10", "MONTH_11", "WEEKDAY_1",
                                       "WEEKDAY_2", "WEEKDAY_3", "WEEKDAY_4", "WEEKDAY_5", "WEEKDAY_6", "HOUR_1",
                                       "HOUR_2", "HOUR_3", "HOUR_4", "HOUR_5", "HOUR_6", "HOUR_7", "HOUR_8", "HOUR_9",
                                       "HOUR_10", "HOUR_11", "HOUR_12", "HOUR_13", "HOUR_14", "HOUR_15", "HOUR_16",
                                       "HOUR_17", "HOUR_18", "HOUR_19", "HOUR_20", "HOUR_21", "HOUR_22", "HOUR_23",
-                                      "weekend_true_1"])
+                                      "weekend_true_1", "peak_true_1", "rain_true_1"])
 
     row = [0] * user_data.shape[1]
     series = pd.Series(row, index=user_data.columns)
@@ -117,16 +118,24 @@ def create_dataframe(date, time):
             user_data.at[0, column] = 1
 
     user_data.at[0, "temp"] = temp
-    user_data.at[0, "temp_min"] = temp_min
-    user_data.at[0, "temp_max"] = temp_max
-    user_data.at[0, "feels_like"] = feels_like
     user_data.at[0, "humidity"] = humidity
     user_data.at[0, "wind_speed"] = wind_speed
     user_data.at[0, "wind_deg"] = wind_deg
+
     if weekday < 5:
         user_data.at[0, "weekend_true_1"] = 0
     else:
         user_data.at[0, "weekend_true_1"] = 1
+
+    if weather_main == "Rain":
+        user_data.at[0, "rain_true_1"] = 1
+    else:
+        user_data.at[0, "rain_true_1"] = 0
+
+    if ((weekday < 5) & (hour >= 6) & (hour <= 10)) | ((weekday < 5) & (hour >= 16) & (hour <= 19)):
+        user_data.at[0, "peak_true_1"] = 1
+    else:
+        user_data.at[0, "peak_true_1"] = 0
 
     return user_data
 
@@ -273,13 +282,14 @@ def get_prediction(origin_stop, dest_stop, bus_line, date, time):
 
                 input_dataframe = create_dataframe(date, time)
 
-                file_name = "map/pickled_models/{}_{}.pickle"
-                compressed_pickle_file = (file_name.format(str(bus_line), str(direction_bool + 1)))
+                compressed_filename = ("map/pickled_models/{}_{}.pickle".format(bus_line, direction_bool + 1))
 
-                pickle_file = bz2.open(compressed_pickle_file, "rb")
-                read_pickle = pickle_file.read()
-
-                model = pickle.loads(read_pickle)
+                try:
+                    joblib_pickle = open(compressed_filename, "rb")
+                    model = joblib.load(joblib_pickle)
+                except Exception as err:
+                    print("Error:", err)
+                    return False
 
                 prediction = model.predict(input_dataframe)
 
