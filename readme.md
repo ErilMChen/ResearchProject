@@ -18,7 +18,7 @@ engine = f"mysql+mysqlconnector://{myuser}:{mypasswd}@{myhost}:3306/{mydatabase}
 
 
 
-The live version of the application is deployed on a UCD server.
+The live version of the application is deployed on a UCD server https://ns1.nofussbus.live.nofussbus.live/ .
 
 
 Basic functionality:
