@@ -47,41 +47,33 @@ def get_times(stop_ids):
         there_are_buses = False
     #get updates for this stop
         API_updates = get_API(stop_id)
-        #filter the stop time objects for this stop
-        #sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
-        stop = StopTimesGoogle.objects.filter(stop_id=stop_id)
-        sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
-        sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        # filter the stop time objects for this stop
+        # sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(
+            nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(
+            nowh + 1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         sched = list(chain(sched1, sched2))
-        #print(sched)
+        # print(sched)
         # if it doesnt exist in our schedule
-        if not stop.exists:
-            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
-                   'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                   'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
+        if not sched:
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'No info available or no buses scheduled',
+                       'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+                       'stop_headsign': ' N/A', 'pickup_type': 'N/A',
+                       'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
             continue
-        if not sched:
-            name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=stop_id).distinct()
-            data1 = list(name)
-            stop_name = data1[0]['stop_name']
-            no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
-                      'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
-                      'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                      'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': stop_name}
-            data.append(no_bus)
-            continue
         for row2 in sched:
-            #check if the trip in the row runs today (see check_day function)
+            # check if the trip in the row runs today (see check_day function)
             if check_day(row2['trip_id']) == True:
                 try:
-                    #get the time from the row
+                    # get the time from the row
                     h = row2['arr_time'][0:2]
                     m = row2['arr_time'][3:5]
-                    #check if within he next hour
+                    # check if within he next hour
                     if difference(h, m, nowh, nowm) == True:
                         there_are_buses = True
-                    #check if API updated need to be applied
+                        # check if API updated need to be applied
                         for i in range(0, len(API_updates)):
                             if row2['trip_id'] == API_updates[i][0]:
                                 print('match')
@@ -90,16 +82,17 @@ def get_times(stop_ids):
                                 print('old row', row2)
                                 row2['arr_time'] = new_times[0]
                                 row2['dep_time'] = new_times[1]
-                                #data.append(row2)
-                                #continue
-                        #get the name of the stop and append to the row
-                        name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
+                                # data.append(row2)
+                                # continue
+                        # get the name of the stop and append to the row
+                        name = NameToID.objects.values('stop_name', 'stop_id').filter(
+                            stop_id=row2['stop_id']).distinct()
                         data1 = list(name)
                         stop_name = data1[0]['stop_name']
-                        #print(stop_name)
+                        # print(stop_name)
                         row2['stop_name'] = stop_name
                         data.append(row2)
-                        #print(row2)
+                        # print(row2)
                 except Exception as e:
                     print(e)
 
