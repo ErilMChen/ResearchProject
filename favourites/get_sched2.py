@@ -55,7 +55,7 @@ def get_times(stop_ids):
         #print(sched)
         # if it doesnt exist in our schedule
         if not sched:
-            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'No info available or no buses scheduled', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
