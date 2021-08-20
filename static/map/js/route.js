@@ -109,6 +109,7 @@ function markBusRoute( ){
         },
 
     };
+
     directionsService.route(request, function(response, status) {
         if (status == 'OK') {
             //draw route on map (google api)
@@ -116,6 +117,8 @@ function markBusRoute( ){
             //show route detail
             showRoutedetail(response, "detail_container", url)
         }
+        else{
+        alert('Oops! Google could not find a bus route between these two destinations!')}
     });
     // });
 }
