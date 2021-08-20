@@ -49,16 +49,27 @@ def get_times(stop_ids):
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
         #sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        stop = StopTimesGoogle.objects.filter(stop_id=stop_id)
         sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         sched = list(chain(sched1, sched2))
         #print(sched)
         # if it doesnt exist in our schedule
-        if not sched:
+        if not stop.exists:
             default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
+            continue
+        if not sched:
+            name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=stop_id).distinct()
+            data1 = list(name)
+            stop_name = data1[0]['stop_name']
+            no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
+                      'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+                      'stop_headsign': ' N/A', 'pickup_type': 'N/A',
+                      'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': stop_name}
+            data.append(no_bus)
             continue
         for row2 in sched:
             #check if the trip in the row runs today (see check_day function)
@@ -94,19 +105,6 @@ def get_times(stop_ids):
 
             else:
                 continue
-
-        if there_are_buses == False:
-            #if theres no buses in this time, send empty dic
-            name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
-            data1 = list(name)
-            stop_name = data1[0]['stop_name']
-            no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
-                       'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
-                       'stop_headsign': ' N/A', 'pickup_type': 'N/A',
-                       'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': stop_name}
-            data.append(no_bus)
-
-
 
     if len(data) == 0:
         #if theres no data
@@ -194,4 +192,4 @@ def check_day(route):
         return False
 
 
-get_times(['8220DB001085'])
+get_times(['8220DB000274'])
