@@ -59,8 +59,8 @@ def get_times(stop_ids):
         sched = list(chain(sched1, sched2))
         print(sched)
         # if it doesnt exist in our schedule
-        if not sched1.exists or not sched2.exists:
-            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+        if not sched:
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'No info available for this stop right now', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
@@ -100,16 +100,16 @@ def get_times(stop_ids):
             else:
                 continue
 
-        if there_are_buses == False:
-            #if theres no buses in this time, send empty dic
-            name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
-            data1 = list(name)
-            stop_name = data1[0]['stop_name']
-            no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
+            if there_are_buses == False:
+                #if theres no buses in this time, send empty dic
+                name = NameToID.objects.values('stop_name', 'stop_id').filter(stop_id=row2['stop_id']).distinct()
+                data1 = list(name)
+                stop_name = data1[0]['stop_name']
+                no_bus = {'id': None, 'trip_id': '0000 - 0000', 'arr_time': 'No buses scheduled',
                        'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                        'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                        'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': stop_name}
-            data.append(no_bus)
+                data.append(no_bus)
 
 
 
