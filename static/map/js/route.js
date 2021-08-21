@@ -55,7 +55,15 @@ function markBusRoute( ){
         alert("Wrong Time Input");
         return "wrong time input"   
     }
-
+    console.log(start)
+    if(start.includes('Dublin') == false && start.includes('Wicklow') == false && start.includes('My Location') == false)
+    {alert('Wrong county at origin!')
+        return "wrong county"
+    }
+    if(end.includes('Dublin') == false && end.includes('Wicklow') == false)
+    {alert('Wrong county at destination!')
+        return "wrong county"
+    }
 
     // create url
     let url = 'route/'+'?start_stop='+start+'&end_stop='+end +'&date='+date +'&time='+time + '&my_loc=' + my_loc;
@@ -243,19 +251,35 @@ function showRoutedetail(response, element, url){
     .then(function(timeData){
         for(var i = 0; i< locations.length; i++){
             (function(i){
+                allowed = ['1','4', '6', '7', '7A', '7B', '7D', '9', '11', '13',
+                 '14', '15', '15A', '15B', '15D', '16',
+                '16D', '25', '25A','25B', '25D', '25X', '26', '27',
+                 '27A', '27B', '27X', '32X', '33', '33B', '33D',
+                '33E', '33X', '37', '38','39A', '39X', '40', '40B',
+                 '40D', '40E', '41', '41C', '41D', '41X', '42',
+                '43', '44', '44B', '46A', '46E', '47', '49', '51D',
+                '53', '54A', '61', '65', '65B', '66', '66A',
+                '66B', '66X', '67', '67X', '68','69X', '70', '77A',
+                 '77X', '79A', '83', '83A', '84', '84A', '84X', '116',
+                '118', '120', '122', '123', '130', '142', '150', '151', '155']
                 var target = document.createElement("div");
                 setRouteDetailDiv(target);
                 element.appendChild(target);
                 writeLine("Leg "+ (i+1) + " of the journey", target)
-                writeLine("departure stop: "+locations[i].startStop, target)
-                writeLine("arrival stop: "+ locations[i].endStop, target)
-                writeLine("bus line: "+ locations[i].line, target)
-                writeLine("distance: "+ locations[i].distance, target)
+                writeLine("Departure Stop: "+locations[i].startStop, target)
+                writeLine("Arrival Stop: "+ locations[i].endStop, target)
+                if(allowed.includes(locations[i].line) == true){
+                writeLine("Bus Line: "+ locations[i].line, target)
+                }
+                else{
+                writeLine("Bus Line: "+ locations[i].line + '. This is not a Dublin Bus service.', target)
+                }
+                writeLine("Distance: "+ locations[i].distance, target)
                 console.log(timeData[i])
                 if (timeData[i] != "false")
-                    writeLine("duration: "+ timeData[i] + " mins", target)
+                    writeLine("Duration: "+ timeData[i] + " mins", target)
                 else
-                    writeLine("duration: "+ locations[i].duration, target)
+                    writeLine("Duration: "+ locations[i].duration, target)
             }(i));
         }
     })
@@ -275,6 +299,7 @@ function showRoutedetail(response, element, url){
     //     }(i));
     // }
 }
+
 
 // write text on certain element
 function writeLine(text ,target){

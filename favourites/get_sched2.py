@@ -1,8 +1,8 @@
 import django
-import os
 import requests
-import re
+import os
 from itertools import chain
+import re
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 from favourites.models import StopTimesGoogle
@@ -15,6 +15,11 @@ from map.models import NameToID
 #now = str(datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S"))
 from datetime import datetime
 import pytz
+country_time_zone = pytz.timezone('Europe/Dublin')
+country_time = datetime.now(country_time_zone)
+now = country_time.strftime("%H:%M:%S")
+nowh = int(now[0:2])
+nowm = now[3:5]
 from datetime import datetime
 
 #changes
@@ -48,14 +53,14 @@ def get_times(stop_ids):
     #get updates for this stop
         API_updates = get_API(stop_id)
         #filter the stop time objects for this stop
-        #sched = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + "|" + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
-        sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
-        sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(nowh +1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched1 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:'+ str(nowh) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
+        sched2 = StopTimesGoogle.objects.filter(stop_id=stop_id, arr_time__regex=r'^(?:(?:' + str(
+            nowh + 1) + ':)?([0-5]?\d):)?([0-5]?\d)$').values()
         sched = list(chain(sched1, sched2))
-        #print(sched)
+        print(sched)
         # if it doesnt exist in our schedule
-        if not sched:
-            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'No info available or no buses scheduled', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
+        if not sched1.exists or not sched2.exists:
+            default = {'id': None, 'trip_id': '0000-0000', 'arr_time': 'Stop Not Available in Transport Ireland Bus Times', 'dep_time': 'N/A', 'stop_id': stop_id, 'stopp_seq': 'N/A',
                    'stop_headsign': ' N/A', 'pickup_type': 'N/A',
                    'drop_off_type': 'N/A', 'shape_dist_traveled': 'N/A', 'stop_name': str(stop_id)}
             data.append(default)
@@ -178,10 +183,13 @@ def check_day(route):
     routes = []
     today = str(dd.datetime.now().today().weekday())
     available = {
+        "y1001" : ['6'],
+        "y1002" : ['4'],
         "y1003" : ["0", "1", "2", "3", "4"],
          "y1004" : ["0", "6"],
         "y1005" : ["2", "3", "4"],
-        "y1006" : ["5"]
+        "y1006" : ["5"],
+        'y1009' : ['0', "1", "2", "3", "4", '5','6']
     }
     for key, value in available.items():
         for day in value:
@@ -192,6 +200,3 @@ def check_day(route):
         return True
     else:
         return False
-
-
-get_times(['8220DB001085'])
