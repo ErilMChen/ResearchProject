@@ -159,7 +159,7 @@ CRONJOBS = [
     ('0 1 * * *', 'weather.cron.collect_current_weather'),
     ('0 1 * * *', 'weather.cron.collect_weather_forecast'),
     ('0 1 * * *', 'weather.cron.collect_road_report'),
-    ('*/2 * * * *', 'weather.cron.API_Bus_Scrape')
+    ('*/2 * * * *', 'weather.cron.collect_live_API')
 ]
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

@@ -5,7 +5,7 @@ import sys
 import requests
 import json
 from pymysql import connect
-import dbinfo
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -13,6 +13,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 print(BASE_DIR)
 #key e31a714730e34d21a2dfcbc8de363774
+from mysite import dbinfo
 
 def insert_multiple(val):
     """Function to insert multiple rows at once"""

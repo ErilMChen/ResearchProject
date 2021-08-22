@@ -261,7 +261,7 @@ function showRoutedetail(response, element, url){
                 '53', '54A', '61', '65', '65B', '66', '66A',
                 '66B', '66X', '67', '67X', '68','69X', '70', '77A',
                  '77X', '79A', '83', '83A', '84', '84A', '84X', '116',
-                '118', '120', '122', '123', '130', '142', '150', '151', '155']
+                '118', '120', '122', '123', '130', '142','145','150', '151', '155']
                 var target = document.createElement("div");
                 setRouteDetailDiv(target);
                 element.appendChild(target);
