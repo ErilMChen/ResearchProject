@@ -229,7 +229,7 @@ function setDeleteButton(element){
 
 function deletePlan(url){
     // remove item from database
-    var url = localStorage.key(url);
+    // var url = localStorage.key(url);
     // get value by using key
     var str=localStorage.getItem(url); 
     var locations=JSON.parse(str);

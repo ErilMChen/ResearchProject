@@ -252,16 +252,18 @@ function showRoutedetail(response, element, url){
         for(var i = 0; i< locations.length; i++){
             (function(i){
                 allowed = ['1','4', '6', '7', '7A', '7B', '7D', '9', '11', '13',
-                 '14', '15', '15A', '15B', '15D', '16',
-                '16D', '25', '25A','25B', '25D', '25X', '26', '27',
-                 '27A', '27B', '27X', '32X', '33', '33B', '33D',
-                '33E', '33X', '37', '38','39A', '39X', '40', '40B',
-                 '40D', '40E', '41', '41C', '41D', '41X', '42',
-                '43', '44', '44B', '46A', '46E', '47', '49', '51D',
-                '53', '54A', '61', '65', '65B', '66', '66A',
-                '66B', '66X', '67', '67X', '68','69X', '70', '77A',
-                 '77X', '79A', '83', '83A', '84', '84A', '84X', '116',
-                '118', '120', '122', '123', '130', '142','145','150', '151', '155']
+                 '14', '15', '15A', '15B', '15D', '16','16C',
+                '16D', '17', '17A', '18','25', '25A','25B', '25D', '25X', '26', '27',
+                 '27A', '27B', '27X','29A', '31', '31A', '31B', '31D', '32','32X', '33','33A',
+		'33B', '33D',
+                '33E', '33X', '37', '38','38A', '38B', '38D', '39', '39A', '39X', '40', '40B',
+                 '40D', '40E', '41','41A','41B','41C', '41D', '41X', '42','42D',
+                '43', '44', '44B','45A', '46A', '46E', '47', '49', '51D',
+                '53', '54A','56A', '59','61','63', '65', '65B', '66', '66A',
+                '66B', '66X', '67', '67X', '68','69X', '70','70D','75','76', '76A', '77A',
+                 '77X', '79A', '83', '83A', '84', '84A', '84X', '116', '102','104', '111', '114', '116',
+                '118', '120', '122', '123', '130','140', '142','145','150', '151', '155', '161', '184',
+		'185', '220','236', '238', '239', '270']
                 var target = document.createElement("div");
                 setRouteDetailDiv(target);
                 element.appendChild(target);
@@ -272,7 +274,7 @@ function showRoutedetail(response, element, url){
                 writeLine("Bus Line: "+ locations[i].line, target)
                 }
                 else{
-                writeLine("Bus Line: "+ locations[i].line + '. This is not a Dublin Bus service.', target)
+                writeLine("Bus Line: No Dublin Bus service available.", target)
                 }
                 writeLine("Distance: "+ locations[i].distance, target)
                 console.log(timeData[i])
