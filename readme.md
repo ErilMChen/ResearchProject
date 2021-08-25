@@ -1,7 +1,7 @@
 <h2>Welcome to the No Fuss Bus Application!</h2>
 
 This project was developed as part of the Msc Computer Science (Conversion) course, from June 2021 - August 2021. The four team members involved in the planning, development and testing of the application are Michelle Duggan, Meng Chen, Jane Slevin and Kai Xu. 
-This application aims to provide Dublin Bus passengers with accurate travel time estimates by training models on 2018 historical bus data, and 2018 weather data.
+This application aims to provide Dublin Bus passengers with accurate travel time estimates by training models on 2018 historical bus data, and 2018 weather data (with all Jupyter Notebooks detailing our data analysis approach and the creation of our machine-learning models for journey time prediction located in the data_analytics folder on branch data_analytics_notebooks).
 Other features have also been developed as means to provide passengers with real time information, saved preferences and relavent travel information based on users' location.
 
 This repository contains the code required to set up and host the application locally, but does not have the database credentials required to run the application. Create a dbinfo.py file in the mysite directory and fill in your own database info to have a working project. Not that if you wish to use cronjob to fill your database, the correct pathways must be configured in the paths.json file located in the weather/static directory.
@@ -19,7 +19,6 @@ engine = f"mysql+mysqlconnector://{myuser}:{mypasswd}@{myhost}:3306/{mydatabase}
 
 
 The live version of the application is deployed on a UCD server https://ns1.nofussbus.live.nofussbus.live/ .
-
 
 Basic functionality:
 - Input of origin and destination address
